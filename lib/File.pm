@@ -9,8 +9,8 @@ use Test::Builder;
 @EXPORT = qw(
 	file_exists_ok file_not_exists_ok
 	file_empty_ok file_not_empty_ok file_size_ok file_max_size_ok
-	file_min_size_ok file_readable_ok file_not_readable_ok file_readable_ok
-	file_readable_ok file_executable_ok file_not_executable_ok
+	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
+	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	);
 
 my $Test = Test::Builder->new();
@@ -312,7 +312,7 @@ if the file does not exist or is not writeable.
 
 =cut
 
-sub file_readable_ok($;$)
+sub file_writeable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is writeable";
@@ -337,7 +337,7 @@ if the file does not exist or is writeable.
 
 =cut
 
-sub file_readable_ok($;$)
+sub file_not_writeable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is not writeable";

@@ -4,4 +4,6 @@ lib/File.pm
 t/load.t
 t/pod.t
 t/prereq.t
+t/setup.t
+t/test_files.t
 t/test_manifest
