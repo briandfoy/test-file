@@ -5,6 +5,7 @@ use strict;
 use base qw(Exporter);
 use vars qw(@EXPORT $VERSION);
 
+use File::Spec;
 use Test::Builder;
 
 @EXPORT = qw(
@@ -37,10 +38,29 @@ the file in the same way the file test operators do.  For instance,
 root (or super-user or Administrator) may always be able to read
 files no matter the permissions.  
 
-Some attributes don't make sense outside of Unix, either.
+Some attributes don't make sense outside of Unix, either, so
+some tests automatically skip if they think they won't work on
+the platform.  If you have a way to make these functions work
+on Windows, for instance, please send me a patch. :)
 
 =head2 Functions
 
+=cut
+
+sub _normalize
+	{
+	my $file = shift;
+	
+	return $file =~ m|/|
+		? File::Spec->catfile( split m|/|, $file )
+		: $file;
+	}
+	
+sub _win32
+	{
+	return $^O =~ m/Win/;
+	}
+	
 =over 4
 
 =item file_exists_ok( FILENAME [, NAME ] )
@@ -51,7 +71,7 @@ Ok if the file exists, and not ok otherwise.
 
 sub file_exists_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename exists";
 
 	my $ok = -e $filename;
@@ -75,7 +95,7 @@ Ok if the file does not exist, and not okay if it does exist.
 
 sub file_not_exists_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename does not exist";
 
 	my $ok = not -e $filename;
@@ -100,7 +120,7 @@ file does not exist or exists with non-zero size.
 
 sub file_empty_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is empty";
 
 	my $ok = -z $filename;
@@ -134,7 +154,7 @@ file does not exist or exists with zero size.
 
 sub file_not_empty_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not empty";
 
 	my $ok = not -z $filename;
@@ -167,7 +187,7 @@ the file does not exist or exists with size other than SIZE.
 
 sub file_size_ok($$;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $expected = int shift;
 	my $name     = shift || "$filename has right size";
 
@@ -203,7 +223,7 @@ bytes.
 
 sub file_max_size_ok($$;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $max      = int shift;
 	my $name     = shift || "$filename is under $max bytes";
 
@@ -239,7 +259,7 @@ bytes.
 
 sub file_min_size_ok($$;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $min      = int shift;
 	my $name     = shift || "$filename is over $min bytes";
 
@@ -274,7 +294,7 @@ if the file does not exist or is not readable.
 
 sub file_readable_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is readable";
 
 	my $ok = -r $filename;
@@ -299,7 +319,7 @@ if the file does not exist or is readable.
 
 sub file_not_readable_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not readable";
 
 	my $ok = not -r $filename;
@@ -324,7 +344,7 @@ if the file does not exist or is not writeable.
 
 sub file_writeable_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is writeable";
 
 	my $ok = -w $filename;
@@ -349,7 +369,7 @@ if the file does not exist or is writeable.
 
 sub file_not_writeable_ok($;$)
 	{
-	my $filename = shift;
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not writeable";
 
 	my $ok = not -w $filename;
@@ -370,11 +390,20 @@ sub file_not_writeable_ok($;$)
 Ok if the file exists and is executable, not ok
 if the file does not exist or is not executable.
 
+This test automatically skips if it thinks it is on a
+Windows platform.
+
 =cut
 
 sub file_executable_ok($;$)
 	{
-	my $filename = shift;
+    if( _win32() )
+		{
+		$Test->skip( "file_executable_ok doesn't work on Windows" );
+		return;
+		}
+
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is executable";
 
 	my $ok = -x $filename;
@@ -395,11 +424,20 @@ sub file_executable_ok($;$)
 Ok if the file exists and is not executable, not ok
 if the file does not exist or is executable.
 
+This test automatically skips if it thinks it is on a
+Windows platform.
+
 =cut
 
 sub file_not_executable_ok($;$)
 	{
-	my $filename = shift;
+	if( _win32() )
+		{
+		$Test->skip( "file_not_executable_ok doesn't work on Windows" );
+		return;
+		}
+
+	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not executable";
 
 	my $ok = not -x $filename;
@@ -420,13 +458,22 @@ sub file_not_executable_ok($;$)
 Ok if the file exists and the mode matches, not ok
 if the file does not exist or the mode does not match.
 
+This test automatically skips if it thinks it is on a
+Windows platform.
+
 Contributed by Shawn Sorichetti <ssoriche@coloredblocks.net>
 
 =cut
 
 sub file_mode_is($$;$)
 	{
-	my $filename = shift;
+    if( _win32() )
+		{
+		$Test->skip( "file_mode_is doesn't work on Windows" );
+		return;
+		}
+	
+	my $filename = _normalize( shift );
 	my $mode     = shift;
 
 	my $name     = shift || sprintf("%s mode is %04o", $filename, $mode);
@@ -449,13 +496,22 @@ sub file_mode_is($$;$)
 Ok if the file exists and mode does not match, not ok
 if the file does not exist or mode does match.
 
+This test automatically skips if it thinks it is on a
+Windows platform.
+
 Contributed by Shawn Sorichetti <ssoriche@coloredblocks.net>
 
 =cut
 
 sub file_mode_isnt($$;$)
 	{
-	my $filename = shift;
+    if( _win32() )
+		{
+		$Test->skip( "file_mode_isnt doesn't work on Windows" );
+		return;
+		}
+
+	my $filename = _normalize( shift );
 	my $mode     = shift;
 
 	my $name     = shift || sprintf("%s mode is not %04o",$filename,$mode);
@@ -482,8 +538,6 @@ sub file_mode_isnt($$;$)
 * check owner, group
 
 * check times
-
-* check mode
 
 * check number of links to file
 

@@ -1,5 +1,7 @@
+# $Id$
 load.t
 pod.t
 prereq.t
 setup.t
+normalize.t
 test_files.t

@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 19;
+use Test::More tests => 27;
 use Test::File;
 
 =pod
@@ -64,43 +64,84 @@ file_not_writeable_ok( 'readable' );
 test_test();
 };
 
-SKIP: {
-skip "Windows isn't Unix", 4 if( $^O =~ /Win/ and $^O ne 'darwin' );
-test_out( 'ok 1 - executable is executable' );
-file_executable_ok( 'executable' );
-test_test();
 
+foreach ( 'darwin', 'Win32' )
+	{
+	local $^O = $_;
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_executable_ok doesn't work on Windows"
+		: "- executable is executable";
+	test_out( "ok 1 $s" );
+	file_executable_ok( 'executable' );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_not_executable_ok doesn't work on Windows"
+		: "- not_executable is not executable";
+	test_out( "ok 1 $s" );
+	file_not_executable_ok( 'not_executable' );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_mode_is doesn't work on Windows"
+		: "- executable mode is 0100";
+	test_out( "ok 1 $s" );
+	file_mode_is( 'executable', 0100 );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_mode_isnt doesn't work on Windows"
+		: "- executable mode is not 0200";
+	test_out( "ok 1 $s" );
+	file_mode_isnt( 'executable', 0200 );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_mode_is doesn't work on Windows"
+		: "- readable mode is 0400";
+	test_out( "ok 1 $s" );
+	file_mode_is( 'readable', 0400 );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_mode_isnt doesn't work on Windows"
+		: "- readable mode is not 0200";
+	test_out( "ok 1 $s" );
+	file_mode_isnt( 'readable', 0200 );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_mode_is doesn't work on Windows"
+		: "- writeable mode is 0200";
+	test_out( "ok 1 $s" );
+	file_mode_is( 'writeable', 0200 );
+	test_test();
+	}
+	
+	{
+	my $s = Test::File::_win32()
+		? "# skip file_mode_isnt doesn't work on Windows"
+		: "- writeable mode is not 0100";
+	test_out( "ok 1 $s" );
+	file_mode_isnt( 'writeable', 0100 );
+	test_test();
+	}
 
-test_out( 'ok 1 - not_executable is not executable' );
-file_not_executable_ok( 'not_executable' );
-test_test();
-
-test_out( 'ok 1 - executable mode is 0100' );
-file_mode_is( 'executable', 0100 );
-test_test();
-
-test_out( 'ok 1 - executable mode is not 0200' );
-file_mode_isnt( 'executable', 0200 );
-test_test();
-
-test_out( 'ok 1 - readable mode is 0400' );
-file_mode_is( 'readable', 0400 );
-test_test();
-
-test_out( 'ok 1 - readable mode is not 0200' );
-file_mode_isnt( 'readable', 0200 );
-test_test();
-
-test_out( 'ok 1 - writeable mode is 0200' );
-file_mode_is( 'writeable', 0200 );
-test_test();
-
-test_out( 'ok 1 - writeable mode is not 0100' );
-file_mode_isnt( 'writeable', 0100 );
-test_test();
-
-};
-
+	}
 chdir '..' or print "bail out! Could not change directories: $!";
 
 END {
