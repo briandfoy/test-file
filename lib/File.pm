@@ -14,7 +14,7 @@ use Test::Builder;
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	);
 
-$VERSION = 0.9;
+$VERSION = sprintf "%d.%03d", q$Revision$ =~ /(\d+)\.(\d+)/;
 
 my $Test = Test::Builder->new();
 
@@ -34,7 +34,7 @@ file attributes.
 Some file attributes depend on the owner of the process testing
 the file in the same way the file test operators do.
 
-=head2 FUNCTIONS
+=head2 Functions
 
 =over 4
 
@@ -155,8 +155,8 @@ sub file_not_empty_ok($;$)
 
 =item file_size_ok( FILENAME, SIZE [, NAME ]  )
 
-Ok if the file exists and has SIZE size (exactly), not ok if the
-file does not exist or exists with size other than SIZE.
+Ok if the file exists and has SIZE size in bytes (exactly), not ok if
+the file does not exist or exists with size other than SIZE.
 
 =cut
 
@@ -190,8 +190,9 @@ sub file_size_ok($$;$)
 
 =item file_max_size_ok( FILENAME, MAX [, NAME ] )
 
-Ok if the file exists and has size less than or equal to MAX, not ok
-if the file does not exist or exists with size greater than MAX.
+Ok if the file exists and has size less than or equal to MAX bytes, not
+ok if the file does not exist or exists with size greater than MAX
+bytes.
 
 =cut
 
@@ -225,8 +226,9 @@ sub file_max_size_ok($$;$)
 
 =item file_min_size_ok( FILENAME, MIN [, NAME ] )
 
-Ok if the file exists and has size greater than or equal to MIN, not ok
-if the file does not exist or exists with size less than MIN.
+Ok if the file exists and has size greater than or equal to MIN bytes,
+not ok if the file does not exist or exists with size less than MIN
+bytes.
 
 =cut
 
@@ -441,7 +443,7 @@ members of the project can shepherd this module appropriately.
 
 =head1 AUTHOR
 
-brian d foy, E<lt>bdfoy@cpan.orgE<gt>
+brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT
 

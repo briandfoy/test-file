@@ -34,6 +34,6 @@ WriteMakefile
 			'lib/file.pm' => '$(INST_MAN3DIR)/Test::File.3',
 			},
 	
-		clean  => { FILES    => q|Test::File-* test_files| },
+		clean  => { FILES    => q|Test-File-* test_files| },
         );
 
