@@ -1,5 +1,10 @@
 # $Id$
 
+1.05 - Thu Sep  2 21:27:27 2004
+* fixed a documentation bug dealing with file sizes
+* cleaned up the distribution a bit
+* You don't need to upgrade if you already have this module
+
 0.9 - Sun Jul  4 20:34:50 2004
 * ported tests to Test::More
 * cleaned up dist files, especially Makefile.PL
