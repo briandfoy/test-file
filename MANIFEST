@@ -1,0 +1,7 @@
+MANIFEST			This list of files
+Makefile.PL
+lib/File.pm
+t/load.t
+t/pod.t
+t/prereq.t
+t/test_manifest
