@@ -37,11 +37,11 @@ truncate 'max_file', 10;
 truncate 'min_file',  0;
 
 {
-open my $fh, '> min_file' or "bail out! Could not write to min_file: $!";
+open my $fh, '> min_file' or print "bail out! Could not write to min_file: $!";
 print $fh "x" x 53;
 close $fh;
 }
 is( -s 'min_file', 53 );
 
-chdir '..' or "bail out! Could not change back to original directory: $!";
+chdir '..' or print "bail out! Could not change back to original directory: $!";
 pass();
