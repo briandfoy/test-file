@@ -1,5 +1,8 @@
 # $Id$
 
+1.09 - Tue Mar  8 17:58:28 2005
+	* Added POD coverage tests: no need to upgrade
+
 1.08 - Thu Jan  6 17:36:20 2005
 * added a patch from David Wheeler to canonicalize paths for the 
 platform.  If the paths look like unix paths, I split them on /
