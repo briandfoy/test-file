@@ -64,8 +64,6 @@ file_not_writeable_ok( 'readable' );
 test_test();
 };
 
-print STDERR "Running on $^O\n";
-
 SKIP: {
 skip "Windows isn't Unix", 2 if( $^O =~ /Win/ and $^O ne 'darwin' );
 test_out( 'ok 1 - executable is executable' );
