@@ -4,3 +4,4 @@ Makefile
 blib
 Test-File-*
 META.yml
+.lwpcookies
