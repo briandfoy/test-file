@@ -12,6 +12,7 @@ use Test::Builder;
 	file_empty_ok file_not_empty_ok file_size_ok file_max_size_ok
 	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
+	file_mode_is file_mode_isnt
 	);
 
 $VERSION = sprintf "%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/;
@@ -414,6 +415,64 @@ sub file_not_executable_ok($;$)
 		}
 	}
 
+=item file_mode_is( FILENAME, MODE [, NAME ] )
+
+Ok if the file exists and the mode matches, not ok
+if the file does not exist or the mode does not match.
+
+Contributed by Shawn Sorichetti <ssoriche@coloredblocks.net>
+
+=cut
+
+sub file_mode_is($$;$)
+	{
+	my $filename = shift;
+	my $mode     = shift;
+
+	my $name     = shift || sprintf("%s mode is %04o", $filename, $mode);
+
+	my $ok = -e $filename && ((stat($filename))[2] & 07777) == $mode;
+
+	if( $ok )
+		{
+		$Test->ok(1, $name);
+		}
+	else
+		{
+		$Test->diag(sprintf("File [%s] mode is not %04o", $filename, $mode) );
+		$Test->ok(0, $name);
+		}
+	}
+
+=item file_mode_isnt( FILENAME, MODE [, NAME ] )
+
+Ok if the file exists and mode does not match, not ok
+if the file does not exist or mode does match.
+
+Contributed by Shawn Sorichetti <ssoriche@coloredblocks.net>
+
+=cut
+
+sub file_mode_isnt($$;$)
+	{
+	my $filename = shift;
+	my $mode     = shift;
+
+	my $name     = shift || sprintf("%s mode is not %04o",$filename,$mode);
+
+	my $ok = not (-e $filename && ((stat($filename))[2] & 07777) == $mode);
+
+	if( $ok )
+		{
+		$Test->ok(1, $name);
+		}
+	else
+		{
+		$Test->diag(sprintf("File [%s] mode is %04o",$filename,$mode));
+		$Test->ok(0, $name);
+		}
+	}
+
 =back
 
 =head1 TO DO
@@ -451,7 +510,7 @@ brian d foy, C<< <bdfoy@cpan.org> >>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2004, brian d foy, All Rights Reserved
+Copyright 2002-2005, brian d foy, All Rights Reserved
 
 You may use, modify, and distribute this under the same terms
 as Perl itself.
