@@ -1,8 +1,9 @@
+# $Id$
 package Test::File;
 use strict;
 
 use base qw(Exporter);
-use vars qw(@EXPORT);
+use vars qw(@EXPORT $VERSION);
 
 use Test::Builder;
 
@@ -12,6 +13,8 @@ use Test::Builder;
 	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	);
+
+$VERSION = 0.9;
 
 my $Test = Test::Builder->new();
 
@@ -26,7 +29,7 @@ use Test::File;
 =head1 DESCRIPTION
 
 This modules provides a collection of test utilities for
-file attributes. 
+file attributes.
 
 Some file attributes depend on the owner of the process testing
 the file in the same way the file test operators do.
@@ -45,9 +48,9 @@ sub file_exists_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename exists";
-	
+
 	my $ok = -e $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -58,7 +61,7 @@ sub file_exists_ok($;$)
 		$Test->ok(0, $name);
 		}
 	}
-	
+
 =item file_not_exists_ok( FILENAME [, NAME ] )
 
 Ok if the file does not exist, and not okay if it does exist.
@@ -69,9 +72,9 @@ sub file_not_exists_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename does not exist";
-	
+
 	my $ok = not -e $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -94,9 +97,9 @@ sub file_empty_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is empty";
-	
+
 	my $ok = -z $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -112,7 +115,7 @@ sub file_empty_ok($;$)
 			{
 			$Test->diag( 'File does not exist');
 			}
-			
+
 		$Test->ok(0, $name);
 		}
 	}
@@ -128,9 +131,9 @@ sub file_not_empty_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is not empty";
-	
+
 	my $ok = not -z $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -145,7 +148,7 @@ sub file_not_empty_ok($;$)
 			{
 			$Test->diag( 'File [$filename] does not exist');
 			}
-			
+
 		$Test->ok(0, $name);
 		}
 	}
@@ -162,9 +165,9 @@ sub file_size_ok($$;$)
 	my $filename = shift;
 	my $expected = int shift;
 	my $name     = shift || "$filename has right size";
-	
+
 	my $ok = ( -s $filename ) == $expected;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -180,14 +183,14 @@ sub file_size_ok($$;$)
 			my $actual = -s $filename;
 			$Test->diag( 'File [$filename] has actual size [$actual] not [$expected]');
 			}
-			
+
 		$Test->ok(0, $name);
 		}
 	}
 
 =item file_max_size_ok( FILENAME, MAX [, NAME ] )
 
-Ok if the file exists and has size less than or equal to MAX, not ok 
+Ok if the file exists and has size less than or equal to MAX, not ok
 if the file does not exist or exists with size greater than MAX.
 
 =cut
@@ -197,9 +200,9 @@ sub file_max_size_ok($$;$)
 	my $filename = shift;
 	my $max      = int shift;
 	my $name     = shift || "$filename is under $max bytes";
-	
+
 	my $ok = ( -s $filename ) <= $max;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -215,14 +218,14 @@ sub file_max_size_ok($$;$)
 			my $actual = -s $filename;
 			$Test->diag( 'File [$filename] has actual size [$actual] greater than [$max]');
 			}
-			
+
 		$Test->ok(0, $name);
 		}
 	}
-	
+
 =item file_min_size_ok( FILENAME, MIN [, NAME ] )
 
-Ok if the file exists and has size greater than or equal to MIN, not ok 
+Ok if the file exists and has size greater than or equal to MIN, not ok
 if the file does not exist or exists with size less than MIN.
 
 =cut
@@ -232,9 +235,9 @@ sub file_min_size_ok($$;$)
 	my $filename = shift;
 	my $min      = int shift;
 	my $name     = shift || "$filename is over $min bytes";
-	
+
 	my $ok = ( -s $filename ) >= $min;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -250,14 +253,14 @@ sub file_min_size_ok($$;$)
 			my $actual = -s $filename;
 			$Test->diag( 'File [$filename] has actual size [$actual] less than [$min]');
 			}
-			
+
 		$Test->ok(0, $name);
 		}
 	}
-	
+
 =item file_readable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is readable, not ok 
+Ok if the file exists and is readable, not ok
 if the file does not exist or is not readable.
 
 =cut
@@ -266,9 +269,9 @@ sub file_readable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is readable";
-	
+
 	my $ok = -r $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -282,7 +285,7 @@ sub file_readable_ok($;$)
 
 =item file_not_readable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is not readable, not ok 
+Ok if the file exists and is not readable, not ok
 if the file does not exist or is readable.
 
 =cut
@@ -291,9 +294,9 @@ sub file_not_readable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is not readable";
-	
+
 	my $ok = not -r $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -307,7 +310,7 @@ sub file_not_readable_ok($;$)
 
 =item file_writeable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is writeable, not ok 
+Ok if the file exists and is writeable, not ok
 if the file does not exist or is not writeable.
 
 =cut
@@ -316,9 +319,9 @@ sub file_writeable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is writeable";
-	
+
 	my $ok = -w $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -332,7 +335,7 @@ sub file_writeable_ok($;$)
 
 =item file_not_writeable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is not writeable, not ok 
+Ok if the file exists and is not writeable, not ok
 if the file does not exist or is writeable.
 
 =cut
@@ -341,9 +344,9 @@ sub file_not_writeable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is not writeable";
-	
+
 	my $ok = not -w $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -357,7 +360,7 @@ sub file_not_writeable_ok($;$)
 
 =item file_executable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is executable, not ok 
+Ok if the file exists and is executable, not ok
 if the file does not exist or is not executable.
 
 =cut
@@ -366,9 +369,9 @@ sub file_executable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is executable";
-	
+
 	my $ok = -x $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -382,7 +385,7 @@ sub file_executable_ok($;$)
 
 =item file_not_executable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is not executable, not ok 
+Ok if the file exists and is not executable, not ok
 if the file does not exist or is executable.
 
 =cut
@@ -391,9 +394,9 @@ sub file_not_executable_ok($;$)
 	{
 	my $filename = shift;
 	my $name     = shift || "$filename is not executable";
-	
+
 	my $ok = not -x $filename;
-	
+
 	if( $ok )
 		{
 		$Test->ok(1, $name);
@@ -426,13 +429,23 @@ sub file_not_executable_ok($;$)
 L<Test::Builder>,
 L<Test::More>
 
+=head1 SOURCE AVAILABILITY
+
+This source is part of a SourceForge project which always has the
+latest sources in CVS, as well as all of the previous releases.
+
+	http://sourceforge.net/projects/brian-d-foy/
+
+If, for some reason, I disappear from the world, one of the other
+members of the project can shepherd this module appropriately.
+
 =head1 AUTHOR
 
 brian d foy, E<lt>bdfoy@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, brian d foy, All Rights Reserved
+Copyright 2002-2004, brian d foy, All Rights Reserved
 
 You may use, modify, and distribute this under the same terms
 as Perl itself.
