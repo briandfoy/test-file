@@ -21,7 +21,7 @@ foreach my $file ( @files )
 	open my $fh, "> $file";
 	close $fh;
 	}
-	
+
 my $count = chmod 0400, 'readable', 'not_writeable', 'not_executable';
 is( $count, 3 ) or print 'bail out! Could not make files readable';
 
