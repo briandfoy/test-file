@@ -1,5 +1,10 @@
 # $Id$
 
+1.07 - Mon Jan  3 17:12:51 2005
+Shawn Sorichetti <ssoriche@coloredblocks.net> contributed two new
+funtions: file_mode_is() and file_mode_isnt().  We can now test
+files by their mode.
+
 1.06 - Sun Sep  5 15:59:40 2004
 * Fixed tests that failed if you ran them with root priveleges, which 
 don't actually completely depend on file permissions
