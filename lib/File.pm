@@ -14,7 +14,7 @@ use Test::Builder;
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	);
 
-$VERSION = sprintf "%d.%03d", q$Revision$ =~ /(\d+)\.(\d+)/;
+$VERSION = sprintf "%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/;
 
 my $Test = Test::Builder->new();
 
