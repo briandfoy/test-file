@@ -1,4 +1,10 @@
 # $Id$
 
+0.9 - Sun Jul  4 20:34:50 2004
+* ported tests to Test::More
+* cleaned up dist files, especially Makefile.PL
+* fixed up some doc issues in File.pm
+* no change in functionality
+
 0.06 - initial version
 
