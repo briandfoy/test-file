@@ -1,5 +1,14 @@
 # $Id$
 
+1.08 - Thu Jan  6 17:36:20 2005
+* added a patch from David Wheeler to canonicalize paths for the 
+platform.  If the paths look like unix paths, I split them on /
+and reconstruct them with File::Spec->catdir.
+
+* Some functions don't work with Win32, so I detect that inside
+those functions and automatically skip the test if I think I'm
+on a Windows machine.
+
 1.07 - Mon Jan  3 17:12:51 2005
 Shawn Sorichetti <ssoriche@coloredblocks.net> contributed two new
 funtions: file_mode_is() and file_mode_isnt().  We can now test
