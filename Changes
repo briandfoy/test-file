@@ -1,5 +1,9 @@
 # $Id$
 
+1.06 - Sun Sep  5 15:59:40 2004
+* Fixed tests that failed if you ran them with root priveleges, which 
+don't actually completely depend on file permissions
+
 1.05 - Thu Sep  2 21:27:27 2004
 * fixed a documentation bug dealing with file sizes
 * cleaned up the distribution a bit
