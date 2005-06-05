@@ -71,9 +71,6 @@ test_test();
 };
 
 
-# test logic in Test::File tests that skips tests on certain platforms
-# ...but only if we're running on a platform that
-# is capable of running all the tests
 {
 my $s = Test::File::_win32()
 	? "# skip file_executable_ok doesn't work on Windows"

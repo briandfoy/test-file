@@ -1,7 +1,7 @@
 # $Id$
 
 1.09 - Tue Mar  8 17:58:28 2005
-	* Added POD coverage tests: no need to upgrade
+* Added POD coverage tests: no need to upgrade
 
 1.08 - Thu Jan  6 17:36:20 2005
 * added a patch from David Wheeler to canonicalize paths for the 
@@ -18,7 +18,7 @@ funtions: file_mode_is() and file_mode_isnt().  We can now test
 files by their mode.
 
 1.06 - Sun Sep  5 15:59:40 2004
-* Fixed tests that failed if you ran them with root priveleges, which 
+* Fixed tests that failed if you ran them with root privileges, which 
 don't actually completely depend on file permissions
 
 1.05 - Thu Sep  2 21:27:27 2004
