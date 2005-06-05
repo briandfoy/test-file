@@ -58,6 +58,7 @@ sub _normalize
 	
 sub _win32
 	{
+	return 0 if $^O eq 'darwin';
 	return $^O =~ m/Win/;
 	}
 	

@@ -5,7 +5,7 @@ lib/File.pm
 t/load.t
 t/pod.t
 t/prereq.t
-t/setup.t
+t/setup_common
 t/test_files.t
 t/test_manifest
 META.yml                                 Module meta-data (added by MakeMaker)

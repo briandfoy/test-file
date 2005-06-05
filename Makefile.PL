@@ -1,40 +1,28 @@
 # $Id$
 use ExtUtils::MakeMaker;
 
-eval "use Test::Manifest";
-
-unless( $@ )
-	{
-	* ExtUtils::MM_Any::test_via_harness = sub
-		{
-		my($self, $perl, $tests) = @_;
-
-		return qq|\t$perl "-MTest::Manifest" | .
-		  qq|"-e" "run_t_manifest(\$(TEST_VERBOSE), '\$(INST_LIB)', | .
-		  qq|'\$(INST_ARCHLIB)')"\n|;
-		}
-	}
+eval "use Test::Manifest 1.14";
 
 WriteMakefile
-		(
-		'NAME'           => 'Test::File',
-		'ABSTRACT'       => 'Check file attributes',
-		'VERSION_FROM'   => 'lib/File.pm',
+	(
+	'NAME'           => 'Test::File',
+	'ABSTRACT'       => 'Check file attributes',
+	'VERSION_FROM'   => 'lib/File.pm',
 
-		'PREREQ_PM' => {
-			'Test::More'            => '0',
-			'Test::Builder::Tester' => '0',
-			'Test::Builder'         => '0',
-			},
+	'PREREQ_PM' => {
+		'Test::More'            => '0',
+		'Test::Builder::Tester' => '0',
+		'Test::Builder'         => '0',
+		},
 
-		'PM'        => {
-			'lib/File.pm'     => '$(INST_LIBDIR)/File.pm',
-			},
+	'PM'        => {
+		'lib/File.pm'     => '$(INST_LIBDIR)/File.pm',
+		},
 
-		'MAN3PODS'     => {
-			'lib/File.pm' => '$(INST_MAN3DIR)/Test::File.3',
-			},
+	'MAN3PODS'     => {
+		'lib/File.pm' => '$(INST_MAN3DIR)/Test::File.3',
+		},
 
-		clean  => { FILES    => q|Test-File-* test_files| },
-		);
+	clean  => { FILES    => q|Test-File-* test_files| },
+	);
 

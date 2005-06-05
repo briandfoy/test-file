@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 27;
+use Test::More tests => 24;
 use Test::File;
 
 =pod
@@ -12,7 +12,13 @@ executable     min_file       not_executable not_writeable  writeable
 
 =cut
 
-chdir 'test_files' or print "bail out! Could not change directories: $!";
+my $test_directory = 'test_files';
+SKIP: {
+    skip "setup already done", 5 if -d $test_directory;
+    require "t/setup_common";
+};
+
+chdir $test_directory or print "bail out! Could not change directories: $!";
 
 test_out( 'ok 1 - readable exists' );
 file_exists_ok( 'readable' );
@@ -65,83 +71,82 @@ test_test();
 };
 
 
-foreach ( 'darwin', 'Win32' )
-	{
-	local $^O = $_;
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_executable_ok doesn't work on Windows"
-		: "- executable is executable";
-	test_out( "ok 1 $s" );
-	file_executable_ok( 'executable' );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_not_executable_ok doesn't work on Windows"
-		: "- not_executable is not executable";
-	test_out( "ok 1 $s" );
-	file_not_executable_ok( 'not_executable' );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_mode_is doesn't work on Windows"
-		: "- executable mode is 0100";
-	test_out( "ok 1 $s" );
-	file_mode_is( 'executable', 0100 );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_mode_isnt doesn't work on Windows"
-		: "- executable mode is not 0200";
-	test_out( "ok 1 $s" );
-	file_mode_isnt( 'executable', 0200 );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_mode_is doesn't work on Windows"
-		: "- readable mode is 0400";
-	test_out( "ok 1 $s" );
-	file_mode_is( 'readable', 0400 );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_mode_isnt doesn't work on Windows"
-		: "- readable mode is not 0200";
-	test_out( "ok 1 $s" );
-	file_mode_isnt( 'readable', 0200 );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_mode_is doesn't work on Windows"
-		: "- writeable mode is 0200";
-	test_out( "ok 1 $s" );
-	file_mode_is( 'writeable', 0200 );
-	test_test();
-	}
-	
-	{
-	my $s = Test::File::_win32()
-		? "# skip file_mode_isnt doesn't work on Windows"
-		: "- writeable mode is not 0100";
-	test_out( "ok 1 $s" );
-	file_mode_isnt( 'writeable', 0100 );
-	test_test();
-	}
+# test logic in Test::File tests that skips tests on certain platforms
+# ...but only if we're running on a platform that
+# is capable of running all the tests
+{
+my $s = Test::File::_win32()
+	? "# skip file_executable_ok doesn't work on Windows"
+	: "- executable is executable";
+test_out( "ok 1 $s" );
+file_executable_ok( 'executable' );
+test_test();
+}
 
-	}
+{
+my $s = Test::File::_win32()
+	? "# skip file_not_executable_ok doesn't work on Windows"
+	: "- not_executable is not executable";
+test_out( "ok 1 $s" );
+file_not_executable_ok( 'not_executable' );
+test_test();
+}
+
+{
+my $s = Test::File::_win32()
+	? "# skip file_mode_is doesn't work on Windows"
+	: "- executable mode is 0100";
+test_out( "ok 1 $s" );
+file_mode_is( 'executable', 0100 );
+test_test();
+}
+
+{
+my $s = Test::File::_win32()
+	? "# skip file_mode_isnt doesn't work on Windows"
+	: "- executable mode is not 0200";
+test_out( "ok 1 $s" );
+file_mode_isnt( 'executable', 0200 );
+test_test();
+}
+
+{
+my $s = Test::File::_win32()
+	? "# skip file_mode_is doesn't work on Windows"
+	: "- readable mode is 0400";
+test_out( "ok 1 $s" );
+file_mode_is( 'readable', 0400 );
+test_test();
+}
+
+{
+my $s = Test::File::_win32()
+	? "# skip file_mode_isnt doesn't work on Windows"
+	: "- readable mode is not 0200";
+test_out( "ok 1 $s" );
+file_mode_isnt( 'readable', 0200 );
+test_test();
+}
+
+{
+my $s = Test::File::_win32()
+	? "# skip file_mode_is doesn't work on Windows"
+	: "- writeable mode is 0200";
+test_out( "ok 1 $s" );
+file_mode_is( 'writeable', 0200 );
+test_test();
+}
+
+{
+my $s = Test::File::_win32()
+	? "# skip file_mode_isnt doesn't work on Windows"
+	: "- writeable mode is not 0100";
+test_out( "ok 1 $s" );
+file_mode_isnt( 'writeable', 0100 );
+test_test();
+}
+
+
 chdir '..' or print "bail out! Could not change directories: $!";
 
 END {
