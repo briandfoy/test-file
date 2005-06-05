@@ -1,5 +1,11 @@
 # $Id$
 
+1.10 - Sun Jun  5 17:34:54 2005
+* Fixed Windows testing with patch from Tom Metro. Now that I have a
+Windows box, I don't need to guess on some of this stuff.
+* There is a minor code change, but you don't need to rush to upgrade
+if you already have an installed version.
+
 1.09 - Tue Mar  8 17:58:28 2005
 * Added POD coverage tests: no need to upgrade
 
