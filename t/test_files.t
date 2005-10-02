@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 24;
+use Test::More tests => 28;
 use Test::File;
 
 =pod
@@ -140,6 +140,32 @@ my $s = Test::File::_win32()
 	: "- writeable mode is not 0100";
 test_out( "ok 1 $s" );
 file_mode_isnt( 'writeable', 0100 );
+test_test();
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+my $can_symlink = eval { symlink("",""); 1 };
+
+{
+my $s = ! $can_symlink
+	? "# skip file_is_symlink_ok doesn't work on systems without symlinks"
+	: "- readable_sym is a symlink";
+
+file_exists_ok( "readable" );
+file_not_exists_ok( "readable_sym" );
+
+if( $can_symlink )
+	{
+	symlink( "readable", "readable_sym" );
+	file_exists_ok( "readable_sym" );
+	}
+else
+	{
+	pass();
+	}
+
+test_out( "ok 1 $s" );
+file_is_symlink_ok( "readable_sym" );
 test_test();
 }
 

@@ -14,6 +14,8 @@ use Test::Builder;
 	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
+	file_is_symlink_ok symlink_target_exists_ok symlink_target_dangles_ok
+	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	);
 
 $VERSION = sprintf "%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/;
@@ -61,7 +63,9 @@ sub _win32
 	return 0 if $^O eq 'darwin';
 	return $^O =~ m/Win/;
 	}
-	
+
+sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
+
 =over 4
 
 =item file_exists_ok( FILENAME [, NAME ] )
@@ -135,7 +139,7 @@ sub file_empty_ok($;$)
 		if( -e $filename )
 			{
 			my $size = -s $filename;
-			$Test->diag( 'File exists with non-zero size [$size] b');
+			$Test->diag( "File exists with non-zero size [$size] b");
 			}
 		else
 			{
@@ -168,11 +172,11 @@ sub file_not_empty_ok($;$)
 		{
 		if( -e $filename and -z $filename )
 			{
-			$Test->diag( 'File [$filename] exists with zero size');
+			$Test->diag( "File [$filename] exists with zero size" );
 			}
 		else
 			{
-			$Test->diag( 'File [$filename] does not exist');
+			$Test->diag( "File [$filename] does not exist" );
 			}
 
 		$Test->ok(0, $name);
@@ -202,12 +206,13 @@ sub file_size_ok($$;$)
 		{
 		unless( -e $filename )
 			{
-			$Test->diag( 'File [$filename] does not exist');
+			$Test->diag( "File [$filename] does not exist" );
 			}
 		else
 			{
 			my $actual = -s $filename;
-			$Test->diag( 'File [$filename] has actual size [$actual] not [$expected]');
+			$Test->diag( 
+				"File [$filename] has actual size [$actual] not [$expected]" );
 			}
 
 		$Test->ok(0, $name);
@@ -238,12 +243,15 @@ sub file_max_size_ok($$;$)
 		{
 		unless( -e $filename )
 			{
-			$Test->diag( 'File [$filename] does not exist');
+			$Test->diag( "File [$filename] does not exist" );
 			}
 		else
 			{
 			my $actual = -s $filename;
-			$Test->diag( 'File [$filename] has actual size [$actual] greater than [$max]');
+			$Test->diag( 
+				"File [$filename] has actual size [$actual] " .
+				"greater than [$max]"
+				);
 			}
 
 		$Test->ok(0, $name);
@@ -274,12 +282,15 @@ sub file_min_size_ok($$;$)
 		{
 		unless( -e $filename )
 			{
-			$Test->diag( 'File [$filename] does not exist');
+			$Test->diag( "File [$filename] does not exist" );
 			}
 		else
 			{
 			my $actual = -s $filename;
-			$Test->diag( 'File [$filename] has actual size [$actual] less than [$min]');
+			$Test->diag( 
+				"File [$filename] has actual size ".
+				"[$actual] less than [$min]" 
+				);
 			}
 
 		$Test->ok(0, $name);
@@ -306,7 +317,7 @@ sub file_readable_ok($;$)
 		}
 	else
 		{
-		$Test->diag("File [$filename] is not readable");
+		$Test->diag( "File [$filename] is not readable" );
 		$Test->ok(0, $name);
 		}
 	}
@@ -331,7 +342,7 @@ sub file_not_readable_ok($;$)
 		}
 	else
 		{
-		$Test->diag("File [$filename] is readable");
+		$Test->diag( "File [$filename] is readable" );
 		$Test->ok(0, $name);
 		}
 	}
@@ -356,7 +367,7 @@ sub file_writeable_ok($;$)
 		}
 	else
 		{
-		$Test->diag("File [$filename] is not writeable");
+		$Test->diag( "File [$filename] is not writeable" );
 		$Test->ok(0, $name);
 		}
 	}
@@ -462,7 +473,7 @@ if the file does not exist or the mode does not match.
 This test automatically skips if it thinks it is on a
 Windows platform.
 
-Contributed by Shawn Sorichetti <ssoriche@coloredblocks.net>
+Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
 =cut
 
@@ -500,7 +511,7 @@ if the file does not exist or mode does match.
 This test automatically skips if it thinks it is on a
 Windows platform.
 
-Contributed by Shawn Sorichetti <ssoriche@coloredblocks.net>
+Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
 =cut
 
@@ -528,6 +539,240 @@ sub file_mode_isnt($$;$)
 		$Test->diag(sprintf("File [%s] mode is %04o",$filename,$mode));
 		$Test->ok(0, $name);
 		}
+	}
+
+=item file_is_symlink_ok( FILENAME [, NAME] )
+
+Ok is FILENAME is a symlink, even if it points to a non-existent
+file. This test automatically skips if the operating system does
+not support symlinks. If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+sub file_is_symlink_ok
+	{
+    if( _no_symlinks_here() )
+		{
+		$Test->skip( 
+			"file_is_symlink_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file = shift;
+	my $name = shift || "$file is a symlink";
+	
+	if( -l $file ) 
+		{ 
+		$Test->ok(1, $name) 
+		}
+	else
+		{
+		$Test->diag( "File [$file] is not a symlink!" );
+		$Test->ok(0, $name);
+		}			
+	}
+	
+=item symlink_target_exists_ok( SYMLINK [, TARGET] [, NAME] )
+
+Ok is FILENAME is a symlink only if it points to a existing file. With
+the optional TARGET argument, the test fails if the SYMLINK's target
+is not TARGET. This test automatically skips if the operating system
+does not support symlinks. If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+sub symlink_target_exists_ok
+	{
+    if( _no_symlinks_here() )
+		{
+		$Test->skip( 
+			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file = shift;
+	my $dest = shift || readlink( $file );
+	my $name = shift || "$file is a symlink";
+	
+	unless( -l $file ) 
+		{
+		$Test->diag( "File [$file] is not a symlink!" );
+		return $Test->ok( 0, $name );
+		}
+			
+	unless( -e $dest )
+		{
+		$Test->diag( "Symlink [$file] points to non-existent target [$dest]!" );
+		return $Test->ok( 0, $name );
+		}
+
+	my $actual = readlink( $file );
+	unless( $dest eq $actual )
+		{
+		$Test->diag( "Symlink [$file] points to [$actual]: expected [$dest]!" );
+		return $Test->ok( 0, $name );
+		}
+
+	$Test->ok( 1, $name );
+	}
+
+=item symlink_target_dangles_ok( SYMLINK [, NAME] )
+
+Ok if FILENAME is a symlink and if it doesn't point to a existing
+file. This test automatically skips if the operating system does not
+support symlinks. If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+sub symlink_target_dangles_ok
+	{
+    if( _no_symlinks_here() )
+		{
+		$Test->skip( 
+			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file = shift;
+	my $dest = readlink( $file );
+	my $name = shift || "$file is a symlink";
+	
+	unless( -l $file )
+		{
+		$Test->diag( "File [$file] is not a symlink!" );
+		return $Test->ok( 0, $name );
+		}
+			
+	if( -e $dest )
+		{
+		$Test->diag( 
+			"Symlink [$file] points to existing file [$dest] but shouldn't!" );
+		return $Test->ok( 0, $name );
+		}
+
+	$Test->ok( 1, $name );
+	}
+
+=item link_count_is_ok( FILE, LINK_COUNT [, NAME] )
+
+Ok if the link count to FILE is LINK_COUNT. LINK_COUNT is interpreted
+as an integer. A LINK_COUNT that evaluates to 0 returns Ok if the file
+does not exist. This test automatically skips if the operating system
+does not support symlinks. If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+
+=cut
+
+sub link_count_is_ok
+	{
+    if( _no_symlinks_here() )
+		{
+		$Test->skip( 
+			"link_count_is_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file   = shift;
+	my $count  = int( 0 + shift );
+	
+	my $name   = shift || "$file has a link count of [$count]";
+	
+	my $actual = (stat $file )[3];
+	
+	unless( $actual == $count )
+		{
+		$Test->diag( 
+			"File [$file] points has [$actual] links: expected [$count]!" );
+		return $Test->ok( 0, $name );
+		}
+	
+	$Test->ok( 1, $name );
+	}
+
+=item link_count_gt_ok( FILE, LINK_COUNT [, NAME] )
+
+Ok if the link count to FILE is greater than LINK_COUNT. LINK_COUNT is
+interpreted as an integer. A LINK_COUNT that evaluates to 0 returns Ok
+if the file has at least one link. This test automatically skips if
+the operating system does not support symlinks. If the file does not
+exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+sub link_count_gt_ok
+	{
+    if( _no_symlinks_here() )
+		{
+		$Test->skip( 
+			"link_count_gt_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file   = shift;
+	my $count  = int( 0 + shift );
+	
+	my $name   = shift || "$file has a link count of [$count]";
+	
+	my $actual = (stat $file )[3];
+	
+	unless( $actual > $count )
+		{
+		$Test->diag( 
+			"File [$file] points has [$actual] links: ".
+			"expected more than [$count]!" );
+		return $Test->ok( 0, $name );
+		}
+	
+	$Test->ok( 1, $name );
+	}
+
+=item link_count_lt_ok( FILE, LINK_COUNT [, NAME] )
+
+Ok if the link count to FILE is less than LINK_COUNT. LINK_COUNT is
+interpreted as an integer. A LINK_COUNT that evaluates to 0 returns Ok
+if the file has at least one link. This test automatically skips if
+the operating system does not support symlinks. If the file does not
+exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+sub link_count_lt_ok
+	{
+    if( _no_symlinks_here() )
+		{
+		$Test->skip( 
+			"link_count_lt_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file   = shift;
+	my $count  = int( 0 + shift );
+	
+	my $name   = shift || "$file has a link count of [$count]";
+	
+	my $actual = (stat $file )[3];
+	
+	unless( $actual < $count )
+		{
+		$Test->diag( 
+			"File [$file] points has [$actual] links: ".
+			"expected more than [$count]!" );
+		return $Test->ok( 0, $name );
+		}
+	
+	$Test->ok( 1, $name );
 	}
 
 =back
@@ -562,6 +807,11 @@ members of the project can shepherd this module appropriately.
 =head1 AUTHOR
 
 brian d foy, C<< <bdfoy@cpan.org> >>
+
+Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >> provided
+some functions.
+
+Tom Metro helped me figure out some Windows capabilities.
 
 =head1 COPYRIGHT
 
