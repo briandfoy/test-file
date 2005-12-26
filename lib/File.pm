@@ -14,8 +14,11 @@ use Test::Builder;
 	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
-	file_is_symlink_ok symlink_target_exists_ok symlink_target_dangles_ok
+	file_is_symlink_ok 
+	symlink_target_exists_ok 
+	symlink_target_dangles_ok
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
+	owner_is owner_isnt
 	);
 
 $VERSION = sprintf "%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/;
@@ -52,6 +55,7 @@ for instance, please send me a patch. :)
 sub _normalize
 	{
 	my $file = shift;
+	return unless defined $file;
 	
 	return $file =~ m|/|
 		? File::Spec->catfile( split m|/|, $file )
@@ -65,6 +69,18 @@ sub _win32
 	}
 
 sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
+
+# owner_is and owner_isn't should skip on OS where the question makes no 
+# sence.  I really don't know a good way to test for that, so I'm going
+# to skip on the two OS's that I KNOW aren't multi-user.  I'd love to add
+# more if anyone knows of any 
+#   Note:  I don't have a dos or mac os < 10 machine to test this on
+sub _obviously_non_multi_user 
+	{
+	($^O eq 'dos') ?	return 1	:
+	($^O eq 'MacOS') ?	return 1	:
+	return;	
+	}
 
 =over 4
 
@@ -576,10 +592,10 @@ sub file_is_symlink_ok
 	
 =item symlink_target_exists_ok( SYMLINK [, TARGET] [, NAME] )
 
-Ok is FILENAME is a symlink only if it points to a existing file. With
-the optional TARGET argument, the test fails if the SYMLINK's target
-is not TARGET. This test automatically skips if the operating system
-does not support symlinks. If the file does not exist, the test fails.
+Ok is FILENAME is a symlink and it points to a existing file. With the
+optional TARGET argument, the test fails if SYMLINK's target is not
+TARGET. This test automatically skips if the operating system does not
+support symlinks. If the file does not exist, the test fails.
 
 The optional NAME parameter is the name of the test.
 
@@ -590,7 +606,8 @@ sub symlink_target_exists_ok
     if( _no_symlinks_here() )
 		{
 		$Test->skip( 
-			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+			"symlink_target_exists_ok doesn't work on systems without symlinks" 
+			);
 		return;
 		}
 
@@ -613,7 +630,8 @@ sub symlink_target_exists_ok
 	my $actual = readlink( $file );
 	unless( $dest eq $actual )
 		{
-		$Test->diag( "Symlink [$file] points to [$actual]: expected [$dest]!" );
+		$Test->diag( 
+			"Symlink [$file] points to\n\t$actual\nexpected\n\t$dest\n\n" );
 		return $Test->ok( 0, $name );
 		}
 
@@ -775,13 +793,136 @@ sub link_count_lt_ok
 	$Test->ok( 1, $name );
 	}
 
+=item owner_is( FILE , OWNER [, NAME] )
+
+Ok if FILE's owner is the same as OWNER.  OWNER may be a text user name 
+or a numeric userid.  Test skips on Dos, and Mac OS <= 9.
+If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+Contributed by Dylan Martin
+
+=cut
+
+sub owner_is	 
+	{
+	if( _obviously_non_multi_user() ) 
+		{
+		$Test->skip( "owner_is needs a multi-user OS" );	
+		return;
+		}
+		
+	my $filename = _normalize( shift );
+	my $owner    = shift;
+	my $name     = shift || "$filename belongs to $owner";
+
+	unless ( defined $filename ) 
+		{
+		$Test->diag( "File name not specified" );
+		return $Test->ok( 0, $name );
+		}
+
+	unless ( -e $filename ) 
+		{
+		$Test->diag( "File [$filename] does not exist" );
+		return $Test->ok( 0, $name );
+		}
+
+	my $owner_uid = _get_uid( $owner );
+		
+	my $file_uid = ( stat $filename )[4];
+
+	unless( defined $file_uid ) 
+		{
+		$Test->skip("stat failed to return owner uid for $filename");
+		return;
+		}
+
+	return $Test->ok( 1, $name ) if $file_uid == $owner_uid; 
+
+	my $real_owner = ( getpwuid $file_uid )[0];
+	unless( defined $real_owner ) 
+		{
+		$Test->diag("File does not belong to $owner");
+		return $Test->ok( 0, $name );
+		}
+
+	$Test->diag( "File [$filename] belongs to $real_owner ($file_uid), ".
+			"not $owner ($owner_uid)" );
+	return $Test->ok( 0, $name );
+	}
+	
+=item owner_isnt( FILE, OWNER [, NAME] )
+
+Ok if FILE's owner is not the same as OWNER.  OWNER may be a text user name 
+or a numeric userid.  Test skips on Dos and Mac OS <= 9.  If the file 
+does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+Contributed by Dylan Martin
+
+=cut
+
+sub owner_isnt	 
+	{
+	if( _obviously_non_multi_user() ) 
+		{
+		$Test->skip( "owner_is needs a multi-user OS" );	
+		return;
+		}
+		
+	my $filename = _normalize( shift );
+	my $owner    = shift;
+	my $name     = shift || "$filename does not belong to $owner";
+
+	unless( defined $filename ) 
+		{
+		$Test->diag( "Did not specify a file" );
+		return $Test->ok( 0, $name );
+		}
+
+	unless( -e $filename ) 
+		{
+		$Test->diag( "File [$filename] does not exist" );
+		return $Test->ok( 0, $name );
+		}
+
+	my $owner_uid = _get_uid( $owner );
+	my $file_uid  = ( stat $filename )[4];
+
+	return $Test->ok( 1, $name ) if $file_uid != $owner_uid;
+
+	$Test->diag( "File [$filename] belongs to $owner ($owner_uid)" );
+	return $Test->ok( 0, $name );
+	}
+
+sub _get_uid
+	{
+	my $owner = shift;
+	my $owner_uid;
+	
+	if ($owner =~ /^\d+/) 
+		{
+		$owner_uid = $owner;
+		$owner = ( getpwuid $owner )[0];
+		} 
+	else 
+		{
+		$owner_uid = (getpwnam($owner))[2];
+		}
+		
+	$owner_uid;
+	}
+	
 =back
 
 =head1 TO DO
 
 * check properties for other users (readable_by_root, for instance)
 
-* check owner, group
+* check group
 
 * check times
 
@@ -812,6 +953,8 @@ Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >> provided
 some functions.
 
 Tom Metro helped me figure out some Windows capabilities.
+
+Dylan Martin added C<owner_is> and C<owner_isnt>
 
 =head1 COPYRIGHT
 
