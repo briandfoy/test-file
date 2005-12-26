@@ -1,5 +1,8 @@
 # $Id$
 
+1.12 - Sun Dec 25 18:02:58 2005
+	* Added the tests owner_is() and owner_isnt() from Dylan Martin
+
 1.11 - Sun Oct  2 05:42:41 2005
 * Some strings were mistakenly single-quoted. I meant to interpolate but
 didn't use double quotes. Should I lose my Perl license? :)
