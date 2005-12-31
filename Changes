@@ -1,5 +1,12 @@
 # $Id$
 
+1.13 - Sat Dec 31 13:34:30 2005
+	* You need the latest Test::Builder::Tester (0.32 right now) to get
+	the owner.t test to pass. I've noted that in the PREREQ_PM.
+	* You don't need to upgrade if you already have Test::File
+	installed. If you run into a test problem, ensure you have
+	the latest Test::Builder::Tester and try again.
+
 1.12 - Sun Dec 25 18:02:58 2005
 	* Added the tests owner_is() and owner_isnt() from Dylan Martin
 
