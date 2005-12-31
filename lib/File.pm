@@ -6,7 +6,7 @@ use base qw(Exporter);
 use vars qw(@EXPORT $VERSION);
 
 use File::Spec;
-use Test::Builder;
+use Test::Builder 0.32;
 
 @EXPORT = qw(
 	file_exists_ok file_not_exists_ok
@@ -958,7 +958,7 @@ Dylan Martin added C<owner_is> and C<owner_isnt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2005, brian d foy, All Rights Reserved
+Copyright 2002-2006, brian d foy, All Rights Reserved
 
 You may use, modify, and distribute this under the same terms
 as Perl itself.

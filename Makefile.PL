@@ -12,7 +12,7 @@ WriteMakefile
 	'PREREQ_PM' => {
 		'Test::More'            => '0',
 		'Test::Builder::Tester' => '0',
-		'Test::Builder'         => '0',
+		'Test::Builder'         => '0.32',
 		},
 
 	'PM'        => {
