@@ -1,5 +1,9 @@
 # $Id$
 
+1.14 - Wed Mar  8 12:36:22 2006
+	* Added Dylan Martin's test for group_is and group_isnt
+	* No need to upgrade unless you need these features
+
 1.13 - Sat Dec 31 13:34:30 2005
 	* You need the latest Test::Builder::Tester (0.32 right now) to get
 	the owner.t test to pass. I've noted that in the PREREQ_PM.
