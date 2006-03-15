@@ -18,8 +18,8 @@ executable     min_file       not_executable not_writeable  writeable
 
 foreach my $file ( @files )
 	{
-	open my $fh, "> $file";
-	close $fh;
+	open FH, "> $file";
+	close FH;
 	}
 
 my $count = chmod 0400, 'readable', 'not_writeable', 'not_executable';
@@ -37,9 +37,9 @@ truncate 'max_file', 10;
 truncate 'min_file',  0;
 
 {
-open my $fh, '> min_file' or print "bail out! Could not write to min_file: $!";
-print $fh "x" x 53;
-close $fh;
+open FH, '> min_file' or print "bail out! Could not write to min_file: $!";
+print FH "x" x 53;
+close FH;
 }
 is( -s 'min_file', 53 );
 
