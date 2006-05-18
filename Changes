@@ -1,5 +1,8 @@
 # $Id$
 
+1.15 - Wed May 17 21:42:09 2006
+	* Updated the distro for copyright and kwalitee. No need to upgrade.
+
 1.14 - Wed Mar  8 12:36:22 2006
 	* Added Dylan Martin's test for group_is and group_isnt
 	* No need to upgrade unless you need these features
