@@ -1,0 +1,15 @@
+.cvsignore
+.releaserc
+.lwpcookies
+Test-.*
+CVS
+blib
+\.*bak
+Makefile$
+MANIFEST.SKIP
+\.DS_Store
+\.\#
+\.old
+\.orig
+\.rej
+\.mine

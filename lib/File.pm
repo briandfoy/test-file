@@ -1067,6 +1067,8 @@ members of the project can shepherd this module appropriately.
 
 brian d foy, C<< <bdfoy@cpan.org> >>
 
+=head1 CREDITS
+
 Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >> provided
 some functions.
 
