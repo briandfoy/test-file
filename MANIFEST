@@ -15,4 +15,3 @@ t/setup.t
 t/setup_common
 t/test_files.t
 t/test_manifest
-t/zeros.t
