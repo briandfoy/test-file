@@ -1,5 +1,9 @@
 # $Id$
 
+1.16 - Sat Jul  8 15:38:38 2006
+	* updated the plan for links.t to have the right number of tests
+	* no need to upgrade if you already have this installed.
+
 1.15 - Wed May 17 21:42:09 2006
 	* Updated the distro for copyright and kwalitee. No need to upgrade.
 
