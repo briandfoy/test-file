@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 24;
+use Test::More tests => 5;
 use Test::File;
 
 =pod
