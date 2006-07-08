@@ -14,8 +14,8 @@ use Test::Builder;
 	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
-	file_is_symlink_ok 
-	symlink_target_exists_ok 
+	file_is_symlink_ok
+	symlink_target_exists_ok
 	symlink_target_dangles_ok
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	owner_is owner_isnt
@@ -57,12 +57,12 @@ sub _normalize
 	{
 	my $file = shift;
 	return unless defined $file;
-	
+
 	return $file =~ m|/|
 		? File::Spec->catfile( split m|/|, $file )
 		: $file;
 	}
-	
+
 sub _win32
 	{
 	return 0 if $^O eq 'darwin';
@@ -71,28 +71,28 @@ sub _win32
 
 sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
 
-# owner_is and owner_isn't should skip on OS where the question makes no 
+# owner_is and owner_isn't should skip on OS where the question makes no
 # sence.  I really don't know a good way to test for that, so I'm going
 # to skip on the two OS's that I KNOW aren't multi-user.  I'd love to add
-# more if anyone knows of any 
+# more if anyone knows of any
 #   Note:  I don't have a dos or mac os < 10 machine to test this on
-sub _obviously_non_multi_user 
+sub _obviously_non_multi_user
 	{
-	($^O eq 'dos')   ?	
-		return 1	
+	($^O eq 'dos')   ?
+		return 1
 			:
-	($^O eq 'MacOS') ?	
-		return 1	
+	($^O eq 'MacOS') ?
+		return 1
 			:
-		return;	
+		return;
 
 	eval { my $holder = getpwuid(0) };
-	return 1 if $@; 
+	return 1 if $@;
 
 	eval { my $holder = getgrgid(0) };
 	return 1 if $@;
 
-	return 0;	
+	return 0;
 	}
 
 =over 4
@@ -240,7 +240,7 @@ sub file_size_ok($$;$)
 		else
 			{
 			my $actual = -s $filename;
-			$Test->diag( 
+			$Test->diag(
 				"File [$filename] has actual size [$actual] not [$expected]" );
 			}
 
@@ -277,7 +277,7 @@ sub file_max_size_ok($$;$)
 		else
 			{
 			my $actual = -s $filename;
-			$Test->diag( 
+			$Test->diag(
 				"File [$filename] has actual size [$actual] " .
 				"greater than [$max]"
 				);
@@ -316,9 +316,9 @@ sub file_min_size_ok($$;$)
 		else
 			{
 			my $actual = -s $filename;
-			$Test->diag( 
+			$Test->diag(
 				"File [$filename] has actual size ".
-				"[$actual] less than [$min]" 
+				"[$actual] less than [$min]"
 				);
 			}
 
@@ -513,7 +513,7 @@ sub file_mode_is($$;$)
 		$Test->skip( "file_mode_is doesn't work on Windows" );
 		return;
 		}
-	
+
 	my $filename = _normalize( shift );
 	my $mode     = shift;
 
@@ -584,25 +584,25 @@ sub file_is_symlink_ok
 	{
     if( _no_symlinks_here() )
 		{
-		$Test->skip( 
+		$Test->skip(
 			"file_is_symlink_ok doesn't work on systems without symlinks" );
 		return;
 		}
 
 	my $file = shift;
 	my $name = shift || "$file is a symlink";
-	
-	if( -l $file ) 
-		{ 
-		$Test->ok(1, $name) 
+
+	if( -l $file )
+		{
+		$Test->ok(1, $name)
 		}
 	else
 		{
 		$Test->diag( "File [$file] is not a symlink!" );
 		$Test->ok(0, $name);
-		}			
+		}
 	}
-	
+
 =item symlink_target_exists_ok( SYMLINK [, TARGET] [, NAME] )
 
 Ok is FILENAME is a symlink and it points to a existing file. With the
@@ -618,8 +618,8 @@ sub symlink_target_exists_ok
 	{
     if( _no_symlinks_here() )
 		{
-		$Test->skip( 
-			"symlink_target_exists_ok doesn't work on systems without symlinks" 
+		$Test->skip(
+			"symlink_target_exists_ok doesn't work on systems without symlinks"
 			);
 		return;
 		}
@@ -627,13 +627,13 @@ sub symlink_target_exists_ok
 	my $file = shift;
 	my $dest = shift || readlink( $file );
 	my $name = shift || "$file is a symlink";
-	
-	unless( -l $file ) 
+
+	unless( -l $file )
 		{
 		$Test->diag( "File [$file] is not a symlink!" );
 		return $Test->ok( 0, $name );
 		}
-			
+
 	unless( -e $dest )
 		{
 		$Test->diag( "Symlink [$file] points to non-existent target [$dest]!" );
@@ -643,7 +643,7 @@ sub symlink_target_exists_ok
 	my $actual = readlink( $file );
 	unless( $dest eq $actual )
 		{
-		$Test->diag( 
+		$Test->diag(
 			"Symlink [$file] points to\n\t$actual\nexpected\n\t$dest\n\n" );
 		return $Test->ok( 0, $name );
 		}
@@ -665,7 +665,7 @@ sub symlink_target_dangles_ok
 	{
     if( _no_symlinks_here() )
 		{
-		$Test->skip( 
+		$Test->skip(
 			"symlink_target_exists_ok doesn't work on systems without symlinks" );
 		return;
 		}
@@ -673,16 +673,16 @@ sub symlink_target_dangles_ok
 	my $file = shift;
 	my $dest = readlink( $file );
 	my $name = shift || "$file is a symlink";
-	
+
 	unless( -l $file )
 		{
 		$Test->diag( "File [$file] is not a symlink!" );
 		return $Test->ok( 0, $name );
 		}
-			
+
 	if( -e $dest )
 		{
-		$Test->diag( 
+		$Test->diag(
 			"Symlink [$file] points to existing file [$dest] but shouldn't!" );
 		return $Test->ok( 0, $name );
 		}
@@ -706,25 +706,25 @@ sub link_count_is_ok
 	{
     if( _no_symlinks_here() )
 		{
-		$Test->skip( 
+		$Test->skip(
 			"link_count_is_ok doesn't work on systems without symlinks" );
 		return;
 		}
 
 	my $file   = shift;
 	my $count  = int( 0 + shift );
-	
+
 	my $name   = shift || "$file has a link count of [$count]";
-	
+
 	my $actual = (stat $file )[3];
-	
+
 	unless( $actual == $count )
 		{
-		$Test->diag( 
+		$Test->diag(
 			"File [$file] points has [$actual] links: expected [$count]!" );
 		return $Test->ok( 0, $name );
 		}
-	
+
 	$Test->ok( 1, $name );
 	}
 
@@ -744,26 +744,26 @@ sub link_count_gt_ok
 	{
     if( _no_symlinks_here() )
 		{
-		$Test->skip( 
+		$Test->skip(
 			"link_count_gt_ok doesn't work on systems without symlinks" );
 		return;
 		}
 
 	my $file   = shift;
 	my $count  = int( 0 + shift );
-	
+
 	my $name   = shift || "$file has a link count of [$count]";
-	
+
 	my $actual = (stat $file )[3];
-	
+
 	unless( $actual > $count )
 		{
-		$Test->diag( 
+		$Test->diag(
 			"File [$file] points has [$actual] links: ".
 			"expected more than [$count]!" );
 		return $Test->ok( 0, $name );
 		}
-	
+
 	$Test->ok( 1, $name );
 	}
 
@@ -783,53 +783,53 @@ sub link_count_lt_ok
 	{
     if( _no_symlinks_here() )
 		{
-		$Test->skip( 
+		$Test->skip(
 			"link_count_lt_ok doesn't work on systems without symlinks" );
 		return;
 		}
 
 	my $file   = shift;
 	my $count  = int( 0 + shift );
-	
+
 	my $name   = shift || "$file has a link count of [$count]";
-	
+
 	my $actual = (stat $file )[3];
-	
+
 	unless( $actual < $count )
 		{
-		$Test->diag( 
+		$Test->diag(
 			"File [$file] points has [$actual] links: ".
 			"expected more than [$count]!" );
 		return $Test->ok( 0, $name );
 		}
-	
+
 	$Test->ok( 1, $name );
 	}
 
 
-# owner_is, owner_isnt, group_is and group_isnt are almost 
+# owner_is, owner_isnt, group_is and group_isnt are almost
 # identical in the beginning, so I'm writing a skeleton they can all use.
-# I can't think of a better name... 
-sub _dm_skeleton 
-	{ 
-	if( _obviously_non_multi_user() ) 
+# I can't think of a better name...
+sub _dm_skeleton
+	{
+	if( _obviously_non_multi_user() )
 		{
 		my $calling_sub = (caller(1))[3];
-		$Test->skip( $calling_sub . " only works on a multi-user OS" );	
+		$Test->skip( $calling_sub . " only works on a multi-user OS" );
 		return 'skip';
 		}
 
 	my $filename      = _normalize( shift );
 	my $testing_for   = shift;
 	my $name          = shift;
-	
-	unless( defined $filename ) 
+
+	unless( defined $filename )
 		{
 		$Test->diag( "File name not specified" );
 		return $Test->ok( 0, $name );
 		}
 
-	unless( -e $filename ) 
+	unless( -e $filename )
 		{
 		$Test->diag( "File [$filename] does not exist" );
 		return $Test->ok( 0, $name );
@@ -840,7 +840,7 @@ sub _dm_skeleton
 
 =item owner_is( FILE , OWNER [, NAME] )
 
-Ok if FILE's owner is the same as OWNER.  OWNER may be a text user name 
+Ok if FILE's owner is the same as OWNER.  OWNER may be a text user name
 or a numeric userid.  Test skips on Dos, and Mac OS <= 9.
 If the file does not exist, the test fails.
 
@@ -850,7 +850,7 @@ Contributed by Dylan Martin
 
 =cut
 
-sub owner_is	 
+sub owner_is
 	{
 	my $filename      = shift;
 	my $owner         = shift;
@@ -858,22 +858,22 @@ sub owner_is
 
 	my $err = _dm_skeleton( $filename, $owner, $name );
 	return if( defined( $err ) && $err eq 'skip' );
-	return $err if defined($err); 		
+	return $err if defined($err);
 
 	my $owner_uid = _get_uid( $owner );
-		
+
 	my $file_uid = ( stat $filename )[4];
 
-	unless( defined $file_uid ) 
+	unless( defined $file_uid )
 		{
 		$Test->skip("stat failed to return owner uid for $filename");
 		return;
 		}
 
-	return $Test->ok( 1, $name ) if $file_uid == $owner_uid; 
+	return $Test->ok( 1, $name ) if $file_uid == $owner_uid;
 
 	my $real_owner = ( getpwuid $file_uid )[0];
-	unless( defined $real_owner ) 
+	unless( defined $real_owner )
 		{
 		$Test->diag("File does not belong to $owner");
 		return $Test->ok( 0, $name );
@@ -883,11 +883,11 @@ sub owner_is
 			"not $owner ($owner_uid)" );
 	return $Test->ok( 0, $name );
 	}
-	
+
 =item owner_isnt( FILE, OWNER [, NAME] )
 
-Ok if FILE's owner is not the same as OWNER.  OWNER may be a text user name 
-or a numeric userid.  Test skips on Dos and Mac OS <= 9.  If the file 
+Ok if FILE's owner is not the same as OWNER.  OWNER may be a text user name
+or a numeric userid.  Test skips on Dos and Mac OS <= 9.  If the file
 does not exist, the test fails.
 
 The optional NAME parameter is the name of the test.
@@ -896,15 +896,15 @@ Contributed by Dylan Martin
 
 =cut
 
-sub owner_isnt	 
+sub owner_isnt
 	{
 	my $filename      = shift;
 	my $owner         = shift;
 	my $name          = shift || "$filename belongs to $owner";
 
 	my $err = _dm_skeleton( $filename, $owner, $name );
-	return if( defined( $err ) && $err eq 'skip' ); 
-	return $err if defined($err); 		
+	return if( defined( $err ) && $err eq 'skip' );
+	return $err if defined($err);
 
 	my $owner_uid = _get_uid( $owner );
 	my $file_uid  = ( stat $filename )[4];
@@ -917,18 +917,18 @@ sub owner_isnt
 
 =item group_is( FILE , GROUP [, NAME] )
 
-Ok if FILE's group is the same as GROUP.  GROUP may be a text group name or 
+Ok if FILE's group is the same as GROUP.  GROUP may be a text group name or
 a numeric group id.  Test skips on Dos, Mac OS <= 9 and any other operating
 systems that do not support getpwuid() and friends.  If the file does not
 exist, the test fails.
- 
+
 The optional NAME parameter is the name of the test.
-  
+
 Contributed by Dylan Martin
 
 =cut
 
-sub group_is 
+sub group_is
  	{
 	my $filename      = shift;
 	my $group         = shift;
@@ -936,26 +936,26 @@ sub group_is
 
 	my $err = _dm_skeleton( $filename, $group, $name );
 	return if( defined( $err ) && $err eq 'skip' );
-	return $err if defined($err); 		
- 		
+	return $err if defined($err);
+
 	my $group_gid = _get_gid( $group );
 	my $file_gid  = ( stat $filename )[5];
 
-	unless( defined $file_gid ) 
+	unless( defined $file_gid )
  		{
 		$Test->skip("stat failed to return group gid for $filename");
 		return;
 		}
 
-	return $Test->ok( 1, $name ) if $file_gid == $group_gid; 
+	return $Test->ok( 1, $name ) if $file_gid == $group_gid;
 
 	my $real_group = ( getgrgid $file_gid )[0];
-	unless( defined $real_group ) 
+	unless( defined $real_group )
 		{
 		$Test->diag("File does not belong to $group");
  		return $Test->ok( 0, $name );
  		}
- 
+
 	$Test->diag( "File [$filename] belongs to $real_group ($file_gid), ".
 			"not $group ($group_gid)" );
 
@@ -975,7 +975,7 @@ Contributed by Dylan Martin
 
 =cut
 
-sub group_isnt 
+sub group_isnt
 	{
 	my $filename      = shift;
 	my $group         = shift;
@@ -983,18 +983,18 @@ sub group_isnt
 
 	my $err = _dm_skeleton( $filename, $group, $name );
 	return if( defined( $err ) && $err eq 'skip' );
-	return $err if defined($err); 		
- 	
+	return $err if defined($err);
+
 	my $group_gid = _get_gid( $group );
 	my $file_gid  = ( stat $filename )[5];
 
-	unless( defined $file_gid ) 
+	unless( defined $file_gid )
 		{
 		$Test->skip("stat failed to return group gid for $filename");
 		return;
 		}
 
-	return $Test->ok( 1, $name ) if $file_gid != $group_gid; 
+	return $Test->ok( 1, $name ) if $file_gid != $group_gid;
 
 	$Test->diag( "File [$filename] belongs to $group ($group_gid)" );
  		return $Test->ok( 0, $name );
@@ -1004,17 +1004,17 @@ sub _get_uid
 	{
 	my $owner = shift;
 	my $owner_uid;
-	
-	if ($owner =~ /^\d+/) 
+
+	if ($owner =~ /^\d+/)
 		{
 		$owner_uid = $owner;
 		$owner = ( getpwuid $owner )[0];
-		} 
-	else 
+		}
+	else
 		{
 		$owner_uid = (getpwnam($owner))[2];
 		}
-		
+
 	$owner_uid;
 	}
 
@@ -1022,20 +1022,20 @@ sub _get_gid
 	{
 	my $group = shift;
 	my $group_uid;
-	
-	if ($group =~ /^\d+/) 
+
+	if ($group =~ /^\d+/)
 		{
 		$group_uid = $group;
 		$group = ( getgrgid $group )[0];
-		} 
-	else 
+		}
+	else
 		{
 		$group_uid = (getgrnam($group))[2];
 		}
-		
+
 	$group_uid;
 	}
-	
+
 =back
 
 =head1 TO DO
