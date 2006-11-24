@@ -1078,7 +1078,9 @@ Dylan Martin added C<owner_is> and C<owner_isnt>
 
 =head1 COPYRIGHT
 
-Copyright 2002-2006, brian d foy, All Rights Reserved
+Copyright 2002-2007, brian d foy, All Rights Reserved
+
+=head1 LICENSE
 
 You may use, modify, and distribute this under the same terms
 as Perl itself.
