@@ -7,6 +7,7 @@ WriteMakefile
 	(
 	'NAME'           => 'Test::File',
 	'ABSTRACT'       => 'Check file attributes',
+	'LICENSE'       => 'perl',
 	'VERSION_FROM'   => 'lib/File.pm',
 
 	'PREREQ_PM' => {

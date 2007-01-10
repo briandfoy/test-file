@@ -1076,15 +1076,14 @@ Tom Metro helped me figure out some Windows capabilities.
 
 Dylan Martin added C<owner_is> and C<owner_isnt>
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT AND LICENSE
 
-Copyright 2002-2007, brian d foy, All Rights Reserved
+Copyright (c) 2002-2007 brian d foy.  All rights reserved.
 
-=head1 LICENSE
-
-You may use, modify, and distribute this under the same terms
-as Perl itself.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
 
 =cut
+
 
 "The quick brown fox jumped over the lazy dog";
