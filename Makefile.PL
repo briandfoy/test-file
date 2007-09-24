@@ -5,9 +5,11 @@ eval "use Test::Manifest 1.14";
 
 WriteMakefile
 	(
-	'NAME'           => 'Test::File',
-	'ABSTRACT'       => 'Check file attributes',
-	'LICENSE'       => 'perl',
+	'NAME'          => 'Test::File',
+	'ABSTRACT'      => 'Check file attributes',
+	'LICENSE'		=> 'perl',
+	'AUTHOR'		=> 'brian d foy <bdfoy@cpan.org>',
+
 	'VERSION_FROM'   => 'lib/File.pm',
 
 	'PREREQ_PM' => {
