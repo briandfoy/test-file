@@ -22,7 +22,7 @@ use Test::Builder;
 	group_is group_isnt
 	);
 
-$VERSION = sprintf "%d.%02d", q$Revision$ =~ /(\d+)\.(\d+)/;
+$VERSION = 1.19;
 
 my $Test = Test::Builder->new();
 
