@@ -1,5 +1,9 @@
 # $Id$
 
+1.02 - Tue Oct 30 11:08:57 2007
+	* Fix RT #30346 ( file_not_empty_ok passes if file doesn't exist)
+	* require 5.006 from now on
+
 1.19 - Sat Oct 27 20:53:47 2007
 	* distro cleanups after moving from CVS to SVN
 
