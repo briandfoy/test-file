@@ -1,5 +1,9 @@
 # $Id$
 
+1.21 - Tue Oct 30 11:11:49 2007
+	* Fix RT #30346 ( file_not_empty_ok passes if file doesn't exist)
+	* require 5.006 from now on
+
 1.02 - Tue Oct 30 11:08:57 2007
 	* Fix RT #30346 ( file_not_empty_ok passes if file doesn't exist)
 	* require 5.006 from now on
