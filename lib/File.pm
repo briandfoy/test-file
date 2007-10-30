@@ -22,7 +22,7 @@ use Test::Builder;
 	group_is group_isnt
 	);
 
-$VERSION = 1.20;
+$VERSION = 1.21;
 
 my $Test = Test::Builder->new();
 
