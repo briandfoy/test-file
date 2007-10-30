@@ -22,7 +22,7 @@ use Test::Builder;
 	group_is group_isnt
 	);
 
-$VERSION = 1.19;
+$VERSION = 1.20;
 
 my $Test = Test::Builder->new();
 
@@ -191,7 +191,7 @@ sub file_not_empty_ok($;$)
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not empty";
 
-	my $ok = not -z $filename;
+	my $ok = -e $filename && not -z _;
 
 	if( $ok )
 		{
