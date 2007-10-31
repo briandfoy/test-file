@@ -19,7 +19,7 @@ test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$file] does not exist\n" .
 	"#   Failed test '$name'\n". 
-	"#   at t/rt/30346.t line " . line_num(+5) . "." 
+	"#   at $0 line " . line_num(+5) . "." 
 	);
 file_not_empty_ok( $file );
 test_test( $name );
@@ -52,7 +52,7 @@ test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$file] exists with zero size\n" .
 	"#   Failed test '$name'\n". 
-	"#   at t/rt/30346.t line " . line_num(+5) . "." 
+	"#   at $0 line " . line_num(+5) . "." 
 	);
 file_not_empty_ok( $file );
 test_test( $name );

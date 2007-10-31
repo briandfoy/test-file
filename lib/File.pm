@@ -22,7 +22,11 @@ use Test::Builder;
 	group_is group_isnt
 	);
 
-$VERSION = 1.21;
+$VERSION = '1.22';
+
+{
+use warnings;
+}
 
 my $Test = Test::Builder->new();
 
@@ -1084,6 +1088,5 @@ This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
 
 =cut
-
 
 "The quick brown fox jumped over the lazy dog";

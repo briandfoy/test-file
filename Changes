@@ -4,10 +4,6 @@
 	* Fix RT #30346 ( file_not_empty_ok passes if file doesn't exist)
 	* require 5.006 from now on
 
-1.02 - Tue Oct 30 11:08:57 2007
-	* Fix RT #30346 ( file_not_empty_ok passes if file doesn't exist)
-	* require 5.006 from now on
-
 1.19 - Sat Oct 27 20:53:47 2007
 	* distro cleanups after moving from CVS to SVN
 
@@ -42,48 +38,48 @@
 	* Added the tests owner_is() and owner_isnt() from Dylan Martin
 
 1.11 - Sun Oct  2 05:42:41 2005
-* Some strings were mistakenly single-quoted. I meant to interpolate but
-didn't use double quotes. Should I lose my Perl license? :)
+	* Some strings were mistakenly single-quoted. I meant to interpolate but
+	didn't use double quotes. Should I lose my Perl license? :)
 
 * Upgrade to get the interpolated error messages.
 
 1.10 - Sun Jun  5 17:34:54 2005
-* Fixed Windows testing with patch from Tom Metro. Now that I have a
-Windows box, I don't need to guess on some of this stuff.
-* There is a minor code change, but you don't need to rush to upgrade
-if you already have an installed version.
+	* Fixed Windows testing with patch from Tom Metro. Now that I have a
+	Windows box, I don't need to guess on some of this stuff.
+	* There is a minor code change, but you don't need to rush to upgrade
+	if you already have an installed version.
 
 1.09 - Tue Mar  8 17:58:28 2005
-* Added POD coverage tests: no need to upgrade
+	* Added POD coverage tests: no need to upgrade
 
 1.08 - Thu Jan  6 17:36:20 2005
-* added a patch from David Wheeler to canonicalize paths for the 
-platform.  If the paths look like unix paths, I split them on /
-and reconstruct them with File::Spec->catdir.
+	* added a patch from David Wheeler to canonicalize paths for the 
+	platform.  If the paths look like unix paths, I split them on /
+	and reconstruct them with File::Spec->catdir.
 
-* Some functions don't work with Win32, so I detect that inside
-those functions and automatically skip the test if I think I'm
-on a Windows machine.
+	* Some functions don't work with Win32, so I detect that inside
+	those functions and automatically skip the test if I think I'm
+	on a Windows machine.
 
 1.07 - Mon Jan  3 17:12:51 2005
-Shawn Sorichetti <ssoriche@coloredblocks.net> contributed two new
-funtions: file_mode_is() and file_mode_isnt().  We can now test
-files by their mode.
+	Shawn Sorichetti <ssoriche@coloredblocks.net> contributed two new
+	funtions: file_mode_is() and file_mode_isnt().  We can now test
+	files by their mode.
 
 1.06 - Sun Sep  5 15:59:40 2004
-* Fixed tests that failed if you ran them with root privileges, which 
-don't actually completely depend on file permissions
+	* Fixed tests that failed if you ran them with root privileges, which 
+	don't actually completely depend on file permissions
 
 1.05 - Thu Sep  2 21:27:27 2004
-* fixed a documentation bug dealing with file sizes
-* cleaned up the distribution a bit
-* You don't need to upgrade if you already have this module
+	* fixed a documentation bug dealing with file sizes
+	* cleaned up the distribution a bit
+	* You don't need to upgrade if you already have this module
 
 0.9 - Sun Jul  4 20:34:50 2004
-* ported tests to Test::More
-* cleaned up dist files, especially Makefile.PL
-* fixed up some doc issues in File.pm
-* no change in functionality
+	* ported tests to Test::More
+	* cleaned up dist files, especially Makefile.PL
+	* fixed up some doc issues in File.pm
+	* no change in functionality
 
 0.06 - initial version
 
