@@ -1,5 +1,9 @@
 # $Id$
 
+1.22 - Wed Oct 31 19:40:23 2007
+	* fixed problem with file path separators in t/rt/30346.t
+	* no need to upgrade if you were already able to install this
+
 1.21 - Tue Oct 30 11:11:49 2007
 	* Fix RT #30346 ( file_not_empty_ok passes if file doesn't exist)
 	* require 5.006 from now on
