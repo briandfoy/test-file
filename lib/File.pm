@@ -22,7 +22,7 @@ use Test::Builder;
 	group_is group_isnt
 	);
 
-$VERSION = '1.22';
+$VERSION = '1.22_01';
 
 {
 use warnings;
@@ -865,7 +865,12 @@ sub owner_is
 	return $err if defined($err);
 
 	my $owner_uid = _get_uid( $owner );
-
+	unless( defined $owner_uid )
+		{
+		$Test->diag("User [$owner] does not exist on this system");
+		return $Test->ok( 0, $name );
+		}
+		
 	my $file_uid = ( stat $filename )[4];
 
 	unless( defined $file_uid )
@@ -943,6 +948,12 @@ sub group_is
 	return $err if defined($err);
 
 	my $group_gid = _get_gid( $group );
+	unless( defined $group_gid )
+		{
+		$Test->diag("Group [$group] does not exist on this system");
+		return $Test->ok( 0, $name );
+		}
+
 	my $file_gid  = ( stat $filename )[5];
 
 	unless( defined $file_gid )

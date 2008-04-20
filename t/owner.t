@@ -67,19 +67,49 @@ eval
 plan skip_all => "I can't find a second user id to test with: $@" if $@;
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-plan tests => 12;
+# find some names that don't exist, to test bad input
+my( $invalid_user_name, $invalid_group_name );
+eval 
+	{
+	foreach my $user ( 'aaaa' .. 'zzzz' )	
+		{
+		my @stats = getpwnam $user;
+		next if @stats;
 
+		$invalid_user_name  = $user;
+		#diag "Using invalid user [$user] for tests";
+		last;
+		}
+ 
+	foreach my $group ( 'aaaa' .. 'zzzz' )	
+		{
+		my @stats = getpwnam $group;
+		next if @stats;
+
+		$invalid_group_name  = $group;
+		#diag "Using invalid group [$group] for tests";
+		last;
+		}
+		
+	diag "Failed to find an invalid username" unless defined $other_uid;
+
+	diag "Failed to find another gid" unless defined $other_gid;
+	};
+	
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+ # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+plan tests => 14;
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# test group stuff
 owner_is(   $filename, $owner_name, 'owner_is with text username'   );
 owner_is(   $filename, $owner_uid,  'owner_is with numeric UID'     );
 owner_isnt( $filename, $other_name, 'owner_isnt with text username' );
 owner_isnt( $filename, $other_uid,  'owner_isnt with numeric UID'   );
 
-group_is(   $filename, $file_group_name, 'group_is with text groupname'    );
-group_is(   $filename, $file_gid,  'group_is with numeric GID'             );
-group_isnt( $filename, $other_group_name, 'group_isnt with text groupname' );
-group_isnt( $filename, $other_gid,  'group_isnt with numeric GID'          );
 
-my $name = 'Intentional owner_is failure';
+my $name = 'Intentional owner_is failure with wrong user';
 test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$filename] belongs to $owner_name ($owner_uid), not $other_name " .
@@ -90,8 +120,19 @@ test_diag(
 owner_is( $filename, $other_name, $name );
 test_test( $name );
 
-$name = 'Intentional owner_isnt failure';
 
+$name = "Intentional owner_is failure with invalid user [$invalid_user_name]";
+test_out( "not ok 1 - $name");
+test_diag( 
+	"User [$invalid_user_name] does not exist on this system\n" .
+	"#   Failed test '$name'\n". 
+	"#   at t/owner.t line " . line_num(+5) . "." 
+	);
+owner_is( $filename, $invalid_user_name, $name );
+test_test( $name );
+
+
+$name = 'Intentional owner_isnt failure';
 test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$filename] belongs to $owner_name ($owner_uid)\n" .
@@ -100,6 +141,14 @@ test_diag(
 	);
 owner_isnt( $filename, $owner_name, "Intentional owner_isnt failure" );
 test_test( "Intentional owner_isnt failure");
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# test group stuff
+group_is(   $filename, $file_group_name, 'group_is with text groupname'    );
+group_is(   $filename, $file_gid,  'group_is with numeric GID'             );
+group_isnt( $filename, $other_group_name, 'group_isnt with text groupname' );
+group_isnt( $filename, $other_gid,  'group_isnt with numeric GID'          );
+
 
 $name = 'Intentional group_is failure';
 test_out( "not ok 1 - $name");
@@ -113,8 +162,19 @@ test_diag(
 group_is( $filename, $other_group_name, $name );
 test_test( $name );
 
-$name = 'Intentional group_isnt failure';
 
+$name = "Intentional group_is failure with invalid group [$invalid_group_name]";
+test_out( "not ok 1 - $name");
+test_diag( 
+	"Group [$invalid_group_name] does not exist on this system\n" .
+	"#   Failed test '$name'\n". 
+	"#   at t/owner.t line " . line_num(+5) . "." 
+	);
+group_is( $filename, $invalid_group_name, $name );
+test_test( $name );
+
+
+$name = 'Intentional group_isnt failure';
 test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$filename] belongs to $file_group_name ($file_gid)\n" .
