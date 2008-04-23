@@ -1,5 +1,9 @@
 # $Id$
 
+1.23 - Wed Apr 23 13:10:39 2008
+	* [BUG FIX] owner_is and group_is now fail if the owner or
+	group does not exist.
+
 1.22_01 - Sun Apr 20 14:58:41 2008
 	* [BUG FIX] owner_is and group_is were passing with non-existent 
 	users and groups. Now I check the arguments to see if they
