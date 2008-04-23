@@ -22,7 +22,7 @@ use Test::Builder;
 	group_is group_isnt
 	);
 
-$VERSION = '1.22_01';
+$VERSION = '1.23';
 
 {
 use warnings;
