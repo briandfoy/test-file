@@ -357,7 +357,9 @@ sub _file_line_counter
 
 	return $count;
 	}
-	
+
+# XXX: lots of cut and pasting here, needs refactoring
+# looks like the refactoring might be worse than this though
 sub file_line_count_is($$;$)
 	{
 	my $filename = _normalize( shift );
