@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 28;
+use Test::More tests => 36;
 use Test::File;
 
 =pod
@@ -48,6 +48,67 @@ test_out( 'ok 1 - min_file is over 50 bytes' );
 file_min_size_ok( 'min_file', 50 );
 test_test();
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# Line count
+{
+my $file  = 'min_file';
+my $lines = 2;
+my $linesm = $lines - 1;
+my $linesp = $lines + 1;
+
+test_out( "ok 1 - $file line count is $lines lines" );
+file_line_count_is( $file, $lines );
+test_test();
+
+my $name = "$file line count is $linesp lines";
+test_out( "not ok 1 - $name" );
+test_diag( 
+	"Expected [3] lines in [$file], got [$lines] lines\n" .
+	"#   Failed test '$name'\n" . 
+	"#   at t/test_files.t line " . line_num(+5) . "." 
+	);
+file_line_count_is( $file, $linesp );
+test_test();
+
+test_out( "ok 1 - $file line count is not $linesp lines" );
+file_line_count_isnt( $file, $linesp );
+test_test();
+
+$name = "$file line count is not $lines lines";
+test_out( "not ok 1 - $name" );
+test_diag( 
+	"Expected something other than [$lines] lines in [$file], but got [$lines] lines\n" .
+	"#   Failed test '$name'\n" . 
+	"#   at t/test_files.t line " . line_num(+5) . "." 
+	);
+file_line_count_isnt( $file, $lines );
+test_test();
+
+test_out( "ok 1 - $file line count is between [$linesm] and [$linesp] lines" );
+file_line_count_between( $file, $linesm, $linesp );
+test_test();
+
+test_out( "ok 1 - $file line count is between [$lines] and [$linesp] lines" );
+file_line_count_between( $file, $lines, $linesp );
+test_test();
+
+test_out( "ok 1 - $file line count is between [$lines] and [$lines] lines" );
+file_line_count_between( $file, $lines, $lines );
+test_test();
+
+$name = "$file line count is between [$linesp] and [@{[$linesp+1]}] lines";
+test_out( "not ok 1 - $name" );
+test_diag( 
+	"Expected a line count between [$linesp] and [@{[$linesp+1]}] in [$file], but got [$lines] lines\n" .
+	"#   Failed test '$name'\n" . 
+	"#   at t/test_files.t line " . line_num(+4) . "." 
+	);
+file_line_count_between( $file, $linesp, $linesp + 1 );
+test_test();
+
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 test_out( 'ok 1 - readable is readable' );
 file_readable_ok( 'readable' );
 test_test();

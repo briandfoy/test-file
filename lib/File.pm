@@ -20,9 +20,10 @@ use Test::Builder;
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	owner_is owner_isnt
 	group_is group_isnt
+    file_line_count_is file_line_count_isnt file_line_count_between
 	);
 
-$VERSION = '1.23';
+$VERSION = '1.24';
 
 {
 use warnings;
@@ -330,6 +331,172 @@ sub file_min_size_ok($$;$)
 		}
 	}
 
+=item file_line_count_is( FILENAME, COUNT [, NAME ]  )
+
+Ok if the file exists and has COUNT lines (exactly), not ok if the
+file does not exist or exists with a line count than COUNT.
+
+This function using the current value of C<$/> as the line ending and
+counts the lines by reading them and counting how many it read.
+
+=cut
+
+sub _ENOFILE   () { -1 }
+sub _ECANTOPEN () { -2 }
+
+sub _file_line_counter
+	{
+	my $filename = shift;
+	
+	return _ENOFILE   unless -e $filename;  # does not exist
+	
+	return _ECANTOPEN unless open my( $fh ), "<", $filename; 
+	
+	my $count = 0;
+	while( <$fh> ) { $count++ }
+
+	return $count;
+	}
+	
+sub file_line_count_is($$;$)
+	{
+	my $filename = _normalize( shift );
+	my $expected = shift;
+	my $name     = shift || "$filename line count is $expected lines";
+	
+	unless( defined $expected && int( $expected ) == $expected )
+		{
+		$Test->diag( "file_line_count_is expects a positive whole number for " .
+			"the second argument. Got [$expected]." );
+		return $Test->ok( 0, $name );
+		}
+
+	my $got = _file_line_counter( $filename );
+	
+	if( $got eq _ENOFILE )
+		{
+		$Test->diag( "File [$filename] does not exist!" );
+		$Test->ok( 0, $name );
+		}
+	elsif( $got == _ECANTOPEN ) 
+		{
+		$Test->diag( "Could not open [$filename]: \$! is [$!]" );
+		$Test->ok( 0, $name );
+		}		
+	elsif( $got == $expected )
+		{
+		$Test->ok( 1, $name );
+		}
+	else
+		{
+		$Test->diag( "Expected [$expected] lines in [$filename], " .
+			"got [$got] lines" );
+		$Test->ok( 0, $name );
+		}
+
+	}
+
+=item file_line_count_isnt( FILENAME, COUNT [, NAME ]  )
+
+Ok if the file exists and doesn't have exactly COUNT lines, not ok if the
+file does not exist or exists with a line count of COUNT. Read that
+carefully: the file must exist for this test to pass!
+
+This function using the current value of C<$/> as the line ending and
+counts the lines by reading them and counting how many it read.
+
+=cut
+
+sub file_line_count_isnt($$;$)
+	{
+	my $filename = _normalize( shift );
+	my $expected = shift;
+	my $name     = shift || "$filename line count is not $expected lines";
+	
+	unless( defined $expected && int( $expected ) == $expected )
+		{
+		$Test->diag( "file_line_count_is expects a positive whole number for " .
+			"the second argument. Got [$expected]." );
+		return $Test->ok( 0, $name );
+		}
+
+	my $got = _file_line_counter( $filename );
+	
+	if( $got eq _ENOFILE )
+		{
+		$Test->diag( "File [$filename] does not exist!" );
+		$Test->ok( 0, $name );
+		}
+	elsif( $got == _ECANTOPEN ) 
+		{
+		$Test->diag( "Could not open [$filename]: \$! is [$!]" );
+		$Test->ok( 0, $name );
+		}		
+	elsif( $got != $expected )
+		{
+		$Test->ok( 1, $name );
+		}
+	else
+		{
+		$Test->diag( "Expected something other than [$expected] lines in [$filename], " .
+			"but got [$got] lines" );
+		$Test->ok( 0, $name );
+		}
+
+	}
+
+=item file_line_count_between( FILENAME, MIN, MAX, [, NAME ]  )
+
+Ok if the file exists and has a line count between MIN and MAX, inclusively.
+
+This function using the current value of C<$/> as the line ending and
+counts the lines by reading them and counting how many it read.
+
+=cut
+
+sub file_line_count_between($$;$)
+	{
+	my $filename = _normalize( shift );
+	my $min      = shift;
+	my $max      = shift;
+	my $name     = shift || "$filename line count is between [$min] and [$max] lines";
+	
+	foreach my $ref ( \$min, \$max )
+		{
+		unless( defined $$ref && int( $$ref ) == $$ref )
+			{
+			$Test->diag( "file_line_count_between expects positive whole numbers for " .
+				"the second and third arguments. Got [$min] and [$max]." );
+			return $Test->ok( 0, $name );
+			}
+		}
+		
+	my $got = _file_line_counter( $filename );
+	
+	if( $got eq _ENOFILE )
+		{
+		$Test->diag( "File [$filename] does not exist!" );
+		$Test->ok( 0, $name );
+		}
+	elsif( $got == _ECANTOPEN ) 
+		{
+		$Test->diag( "Could not open [$filename]: \$! is [$!]" );
+		$Test->ok( 0, $name );
+		}		
+	elsif( $min <= $got and $got <= $max )
+		{
+		$Test->ok( 1, $name );
+		}
+	else
+		{
+		$Test->diag( "Expected a line count between [$min] and [$max] " .
+			"in [$filename], but got [$got] lines" 
+			);
+		$Test->ok( 0, $name );
+		}
+
+	}
+	
 =item file_readable_ok( FILENAME [, NAME ] )
 
 Ok if the file exists and is readable, not ok
@@ -1091,9 +1258,11 @@ Tom Metro helped me figure out some Windows capabilities.
 
 Dylan Martin added C<owner_is> and C<owner_isnt>
 
+David Wheeler added C<file_line_count_is>.
+
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2002-2007 brian d foy.  All rights reserved.
+Copyright (c) 2002-2008 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
