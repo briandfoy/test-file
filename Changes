@@ -1,5 +1,11 @@
 # $Id$
 
+1.24_01 - Sat May 24 13:27:17 2008
+	* Trial version to fix test ordering problem in 1.24
+	* Removed setup.t, which turned into setup_common but wasn't updated
+	for the new features in 1.24 (so files were missing in other test
+	files)
+
 1.24 - Tue May 20 21:59:19 2008
 	* David Wheeler sent a patch to add file_line_count_is, so
 	I also added file_line_count_isnt and file_line_count_between.
