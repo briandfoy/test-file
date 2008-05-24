@@ -19,3 +19,8 @@ SKIP: {
     skip "This system does't do symlinks", 5 unless $can_symlink;
     require "t/setup_common";
 };
+
+END {
+unlink glob( "test_files/*" );
+rmdir "test_files";
+}

@@ -13,7 +13,6 @@ t/pod.t
 t/pod_coverage.t
 t/prereq.t
 t/rt/30346.t
-t/setup.t
 t/setup_common
 t/test_files.t
 t/test_manifest

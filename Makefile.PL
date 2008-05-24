@@ -18,6 +18,7 @@ WriteMakefile
 		'Test::More'            => '0.65',
 		'Test::Builder::Tester' => '1.04',
 		'Test::Builder'         => '0.33',
+		'Test::Manifest'        => '1.14',
 		},
 
 	'PM'        => {
