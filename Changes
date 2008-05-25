@@ -1,5 +1,11 @@
 # $Id$
 
+1.24_03 - Sun May 25 21:52:48 2008
+	* Make some adjustments in checking the error messages in
+	test_files.t to make them work across platforms
+	* Remove links.t from the distribution. It doesn't really
+	test anything yet.
+
 1.24_02 - Sun May 25 02:09:24 2008
 	* Add a binmode before writing to files so they come out right
 	on Windows. Stupid rookie mistake. :(
