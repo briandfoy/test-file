@@ -47,6 +47,7 @@ truncate 'min_file',  0;
 
 {
 open FH, '> min_file' or print "bail out! Could not write to min_file: $!";
+binmode FH; #, Windows, yo!
 print FH 'x' x 40, $/, 'x' x 11, $/;
 close FH;
 }
