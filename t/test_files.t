@@ -74,7 +74,7 @@ test_out( "not ok 1 - $name" );
 test_diag( 
 	"Expected [3] lines in [$file], got [$lines] lines\n" .
 	"#   Failed test '$name'\n" . 
-	"#   at t/test_files.t line " . line_num(+5) . "." 
+	"#   at $0 line " . line_num(+5) . "." 
 	);
 file_line_count_is( $file, $linesp );
 test_test();
@@ -88,7 +88,7 @@ test_out( "not ok 1 - $name" );
 test_diag( 
 	"Expected something other than [$lines] lines in [$file], but got [$lines] lines\n" .
 	"#   Failed test '$name'\n" . 
-	"#   at t/test_files.t line " . line_num(+5) . "." 
+	"#   at $0 line " . line_num(+5) . "." 
 	);
 file_line_count_isnt( $file, $lines );
 test_test();
@@ -110,7 +110,7 @@ test_out( "not ok 1 - $name" );
 test_diag( 
 	"Expected a line count between [$linesp] and [@{[$linesp+1]}] in [$file], but got [$lines] lines\n" .
 	"#   Failed test '$name'\n" . 
-	"#   at t/test_files.t line " . line_num(+4) . "." 
+	"#   at $0 line " . line_num(+4) . "." 
 	);
 file_line_count_between( $file, $linesp, $linesp + 1 );
 test_test();
