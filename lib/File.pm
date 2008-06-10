@@ -23,7 +23,7 @@ use Test::Builder;
     file_line_count_is file_line_count_isnt file_line_count_between
 	);
 
-$VERSION = '1.24_03';
+$VERSION = '1.25';
 
 {
 use warnings;
