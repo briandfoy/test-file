@@ -1,6 +1,9 @@
 # $Id: normalize.t 1553 2005-01-06 23:35:53Z comdog $
+use strict;
+use warnings;
 
-use Test::More tests => 4;
+use Test::Builder::Tester;
+use Test::More tests => 8;
 
 use_ok( 'Test::File' );
 
@@ -19,10 +22,18 @@ ok( Test::File::_win32(), "Returns true for Win32" );
 {
 local $^O = 'Win32';
 
-foreach my $function ( )
+my @subs = qw(
+	file_mode_is file_mode_isnt 
+	file_executable_ok file_not_executable_ok 
+	);
+
+foreach my $sub ( @subs )
 	{
 	no strict 'refs';
 	
-	&{$function}	
-	
+	test_out("ok 1 # skip $sub doesn't work on Windows");
+	&{$sub}();	
+	test_test();
 	}
+	
+}

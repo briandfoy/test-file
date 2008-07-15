@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 29; # includes those in t/setup_common
+use Test::More tests => 33; # includes those in t/setup_common
 use Test::File;
 
 my $can_symlink = eval { symlink("",""); 1 };
@@ -16,6 +16,33 @@ SKIP: {
 chdir $test_directory or print "bail out! Could not change directories: $!";
 
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# Things that don't work with symlinks. Fake that we don't understand
+# symlinks
+{
+no warnings 'redefine';
+local *Test::File::_no_symlinks_here = sub { 1 };
+
+my @subs = qw(
+	file_is_symlink_ok
+	symlink_target_exists_ok
+	symlink_target_dangles_ok
+	symlink_target_is
+	);
+
+foreach my $sub ( @subs )
+	{
+	no strict 'refs';
+	
+	test_out("ok 1 # skip $sub doesn't work on systems without symlinks");
+	&{$sub}();	
+	test_test();
+	}
+
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+#
 {
 my $test_name     = "This is my test name";
 my $readable      = 'readable';

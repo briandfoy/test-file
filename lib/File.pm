@@ -74,6 +74,7 @@ sub _win32
 	return $^O =~ m/Win/;
 	}
 
+# returns true if symlinkscan't exist
 sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
 
 # owner_is and owner_isn't should skip on OS where the question makes no
@@ -833,7 +834,7 @@ sub symlink_target_dangles_ok
 	if( _no_symlinks_here() )
 		{
 		$Test->skip(
-			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+			"symlink_target_dangles_ok doesn't work on systems without symlinks" );
 		return;
 		}
 
@@ -872,7 +873,7 @@ sub symlink_target_is
 	if( _no_symlinks_here() )
 		{
 		$Test->skip(
-			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+			"symlink_target_is doesn't work on systems without symlinks" );
 		return;
 		}
 
@@ -960,8 +961,7 @@ if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
 
 Ok if the link count to FILE is LINK_COUNT. LINK_COUNT is interpreted
 as an integer. A LINK_COUNT that evaluates to 0 returns Ok if the file
-does not exist. This test automatically skips if the operating system
-does not support symlinks. If the file does not exist, the test fails.
+does not exist.
 
 The optional NAME parameter is the name of the test.
 
@@ -970,19 +970,12 @@ The optional NAME parameter is the name of the test.
 
 sub link_count_is_ok
 	{
-	if( _no_symlinks_here() )
-		{
-		$Test->skip(
-			"link_count_is_ok doesn't work on systems without symlinks" );
-		return;
-		}
-
 	my $file   = shift;
 	my $count  = int( 0 + shift );
 
 	my $name   = shift || "$file has a link count of [$count]";
 
-	my $actual = (stat $file )[3];
+	my $actual = ( stat $file )[3];
 
 	unless( $actual == $count )
 		{
@@ -998,9 +991,7 @@ sub link_count_is_ok
 
 Ok if the link count to FILE is greater than LINK_COUNT. LINK_COUNT is
 interpreted as an integer. A LINK_COUNT that evaluates to 0 returns Ok
-if the file has at least one link. This test automatically skips if
-the operating system does not support symlinks. If the file does not
-exist, the test fails.
+if the file has at least one link.
 
 The optional NAME parameter is the name of the test.
 
@@ -1008,13 +999,6 @@ The optional NAME parameter is the name of the test.
 
 sub link_count_gt_ok
 	{
-	if( _no_symlinks_here() )
-		{
-		$Test->skip(
-			"link_count_gt_ok doesn't work on systems without symlinks" );
-		return;
-		}
-
 	my $file   = shift;
 	my $count  = int( 0 + shift );
 
@@ -1037,9 +1021,7 @@ sub link_count_gt_ok
 
 Ok if the link count to FILE is less than LINK_COUNT. LINK_COUNT is
 interpreted as an integer. A LINK_COUNT that evaluates to 0 returns Ok
-if the file has at least one link. This test automatically skips if
-the operating system does not support symlinks. If the file does not
-exist, the test fails.
+if the file has at least one link.
 
 The optional NAME parameter is the name of the test.
 
@@ -1047,13 +1029,6 @@ The optional NAME parameter is the name of the test.
 
 sub link_count_lt_ok
 	{
-	if( _no_symlinks_here() )
-		{
-		$Test->skip(
-			"link_count_lt_ok doesn't work on systems without symlinks" );
-		return;
-		}
-
 	my $file   = shift;
 	my $count  = int( 0 + shift );
 
