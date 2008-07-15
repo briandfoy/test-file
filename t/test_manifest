@@ -4,6 +4,9 @@ pod.t
 pod_coverage.t
 #prereq.t
 normalize.t
+win32.t
+obviously_non_multi_user.t
 test_files.t
+links.t
 owner.t
 rt/30346.t

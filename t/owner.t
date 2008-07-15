@@ -99,10 +99,10 @@ eval
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-plan tests => 14;
+plan tests => 15;
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# test group stuff
+# test owner stuff
 owner_is(   $filename, $owner_name, 'owner_is with text username'   );
 owner_is(   $filename, $owner_uid,  'owner_is with numeric UID'     );
 owner_isnt( $filename, $other_name, 'owner_isnt with text username' );
@@ -132,6 +132,12 @@ owner_is( $filename, $invalid_user_name, $name );
 test_test( $name );
 
 
+$name = 'owner_isnt for non-existent name';
+test_out( "ok 1 - $name");
+owner_isnt( $filename, $invalid_user_name, $name );
+test_test( $name );
+
+
 $name = 'Intentional owner_isnt failure';
 test_out( "not ok 1 - $name");
 test_diag( 
@@ -139,8 +145,8 @@ test_diag(
 	"#   Failed test '$name'\n" . 
 	"#   at t/owner.t line " . line_num(+5) . "."
 	);
-owner_isnt( $filename, $owner_name, "Intentional owner_isnt failure" );
-test_test( "Intentional owner_isnt failure");
+owner_isnt( $filename, $owner_name, $name );
+test_test( $name );
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # test group stuff

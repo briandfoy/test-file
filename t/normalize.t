@@ -1,11 +1,13 @@
 # $Id$
 
-use Test::More tests => 9;
+use Test::More tests => 14;
 
 use File::Spec;
 
 use_ok( 'Test::File' );
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Try it when it should work
 {
 my $module = 'File::Spec::Unix';
 use_ok( $module );
@@ -39,4 +41,23 @@ my $normalized = Test::File::_normalize( $file );
 
 isnt( $normalized, $file, "Normalize gives different path for Mac" );
 is( $normalized, 'foo:bar:baz', "Normalize gives right path for Mac" );
-}	
+}
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Try it when it shouldn't work
+{
+my $normalized = Test::File::_normalize( undef );
+ok( ! defined $normalized, "Passing undef fails" );
+}
+
+{
+my $normalized = Test::File::_normalize( '' );
+ok( defined $normalized, "Passing empty string returns defined value" );
+is( $normalized, '', "Passing empty string returns empty string" );
+ok( ! $normalized, "Passing empty string fails" );
+}
+
+{
+my $normalized = Test::File::_normalize();
+ok( ! defined $normalized, "Passing nothing fails" );
+}

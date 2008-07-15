@@ -15,7 +15,7 @@ use Test::Builder;
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
 	file_is_symlink_ok
-	symlink_target_exists_ok
+	symlink_target_exists_ok symlink_target_is
 	symlink_target_dangles_ok
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	owner_is owner_isnt
@@ -23,7 +23,7 @@ use Test::Builder;
     file_line_count_is file_line_count_isnt file_line_count_between
 	);
 
-$VERSION = '1.25';
+$VERSION = '1.26';
 
 {
 use warnings;
@@ -83,13 +83,7 @@ sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
 #   Note:  I don't have a dos or mac os < 10 machine to test this on
 sub _obviously_non_multi_user
 	{
-	($^O eq 'dos')   ?
-		return 1
-			:
-	($^O eq 'MacOS') ?
-		return 1
-			:
-		return;
+	foreach my $os ( qw(dos MacOS) ) { return 1 if $^O eq $os }
 
 	eval { my $holder = getpwuid(0) };
 	return 1 if $@;
@@ -611,7 +605,7 @@ Windows platform.
 
 sub file_executable_ok($;$)
 	{
-    if( _win32() )
+	if( _win32() )
 		{
 		$Test->skip( "file_executable_ok doesn't work on Windows" );
 		return;
@@ -681,7 +675,7 @@ Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
 sub file_mode_is($$;$)
 	{
-    if( _win32() )
+	if( _win32() )
 		{
 		$Test->skip( "file_mode_is doesn't work on Windows" );
 		return;
@@ -719,7 +713,7 @@ Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
 sub file_mode_isnt($$;$)
 	{
-    if( _win32() )
+	if( _win32() )
 		{
 		$Test->skip( "file_mode_isnt doesn't work on Windows" );
 		return;
@@ -755,7 +749,7 @@ The optional NAME parameter is the name of the test.
 
 sub file_is_symlink_ok
 	{
-    if( _no_symlinks_here() )
+	if( _no_symlinks_here() )
 		{
 		$Test->skip(
 			"file_is_symlink_ok doesn't work on systems without symlinks" );
@@ -789,7 +783,7 @@ The optional NAME parameter is the name of the test.
 
 sub symlink_target_exists_ok
 	{
-    if( _no_symlinks_here() )
+	if( _no_symlinks_here() )
 		{
 		$Test->skip(
 			"symlink_target_exists_ok doesn't work on systems without symlinks"
@@ -836,7 +830,7 @@ The optional NAME parameter is the name of the test.
 
 sub symlink_target_dangles_ok
 	{
-    if( _no_symlinks_here() )
+	if( _no_symlinks_here() )
 		{
 		$Test->skip(
 			"symlink_target_exists_ok doesn't work on systems without symlinks" );
@@ -863,6 +857,105 @@ sub symlink_target_dangles_ok
 	$Test->ok( 1, $name );
 	}
 
+=item symlink_target_is( SYMLINK, TARGET [, NAME] )
+
+Ok if FILENAME is a symlink and if points to TARGET. This test
+automatically skips if the operating system does not support symlinks.
+If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+sub symlink_target_is 
+	{
+	if( _no_symlinks_here() )
+		{
+		$Test->skip(
+			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file = shift;
+	my $dest = shift;
+	my $name = shift || "symlink $file points to $dest";
+
+	unless( -l $file )
+		{
+		$Test->diag( "File [$file] is not a symlink!" );
+		return $Test->ok( 0, $name );
+		}
+
+	my $actual_dest = readlink( $file );
+	my $link_error  = $!;
+
+	unless( defined $actual_dest )
+		{
+		$Test->diag( "Symlink [$file] does not have a defined target!" );
+		$Test->diag( "readlink error: $link_error" ) if defined $link_error;
+		return $Test->ok( 0, $name );
+		}
+	
+	if( $dest eq $actual_dest ) 
+		{
+		$Test->ok( 1, $name );
+		} 
+	else 
+		{
+		$Test->ok( 0, $name );
+		$Test->diag("       got: $actual_dest" );
+		$Test->diag("  expected: $dest" );
+		}
+	}
+
+=item symlink_target_is_absolute_ok( SYMLINK [, NAME] )
+
+Ok if FILENAME is a symlink and if its target is an absolute path.
+This test automatically skips if the operating system does not support
+symlinks. If the file does not exist, the test fails.
+
+The optional NAME parameter is the name of the test.
+
+=cut
+
+=pod
+
+sub symlink_target_is_absolute_ok 
+	{
+	if( _no_symlinks_here() )
+		{
+		$Test->skip(
+			"symlink_target_exists_ok doesn't work on systems without symlinks" );
+		return;
+		}
+
+	my $file = shift;
+	my $name = shift || "symlink $file points to an absolute path";
+
+my ($from, $from_base, $to, $to_base, $name) = @_;
+my $link   = readlink( $from );
+my $link_err = defined( $link ) ? '' : $!; # $! doesn't always get reset
+my $link_abs = abs_path( rel2abs($link, $from_base) );
+my $to_abs  = abs_path( rel2abs($to, $to_base) );
+
+if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
+ $Test->ok( 1, $name );
+} else {
+ $Test->ok( 0, $name );
+ $link   ||= 'undefined';
+ $link_abs ||= 'undefined';
+ $to_abs  ||= 'undefined';
+ $Test->diag("    link: $from");
+ $Test->diag("     got: $link");
+ $Test->diag("    (abs): $link_abs");
+ $Test->diag("  expected: $to");
+ $Test->diag("    (abs): $to_abs");
+ $Test->diag("  readlink() error: $link_err") if ($link_err);
+}
+}
+
+=cut
+
 =item link_count_is_ok( FILE, LINK_COUNT [, NAME] )
 
 Ok if the link count to FILE is LINK_COUNT. LINK_COUNT is interpreted
@@ -877,7 +970,7 @@ The optional NAME parameter is the name of the test.
 
 sub link_count_is_ok
 	{
-    if( _no_symlinks_here() )
+	if( _no_symlinks_here() )
 		{
 		$Test->skip(
 			"link_count_is_ok doesn't work on systems without symlinks" );
@@ -915,7 +1008,7 @@ The optional NAME parameter is the name of the test.
 
 sub link_count_gt_ok
 	{
-    if( _no_symlinks_here() )
+	if( _no_symlinks_here() )
 		{
 		$Test->skip(
 			"link_count_gt_ok doesn't work on systems without symlinks" );
@@ -954,7 +1047,7 @@ The optional NAME parameter is the name of the test.
 
 sub link_count_lt_ok
 	{
-    if( _no_symlinks_here() )
+	if( _no_symlinks_here() )
 		{
 		$Test->skip(
 			"link_count_lt_ok doesn't work on systems without symlinks" );
@@ -1085,8 +1178,14 @@ sub owner_isnt
 	return $err if defined($err);
 
 	my $owner_uid = _get_uid( $owner );
+	unless( defined $owner_uid )
+		{
+		return $Test->ok( 1, $name );
+		}
+
 	my $file_uid  = ( stat $filename )[4];
 
+	#$Test->diag( "owner_isnt: $owner_uid $file_uid" );
 	return $Test->ok( 1, $name ) if $file_uid != $owner_uid;
 
 	$Test->diag( "File [$filename] belongs to $owner ($owner_uid)" );
