@@ -17,7 +17,7 @@ unlink $file;
 my $name = "$file is not empty";
 test_out( "not ok 1 - $name");
 test_diag( 
-	"File [$file] does not exist\n" .
+	"File [$file] does not exist!\n" .
 	"#   Failed test '$name'\n". 
 	"#   at $0 line " . line_num(+5) . "." 
 	);
@@ -50,7 +50,7 @@ close $fh;
 my $name = "$file is not empty";
 test_out( "not ok 1 - $name");
 test_diag( 
-	"File [$file] exists with zero size\n" .
+	"File [$file] exists with zero size!\n" .
 	"#   Failed test '$name'\n". 
 	"#   at $0 line " . line_num(+5) . "." 
 	);

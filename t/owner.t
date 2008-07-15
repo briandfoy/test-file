@@ -113,7 +113,7 @@ my $name = 'Intentional owner_is failure with wrong user';
 test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$filename] belongs to $owner_name ($owner_uid), not $other_name " .
-	"($other_uid)\n" .
+	"($other_uid)!\n" .
 	"#   Failed test '$name'\n". 
 	"#   at t/owner.t line " . line_num(+6) . "." 
 	);
@@ -124,7 +124,7 @@ test_test( $name );
 $name = "Intentional owner_is failure with invalid user [$invalid_user_name]";
 test_out( "not ok 1 - $name");
 test_diag( 
-	"User [$invalid_user_name] does not exist on this system\n" .
+	"User [$invalid_user_name] does not exist on this system!\n" .
 	"#   Failed test '$name'\n". 
 	"#   at t/owner.t line " . line_num(+5) . "." 
 	);
@@ -141,7 +141,7 @@ test_test( $name );
 $name = 'Intentional owner_isnt failure';
 test_out( "not ok 1 - $name");
 test_diag( 
-	"File [$filename] belongs to $owner_name ($owner_uid)\n" .
+	"File [$filename] belongs to $owner_name ($owner_uid)!\n" .
 	"#   Failed test '$name'\n" . 
 	"#   at t/owner.t line " . line_num(+5) . "."
 	);
@@ -161,7 +161,7 @@ test_out( "not ok 1 - $name");
 test_diag( 
 	"File [$filename] belongs to $file_group_name ($file_gid), not ".
 	"$other_group_name " .
-	"($other_gid)\n" .
+	"($other_gid)!\n" .
 	"#   Failed test '$name'\n". 
 	"#   at t/owner.t line " . line_num(+7) . "." 
 	);
@@ -172,7 +172,7 @@ test_test( $name );
 $name = "Intentional group_is failure with invalid group [$invalid_group_name]";
 test_out( "not ok 1 - $name");
 test_diag( 
-	"Group [$invalid_group_name] does not exist on this system\n" .
+	"Group [$invalid_group_name] does not exist on this system!\n" .
 	"#   Failed test '$name'\n". 
 	"#   at t/owner.t line " . line_num(+5) . "." 
 	);
@@ -183,7 +183,7 @@ test_test( $name );
 $name = 'Intentional group_isnt failure';
 test_out( "not ok 1 - $name");
 test_diag( 
-	"File [$filename] belongs to $file_group_name ($file_gid)\n" .
+	"File [$filename] belongs to $file_group_name ($file_gid)!\n" .
 	"#   Failed test '$name'\n" . 
 	"#   at t/owner.t line " . line_num(+5) . "."
 	);
