@@ -102,7 +102,7 @@ Ok if the file exists, and not ok otherwise.
 
 =cut
 
-sub file_exists_ok($;$)
+sub file_exists_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename exists";
@@ -126,7 +126,7 @@ Ok if the file does not exist, and not okay if it does exist.
 
 =cut
 
-sub file_not_exists_ok($;$)
+sub file_not_exists_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename does not exist";
@@ -151,7 +151,7 @@ file does not exist or exists with non-zero size.
 
 =cut
 
-sub file_empty_ok($;$)
+sub file_empty_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is empty";
@@ -185,7 +185,7 @@ file does not exist or exists with zero size.
 
 =cut
 
-sub file_not_empty_ok($;$)
+sub file_not_empty_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not empty";
@@ -218,7 +218,7 @@ the file does not exist or exists with size other than SIZE.
 
 =cut
 
-sub file_size_ok($$;$)
+sub file_size_ok
 	{
 	my $filename = _normalize( shift );
 	my $expected = int shift;
@@ -255,7 +255,7 @@ bytes.
 
 =cut
 
-sub file_max_size_ok($$;$)
+sub file_max_size_ok
 	{
 	my $filename = _normalize( shift );
 	my $max      = int shift;
@@ -294,7 +294,7 @@ bytes.
 
 =cut
 
-sub file_min_size_ok($$;$)
+sub file_min_size_ok
 	{
 	my $filename = _normalize( shift );
 	my $min      = int shift;
@@ -354,7 +354,7 @@ sub _file_line_counter
 
 # XXX: lots of cut and pasting here, needs refactoring
 # looks like the refactoring might be worse than this though
-sub file_line_count_is($$;$)
+sub file_line_count_is
 	{
 	my $filename = _normalize( shift );
 	my $expected = shift;
@@ -403,7 +403,7 @@ counts the lines by reading them and counting how many it read.
 
 =cut
 
-sub file_line_count_isnt($$;$)
+sub file_line_count_isnt
 	{
 	my $filename = _normalize( shift );
 	my $expected = shift;
@@ -450,7 +450,7 @@ counts the lines by reading them and counting how many it read.
 
 =cut
 
-sub file_line_count_between($$;$)
+sub file_line_count_between
 	{
 	my $filename = _normalize( shift );
 	my $min      = shift;
@@ -500,7 +500,7 @@ if the file does not exist or is not readable.
 
 =cut
 
-sub file_readable_ok($;$)
+sub file_readable_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is readable";
@@ -525,7 +525,7 @@ if the file does not exist or is readable.
 
 =cut
 
-sub file_not_readable_ok($;$)
+sub file_not_readable_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not readable";
@@ -550,7 +550,7 @@ if the file does not exist or is not writeable.
 
 =cut
 
-sub file_writeable_ok($;$)
+sub file_writeable_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is writeable";
@@ -575,7 +575,7 @@ if the file does not exist or is writeable.
 
 =cut
 
-sub file_not_writeable_ok($;$)
+sub file_not_writeable_ok
 	{
 	my $filename = _normalize( shift );
 	my $name     = shift || "$filename is not writeable";
@@ -603,7 +603,7 @@ Windows platform.
 
 =cut
 
-sub file_executable_ok($;$)
+sub file_executable_ok
 	{
 	if( _win32() )
 		{
@@ -637,7 +637,7 @@ Windows platform.
 
 =cut
 
-sub file_not_executable_ok($;$)
+sub file_not_executable_ok
 	{
 	if( _win32() )
 		{
@@ -673,7 +673,7 @@ Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
 =cut
 
-sub file_mode_is($$;$)
+sub file_mode_is
 	{
 	if( _win32() )
 		{
@@ -711,7 +711,7 @@ Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
 =cut
 
-sub file_mode_isnt($$;$)
+sub file_mode_isnt
 	{
 	if( _win32() )
 		{

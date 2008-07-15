@@ -15,3 +15,14 @@ ok( ! Test::File::_win32(), "Returns false for darwin" );
 local $^O = 'Win32';
 ok( Test::File::_win32(), "Returns true for Win32" );
 }
+
+{
+local $^O = 'Win32';
+
+foreach my $function ( )
+	{
+	no strict 'refs';
+	
+	&{$function}	
+	
+	}
