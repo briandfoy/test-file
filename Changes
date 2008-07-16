@@ -1,5 +1,10 @@
 # $Id$
 
+1.25_001 - Tue Jul 15 23:59:42 2008
+	* Adding some symlink features, more later
+	* Refactoring and separating many tests - test coverage at 90% now
+	* This is really a test release for my new Module::Release
+
 1.25 - Tue Jun 10 12:59:54 2008
 	* Same as 1.24_03, but with a user release version number. The
 	new features are the ones in 1.24, but this time the tests
