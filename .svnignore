@@ -1,5 +1,7 @@
 coverdb
 Makefile.old
+MANIFEST.bak
+*.tar.gz
 Changes.bak
 Makefile
 blib
