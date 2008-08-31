@@ -17,9 +17,9 @@ perldoc directly on the module file.
 
 	perldoc lib/File.pm
 	
-This module is also in CVS on SourceForge
+This module is in Github
 
-	http://sourceforge.net/projects/brian-d-foy/
+	git://github.com/briandfoy/test-file.git
 
 
 Enjoy, 

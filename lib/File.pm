@@ -23,7 +23,7 @@ use Test::Builder;
     file_line_count_is file_line_count_isnt file_line_count_between
 	);
 
-$VERSION = '1.25_001';
+$VERSION = '1.25_002';
 
 {
 use warnings;
@@ -1324,13 +1324,9 @@ L<Test::More>
 
 =head1 SOURCE AVAILABILITY
 
-This source is part of a SourceForge project which always has the
-latest sources in CVS, as well as all of the previous releases.
+This module is in Github:
 
-	http://sourceforge.net/projects/brian-d-foy/
-
-If, for some reason, I disappear from the world, one of the other
-members of the project can shepherd this module appropriately.
+	git://github.com/briandfoy/test-file.git
 
 =head1 AUTHOR
 
