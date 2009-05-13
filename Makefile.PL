@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 
 require 5.006;
 
-eval "use Test::Manifest 1.14";
+eval "use Test::Manifest 1.21";
 
 WriteMakefile
 	(
@@ -23,10 +23,6 @@ WriteMakefile
 
 	'PM'        => {
 		'lib/File.pm'     => '$(INST_LIBDIR)/File.pm',
-		},
-
-	'MAN3PODS'     => {
-		'lib/File.pm' => '$(INST_MAN3DIR)/Test::File.3',
 		},
 
 	clean  => { FILES    => q|Test-File-* test_files| },
