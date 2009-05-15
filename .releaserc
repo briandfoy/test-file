@@ -1,1 +1,3 @@
 cpan_user BDFOY
+skip_kwalitee 1
+skip_prereq 1
