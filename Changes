@@ -1,5 +1,9 @@
 # $Id$
 
+1.27 - Thu May 21 08:49:29 2009
+	* Fix to the tests for 1.26 which didn't account for an
+	extra setup test.
+
 1.26 - Fri May 15 09:31:23 2009
 	Don't create man pages for the module (RT #45977)
 
