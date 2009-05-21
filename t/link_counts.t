@@ -2,7 +2,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 13; # includes those in t/setup_common
+use Test::More tests => 14; # includes those in t/setup_common
 use Test::File;
 
 my $test_directory = 'test_files';
