@@ -25,6 +25,10 @@ WriteMakefile
 		'lib/File.pm'     => '$(INST_LIBDIR)/File.pm',
 		},
 
+	'MAN3PODS'  => {
+		'lib/File.pm'     => '$(INST_MAN3DIR)/File.$(MAN3EXT)',
+		},
+
 	clean  => { FILES    => q|Test-File-* test_files| },
 	);
 
