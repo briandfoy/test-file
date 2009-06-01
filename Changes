@@ -1,5 +1,8 @@
 # $Id$
 
+1.28 - Sun May 31 23:52:45 2009
+	* Make the man pages after all
+
 1.27 - Thu May 21 08:49:29 2009
 	* Fix to the tests for 1.26 which didn't account for an
 	extra setup test.
