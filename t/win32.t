@@ -1,4 +1,3 @@
-# $Id: normalize.t 1553 2005-01-06 23:35:53Z comdog $
 use strict;
 use warnings;
 

@@ -1,8 +1,6 @@
-# $Id$
 load.t
 pod.t
 pod_coverage.t
-#prereq.t
 normalize.t
 dm_skeleton.t
 win32.t

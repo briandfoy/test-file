@@ -1,4 +1,3 @@
-# $Id$
 use ExtUtils::MakeMaker;
 
 require 5.006;
@@ -25,8 +24,24 @@ WriteMakefile
 		'lib/File.pm'     => '$(INST_LIBDIR)/File.pm',
 		},
 
+	(
+	$ExtUtils::MakeMaker::VERSION ge '6.48' ? 
+		(
+		MIN_PERL_VERSION => 5.006,
+
+		META_MERGE       => {
+			resources => {
+		  		repository => 'git://github.com/briandfoy/test-output.git',
+				},
+			keywords => ['testing','file'],
+	  		},
+	 	) 
+	 	: 
+	 	()
+	 ),
+
 	'MAN3PODS'  => {
-		'lib/File.pm'     => '$(INST_MAN3DIR)/File.$(MAN3EXT)',
+		'lib/File.pm'     => '$(INST_MAN3DIR)/Test::File.$(MAN3EXT)',
 		},
 
 	clean  => { FILES    => q|Test-File-* test_files| },

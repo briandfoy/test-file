@@ -1,5 +1,3 @@
-# $Id$
-
 use Test::More tests => 14;
 
 use File::Spec;

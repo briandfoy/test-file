@@ -1,4 +1,3 @@
-# $Id: test_files.t 2578 2008-07-15 04:24:46Z comdog $
 use strict;
 
 use Test::Builder::Tester;

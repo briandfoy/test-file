@@ -1,5 +1,3 @@
-# $Id: normalize.t 1553 2005-01-06 23:35:53Z comdog $
-
 use Test::More tests => 8;
 
 BEGIN { 
