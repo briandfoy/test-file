@@ -56,7 +56,7 @@ my $not_there     = 'not_there';
 my $dangle_sym    = 'dangle_sym';
 
 my $s = ! $can_symlink
-	? "# skip file_is_symlink_ok doesn't work on systems without symlinks"
+	? "# skip file_is_symlink_ok doesn't work on systems without symlinks!"
 	: "- $readable_sym is a symlink";
 
 file_exists_ok( $readable );
