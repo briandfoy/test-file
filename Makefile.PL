@@ -31,7 +31,7 @@ WriteMakefile
 
 		META_MERGE       => {
 			resources => {
-		  		repository => 'git://github.com/briandfoy/test-output.git',
+		  		repository => 'git://github.com/briandfoy/test-file.git',
 				},
 			keywords => ['testing','file'],
 	  		},
