@@ -73,7 +73,7 @@ sub _win32
 	return $^O =~ m/Win/;
 	}
 
-# returns true if symlinkscan't exist
+# returns true if symlinks can't exist
 sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
 
 # owner_is and owner_isn't should skip on OS where the question makes no
