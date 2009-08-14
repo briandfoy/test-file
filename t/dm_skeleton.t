@@ -34,7 +34,8 @@ is( Test::File::_dm_skeleton($not_there), 'skip', "Skip on single user systems" 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Fake a multi-user OS with existing file
 {
-local $^O = 'darwin';
+local $^O = 'MSWin32';
+diag "$^O\n";;
 ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 
 
@@ -44,7 +45,7 @@ ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Fake a multi-user OS with non-existing file
 {
-local $^O = 'darwin';
+local $^O = 'MSWin32';
 ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 
 test_out( "not ok 1" );
@@ -59,7 +60,7 @@ test_test();
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Fake a multi-user OS with no argument
 {
-local $^O = 'darwin';
+local $^O = 'MSWin32';
 ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 
 test_out( "not ok 1" );

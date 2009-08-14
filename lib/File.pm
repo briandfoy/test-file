@@ -85,6 +85,8 @@ sub _obviously_non_multi_user
 	{
 	foreach my $os ( qw(dos MacOS) ) { return 1 if $^O eq $os }
 
+	return 0 if $^O eq 'MSWin32';
+
 	eval { my $holder = getpwuid(0) };
 	return 1 if $@;
 
