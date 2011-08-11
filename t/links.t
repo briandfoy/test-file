@@ -1,16 +1,18 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 37;
+use Test::More;
 use Test::File;
 
 my $can_symlink = eval { symlink("",""); 1 };
+unless( $can_symlink ) {
+	plan 'skip_all' => q(It appears that [$^O] can't do symlinks);
+	}
+
+plan tests => 37;
 
 my $test_directory = 'test_files';
-SKIP: {
-    skip "This system does't do symlinks", 5 unless $can_symlink;
-    require "t/setup_common";
-};
+require "t/setup_common";
 
 chdir $test_directory or print "bail out! Could not change directories: $!";
 
