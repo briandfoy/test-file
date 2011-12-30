@@ -40,7 +40,6 @@ done_testing();
 chdir '..' or print "bail out! Could not change directories: $!";
 
 END {
-	diag "cleaning up";
 	unlink glob( "test_files/*" );
 	rmdir "test_files/test_dir";
 	rmdir "test_files";
