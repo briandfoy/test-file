@@ -16,7 +16,7 @@ use Test::Builder;
 	file_is_symlink_ok
 	symlink_target_exists_ok symlink_target_is
 	symlink_target_dangles_ok
-	dir_exists_ok
+	dir_exists_ok dir_contains_ok
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	owner_is owner_isnt
 	group_is group_isnt
@@ -993,6 +993,38 @@ sub dir_exists_ok
 	else
 		{
 		$Test->diag( "File [$filename] exists but is not a directory!" );
+		$Test->ok(0, $name);
+		}
+	}
+
+=item dir_contains_ok( DIRECTORYNAME, FILENAME [, NAME ] )
+
+Ok if the directory exists and contains the file, not ok if the directory doesn't exist, or exists
+but doesn't contain the file.
+
+=cut
+
+sub dir_contains_ok
+	{
+	my $dirname  = _normalize( shift );
+	my $filename = _normalize( shift );
+	my $name     = shift || "directory $dirname contains file $filename";
+
+	unless( -d $dirname )
+		{
+		$Test->diag( "Directory [$dirname] does not exist!" );
+		return $Test->ok(0, $name);
+		}
+
+	my $ok = -e File::Spec->catfile($dirname, $filename);
+
+	if( $ok )
+		{
+		$Test->ok(1, $name);
+		}
+	else
+		{
+		$Test->diag( "File [$filename] does not exist in directory $dirname!" );
 		$Test->ok(0, $name);
 		}
 	}
