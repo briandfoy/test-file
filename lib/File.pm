@@ -54,6 +54,9 @@ tests automatically skip if they think they won't work on the
 platform.  If you have a way to make these functions work on Windows,
 for instance, please send me a patch. :)
 
+The optional NAME parameter for every function allows you to specify a name for the test.  If not
+supplied, a reasonable default will be generated.
+
 =head2 Functions
 
 =cut
@@ -323,9 +326,9 @@ sub file_min_size_ok
 =item file_line_count_is( FILENAME, COUNT [, NAME ]  )
 
 Ok if the file exists and has COUNT lines (exactly), not ok if the
-file does not exist or exists with a line count than COUNT.
+file does not exist or exists with a line count other than COUNT.
 
-This function using the current value of C<$/> as the line ending and
+This function uses the current value of C<$/> as the line ending and
 counts the lines by reading them and counting how many it read.
 
 =cut
@@ -397,7 +400,7 @@ Ok if the file exists and doesn't have exactly COUNT lines, not ok if the
 file does not exist or exists with a line count of COUNT. Read that
 carefully: the file must exist for this test to pass!
 
-This function using the current value of C<$/> as the line ending and
+This function uses the current value of C<$/> as the line ending and
 counts the lines by reading them and counting how many it read.
 
 =cut
@@ -448,7 +451,7 @@ sub file_line_count_isnt
 
 Ok if the file exists and has a line count between MIN and MAX, inclusively.
 
-This function using the current value of C<$/> as the line ending and
+This function uses the current value of C<$/> as the line ending and
 counts the lines by reading them and counting how many it read.
 
 =cut
@@ -746,13 +749,11 @@ sub file_mode_isnt
 		}
 	}
 
-=item file_is_symlink_ok( FILENAME [, NAME] )
+=item file_is_symlink_ok( FILENAME [, NAME ] )
 
-Ok is FILENAME is a symlink, even if it points to a non-existent
+Ok if FILENAME is a symlink, even if it points to a non-existent
 file. This test automatically skips if the operating system does
 not support symlinks. If the file does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -779,14 +780,12 @@ sub file_is_symlink_ok
 		}
 	}
 
-=item symlink_target_exists_ok( SYMLINK [, TARGET] [, NAME] )
+=item symlink_target_exists_ok( SYMLINK [, TARGET] [, NAME ] )
 
-Ok is FILENAME is a symlink and it points to a existing file. With the
+Ok if FILENAME is a symlink and it points to a existing file. With the
 optional TARGET argument, the test fails if SYMLINK's target is not
 TARGET. This test automatically skips if the operating system does not
 support symlinks. If the file does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -830,13 +829,11 @@ sub symlink_target_exists_ok
 	$Test->ok( 1, $name );
 	}
 
-=item symlink_target_dangles_ok( SYMLINK [, NAME] )
+=item symlink_target_dangles_ok( SYMLINK [, NAME ] )
 
 Ok if FILENAME is a symlink and if it doesn't point to a existing
 file. This test automatically skips if the operating system does not
 support symlinks. If the file does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -869,13 +866,11 @@ sub symlink_target_dangles_ok
 	$Test->ok( 1, $name );
 	}
 
-=item symlink_target_is( SYMLINK, TARGET [, NAME] )
+=item symlink_target_is( SYMLINK, TARGET [, NAME ] )
 
 Ok if FILENAME is a symlink and if points to TARGET. This test
 automatically skips if the operating system does not support symlinks.
 If the file does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -920,13 +915,11 @@ sub symlink_target_is
 		}
 	}
 
-=item symlink_target_is_absolute_ok( SYMLINK [, NAME] )
+=item symlink_target_is_absolute_ok( SYMLINK [, NAME ] )
 
 Ok if FILENAME is a symlink and if its target is an absolute path.
 This test automatically skips if the operating system does not support
 symlinks. If the file does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -971,6 +964,8 @@ if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
 Ok if the file exists and is a directory, not ok if the file doesn't exist, or exists but isn't a
 directory.
 
+Contributed by Buddy Burden C<< <barefoot@cpan.org> >>.
+
 =cut
 
 sub dir_exists_ok
@@ -1002,6 +997,8 @@ sub dir_exists_ok
 Ok if the directory exists and contains the file, not ok if the directory doesn't exist, or exists
 but doesn't contain the file.
 
+Contributed by Buddy Burden C<< <barefoot@cpan.org> >>.
+
 =cut
 
 sub dir_contains_ok
@@ -1029,13 +1026,11 @@ sub dir_contains_ok
 		}
 	}
 
-=item link_count_is_ok( FILE, LINK_COUNT [, NAME] )
+=item link_count_is_ok( FILE, LINK_COUNT [, NAME ] )
 
 Ok if the link count to FILE is LINK_COUNT. LINK_COUNT is interpreted
 as an integer. A LINK_COUNT that evaluates to 0 returns Ok if the file
 does not exist.
-
-The optional NAME parameter is the name of the test.
 
 
 =cut
@@ -1059,13 +1054,11 @@ sub link_count_is_ok
 	$Test->ok( 1, $name );
 	}
 
-=item link_count_gt_ok( FILE, LINK_COUNT [, NAME] )
+=item link_count_gt_ok( FILE, LINK_COUNT [, NAME ] )
 
 Ok if the link count to FILE is greater than LINK_COUNT. LINK_COUNT is
 interpreted as an integer. A LINK_COUNT that evaluates to 0 returns Ok
 if the file has at least one link.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -1089,13 +1082,11 @@ sub link_count_gt_ok
 	$Test->ok( 1, $name );
 	}
 
-=item link_count_lt_ok( FILE, LINK_COUNT [, NAME] )
+=item link_count_lt_ok( FILE, LINK_COUNT [, NAME ] )
 
 Ok if the link count to FILE is less than LINK_COUNT. LINK_COUNT is
 interpreted as an integer. A LINK_COUNT that evaluates to 0 returns Ok
 if the file has at least one link.
-
-The optional NAME parameter is the name of the test.
 
 =cut
 
@@ -1153,13 +1144,11 @@ sub _dm_skeleton
 	return;
 	}
 
-=item owner_is( FILE , OWNER [, NAME] )
+=item owner_is( FILE , OWNER [, NAME ] )
 
 Ok if FILE's owner is the same as OWNER.  OWNER may be a text user name
 or a numeric userid.  Test skips on Dos, and Mac OS <= 9.
 If the file does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 Contributed by Dylan Martin
 
@@ -1204,13 +1193,11 @@ sub owner_is
 	return $Test->ok( 0, $name );
 	}
 
-=item owner_isnt( FILE, OWNER [, NAME] )
+=item owner_isnt( FILE, OWNER [, NAME ] )
 
 Ok if FILE's owner is not the same as OWNER.  OWNER may be a text user name
 or a numeric userid.  Test skips on Dos and Mac OS <= 9.  If the file
 does not exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 Contributed by Dylan Martin
 
@@ -1241,14 +1228,12 @@ sub owner_isnt
 	return $Test->ok( 0, $name );
 	}
 
-=item group_is( FILE , GROUP [, NAME] )
+=item group_is( FILE , GROUP [, NAME ] )
 
 Ok if FILE's group is the same as GROUP.  GROUP may be a text group name or
 a numeric group id.  Test skips on Dos, Mac OS <= 9 and any other operating
 systems that do not support getpwuid() and friends.  If the file does not
 exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 Contributed by Dylan Martin
 
@@ -1294,14 +1279,12 @@ sub group_is
 	return $Test->ok( 0, $name );
 	}
 
-=item group_isnt( FILE , GROUP [, NAME] )
+=item group_isnt( FILE , GROUP [, NAME ] )
 
 Ok if FILE's group is not the same as GROUP.  GROUP may be a text group name or
 a numeric group id.  Test skips on Dos, Mac OS <= 9 and any other operating
 systems that do not support getpwuid() and friends.  If the file does not
 exist, the test fails.
-
-The optional NAME parameter is the name of the test.
 
 Contributed by Dylan Martin
 
@@ -1402,13 +1385,16 @@ some functions.
 
 Tom Metro helped me figure out some Windows capabilities.
 
-Dylan Martin added C<owner_is> and C<owner_isnt>
+Dylan Martin added C<owner_is> and C<owner_isnt>.
 
 David Wheeler added C<file_line_count_is>.
 
+Buddy Burden C<< <barefoot@cpan.org> >> provided C<dir_exists_ok>
+and C<dir_contains_ok>.
+
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2002-2009 brian d foy.  All rights reserved.
+Copyright (c) 2002-2011 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
