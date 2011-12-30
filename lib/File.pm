@@ -16,6 +16,7 @@ use Test::Builder;
 	file_is_symlink_ok
 	symlink_target_exists_ok symlink_target_is
 	symlink_target_dangles_ok
+	dir_exists_ok
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	owner_is owner_isnt
 	group_is group_isnt
@@ -965,7 +966,36 @@ if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
 }
 }
 
+=item dir_exists_ok( DIRECTORYNAME [, NAME ] )
+
+Ok if the file exists and is a directory, not ok if the file doesn't exist, or exists but isn't a
+directory.
+
 =cut
+
+sub dir_exists_ok
+	{
+	my $filename = _normalize( shift );
+	my $name     = shift || "$filename is a directory";
+
+	unless( -e $filename )
+		{
+		$Test->diag( "File [$filename] does not exist!" );
+		return $Test->ok(0, $name);
+		}
+
+	my $ok = -d $filename;
+
+	if( $ok )
+		{
+		$Test->ok(1, $name);
+		}
+	else
+		{
+		$Test->diag( "File [$filename] exists but is not a directory!" );
+		$Test->ok(0, $name);
+		}
+	}
 
 =item link_count_is_ok( FILE, LINK_COUNT [, NAME] )
 

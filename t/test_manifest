@@ -6,6 +6,7 @@ dm_skeleton.t
 win32.t
 obviously_non_multi_user.t
 test_files.t
+test_dirs.t
 links.t
 link_counts.t
 line_counters.t
