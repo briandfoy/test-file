@@ -55,9 +55,8 @@ done_testing();
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-chdir '..' or print "bail out! Could not change directories: $!";
-
 END {
+	chdir '..' or print "bail out! Could not change directories: $!";
 	unlink glob( "test_files/test_dir/*" );
 	rmdir "test_files/test_dir";
 	unlink glob( "test_files/*" );
