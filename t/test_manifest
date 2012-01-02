@@ -11,5 +11,6 @@ links.t
 link_counts.t
 line_counters.t
 file_sizes.t
+file_contains.t
 owner.t
 rt/30346.t

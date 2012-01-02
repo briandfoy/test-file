@@ -21,6 +21,7 @@ use Test::Builder;
 	owner_is owner_isnt
 	group_is group_isnt
     file_line_count_is file_line_count_isnt file_line_count_between
+	file_contains_like
 	);
 
 $VERSION = '1.28';
@@ -504,7 +505,67 @@ sub file_line_count_between
 		}
 
 	}
-	
+
+=item file_contains_like ( FILENAME, PATTERN [, NAME ] )
+
+Ok if the file exists and its contents (as one big string) match
+PATTERN, not ok if the file does not exist, is not readable, or exists
+but doesn't match PATTERN.
+
+Since the file contents are read into memory, you should not use this
+for large files.  Besides memory consumption, test diagnostics for
+failing tests might be difficult to decipher.  However, for short
+files this works very well.
+
+Because the entire contents are treated as one large string, you can
+make a pattern that tests multiple lines.  Don't forget that you may
+need to use the /s modifier for such patterns:
+
+	# make sure file has one or more paragraphs with CSS class X
+	file_contains_like($html_file, qr{<p class="X">.*?</p>}s);
+
+Contrariwise, if you need to match at the beginning or end of a line
+inside the file, use the /m modifier:
+
+	# make sure file has a setting for foo
+	file_contains_like($config_file, qr/^ foo \s* = \s* bar $/mx);
+
+=cut
+
+sub file_contains_like
+	{
+	my $filename = _normalize( shift );
+	my $pattern  = shift;
+	my $name     = shift || "$filename contains $pattern";
+
+	unless( -e $filename )
+		{
+		$Test->diag( "File [$filename] does not exist!" );
+		return $Test->ok(0, $name);
+		}
+
+	unless( -r $filename )
+		{
+		$Test->diag( "File [$filename] is not readable!" );
+		return $Test->ok(0, $name);
+		}
+
+	# do the slurp
+	my $file_contents;
+	{
+	unless (open(FH, $filename))
+		{
+		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
+		return $Test->ok( 0, $name );
+		}
+	local $/ = undef;
+	$file_contents = <FH>;
+	close FH;
+	}
+
+	return $Test->like($file_contents, $pattern, $name);
+	}
+
 =item file_readable_ok( FILENAME [, NAME ] )
 
 Ok if the file exists and is readable, not ok
