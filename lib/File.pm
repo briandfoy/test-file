@@ -21,7 +21,7 @@ use Test::Builder;
 	owner_is owner_isnt
 	group_is group_isnt
 	file_line_count_is file_line_count_isnt file_line_count_between
-	file_contains_like
+	file_contains_like file_contains_unlike
 	);
 
 $VERSION = '1.28';
@@ -530,20 +530,35 @@ inside the file, use the /m modifier:
 	# make sure file has a setting for foo
 	file_contains_like($config_file, qr/^ foo \s* = \s* bar $/mx);
 
+=item file_contains_unlike ( FILENAME, PATTERN [, NAME ] )
+
+Ok if the file exists and its contents (as one big string) do B<not>
+match PATTERN, not ok if the file does not exist, is not readable, or
+exists but matches PATTERN.
+
+All caveats for L</file_contains_like> apply to this function as well.
+
 =cut
 
 sub file_contains_like
 	{
 		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(like => @_);
+		_file_contains(like => "contains", @_);
+	}
+
+sub file_contains_unlike
+	{
+		local $Test::Builder::Level = $Test::Builder::Level + 1;
+		_file_contains(unlike => "doesn't contain", @_);
 	}
 
 sub _file_contains
 	{
 	my $method   = shift;
+	my $verb     = shift;
 	my $filename = _normalize( shift );
 	my $pattern  = shift;
-	my $name     = shift || "$filename contains $pattern";
+	my $name     = shift || "$filename $verb $pattern";
 
 	unless( -e $filename )
 		{
