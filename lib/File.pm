@@ -528,7 +528,29 @@ Contrariwise, if you need to match at the beginning or end of a line
 inside the file, use the /m modifier:
 
 	# make sure file has a setting for foo
-	file_contains_like($config_file, qr/^ foo \s* = \s* bar $/mx);
+	file_contains_like($config_file, qr/^ foo \s* = \s* \w+ $/mx);
+
+If you want to test your file contents against multiple patterns, but
+don't want to have the file read in repeatedly, you can pass an
+arrayref of patterns instead of a single pattern, like so:
+
+	# make sure our template has rendered correctly
+	file_contains_like($template_out,
+		[
+		qr/^ $title_line $/mx,
+		map { qr/^ $_ $/mx } @chapter_headings,
+		qr/^ $footer_line $/mx,
+		]);
+
+Please note that if you do this, and your file does not exist or is
+not readable, you'll only get one test failure instead of a failure
+for each pattern.  This could cause your test plan to be off, although
+you may not care at that point because your test failed anyway.  If
+you do care, either skip the test plan altogether by employing
+L<Test::More>'s C<done_testing()> function, or use
+L</file_readable_ok> in conjunction with a C<SKIP> block.
+
+Contributed by Buddy Burden C<< <barefoot@cpan.org> >>.
 
 =item file_contains_unlike ( FILENAME, PATTERN [, NAME ] )
 
@@ -536,7 +558,10 @@ Ok if the file exists and its contents (as one big string) do B<not>
 match PATTERN, not ok if the file does not exist, is not readable, or
 exists but matches PATTERN.
 
-All caveats for L</file_contains_like> apply to this function as well.
+All notes and caveats for L</file_contains_like> apply to this
+function as well.
+
+Contributed by Buddy Burden C<< <barefoot@cpan.org> >>.
 
 =cut
 
@@ -557,8 +582,24 @@ sub _file_contains
 	my $method   = shift;
 	my $verb     = shift;
 	my $filename = _normalize( shift );
-	my $pattern  = shift;
-	my $name     = shift || "$filename $verb $pattern";
+	my $patterns = shift;
+	my $name     = shift;
+
+	my (@patterns, %patterns);
+	if (ref $patterns eq 'ARRAY')
+		{
+		@patterns = @$patterns;
+		%patterns = map { $_ => $name || "$filename $verb $_" } @patterns;
+		}
+		else
+		{
+		@patterns = ($patterns);
+		%patterns = ( $patterns => $name || "$filename $verb $patterns" );
+		}
+
+	# for purpose of checking the file's existence, just use the first
+	# test name as the name
+	$name = $patterns{$patterns[0]};
 
 	unless( -e $filename )
 		{
@@ -585,7 +626,10 @@ sub _file_contains
 	close FH;
 	}
 
-	return $Test->$method($file_contents, $pattern, $name);
+	foreach my $p (@patterns)
+		{
+		$Test->$method($file_contents, $p, $patterns{$p});
+		}
 	}
 
 =item file_readable_ok( FILENAME [, NAME ] )
@@ -1472,8 +1516,9 @@ Dylan Martin added C<owner_is> and C<owner_isnt>.
 
 David Wheeler added C<file_line_count_is>.
 
-Buddy Burden C<< <barefoot@cpan.org> >> provided C<dir_exists_ok>
-and C<dir_contains_ok>.
+Buddy Burden C<< <barefoot@cpan.org> >> provided C<dir_exists_ok>,
+C<dir_contains_ok>, C<file_contains_like>, and
+C<file_contains_unlike>.
 
 =head1 COPYRIGHT AND LICENSE
 
