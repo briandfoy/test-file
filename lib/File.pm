@@ -534,6 +534,13 @@ inside the file, use the /m modifier:
 
 sub file_contains_like
 	{
+		local $Test::Builder::Level = $Test::Builder::Level + 1;
+		_file_contains(like => @_);
+	}
+
+sub _file_contains
+	{
+	my $method   = shift;
 	my $filename = _normalize( shift );
 	my $pattern  = shift;
 	my $name     = shift || "$filename contains $pattern";
@@ -563,7 +570,7 @@ sub file_contains_like
 	close FH;
 	}
 
-	return $Test->like($file_contents, $pattern, $name);
+	return $Test->$method($file_contents, $pattern, $name);
 	}
 
 =item file_readable_ok( FILENAME [, NAME ] )
