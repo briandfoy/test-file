@@ -20,7 +20,7 @@ use Test::Builder;
 	link_count_is_ok link_count_gt_ok link_count_lt_ok
 	owner_is owner_isnt
 	group_is group_isnt
-    file_line_count_is file_line_count_isnt file_line_count_between
+	file_line_count_is file_line_count_isnt file_line_count_between
 	file_contains_like
 	);
 
