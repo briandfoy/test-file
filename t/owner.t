@@ -189,7 +189,9 @@ test_diag(
 group_isnt( $filename, $file_group_name, $name );
 test_test( $name );
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 END {
-unlink glob( "test_files/*" );
-rmdir "test_files";
+	unlink glob( "test_files/*" );
+	rmdir "test_files";
 }
