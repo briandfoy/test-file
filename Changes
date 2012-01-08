@@ -1,6 +1,6 @@
 # $Id$
 
-1.28_01 - Sun Jan  8 01:02:28 PST 2012
+1.28_02 - Sun Jan  8 01:02:28 PST 2012
 	* Added dir_exists_ok and dir_contains_ok
 	* Added file_contains_like and file_contains_unlike
 	* Fixed a few grammatical errors in POD
