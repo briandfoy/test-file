@@ -33,11 +33,14 @@ test_fail(+1);
 file_contains_like( 'bmoogle', $pattern1 );
 test_test();
 
+SKIP: {
+skip "Superuser has special priveleges", 1, if( $> == 0 or $< == 0 );
 test_out( "not ok 1 - not_readable contains $pattern1" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
 file_contains_like( 'not_readable', $pattern1 );
 test_test();
+}
 
 test_out( "not ok 1 - min_file contains $bad_pattern" );
 test_fail(+2);
@@ -58,11 +61,14 @@ test_fail(+1);
 file_contains_unlike( 'bmoogle', $bad_pattern );
 test_test();
 
+SKIP: {
+skip "Superuser has special priveleges", 1, if( $> == 0 or $< == 0 );
 test_out( "not ok 1 - not_readable doesn't contain $bad_pattern" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
 file_contains_unlike( 'not_readable', $bad_pattern );
 test_test();
+}
 
 test_out( "not ok 1 - min_file doesn't contain $pattern1" );
 test_fail(+2);
@@ -89,11 +95,14 @@ test_fail(+1);
 file_contains_like( 'bmoogle', [ $pattern1, $pattern2 ] );
 test_test();
 
+SKIP: {
+skip "Superuser has special priveleges", 1, if( $> == 0 or $< == 0 );
 test_out( "not ok 1 - not_readable contains $pattern1" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
 file_contains_like( 'not_readable', [ $pattern1, $pattern2 ] );
 test_test();
+}
 
 test_out( "ok 1 - min_file contains $pattern1" );
 test_out( "not ok 2 - min_file contains $bad_pattern" );
@@ -121,11 +130,14 @@ test_fail(+1);
 file_contains_unlike( 'bmoogle', [ $bad_pattern, $bad_pattern ] );
 test_test();
 
+SKIP: {
+skip "Superuser has special priveleges", 1, if( $> == 0 or $< == 0 );
 test_out( "not ok 1 - not_readable doesn't contain $bad_pattern" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
 file_contains_unlike( 'not_readable', [ $bad_pattern, $bad_pattern ] );
 test_test();
+}
 
 test_out( "ok 1 - min_file doesn't contain $bad_pattern" );
 test_out( "not ok 2 - min_file doesn't contain $pattern1" );
