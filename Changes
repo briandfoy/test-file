@@ -1,5 +1,9 @@
 # $Id$
 
+1.31 - Tue Jan 24 12:37:14 PST 2012
+	* Added some SKIP blocks to avoid test failures
+	when running as root.  (D'oh!)
+
 1.30 - Mon Jan 23 09:37:38 PST 2012
 	* Added dir_exists_ok and dir_contains_ok
 	* Added file_contains_like and file_contains_unlike
