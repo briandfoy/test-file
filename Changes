@@ -1,5 +1,9 @@
 # $Id$
 
+1.31_01 - Mon Jan 30 18:26:44 PST 2012
+	* Fixed qr//mx patterns to work with older Perls. (RT #74365)
+	* Fixed incorrect spelling of "privileges" in SKIP blocks. (RT #74483)
+
 1.31 - Tue Jan 24 12:37:14 PST 2012
 	* Added some SKIP blocks to avoid test failures
 	when running as root.  (D'oh!)
