@@ -16,9 +16,9 @@ chdir $test_directory or print "bail out! Could not change directories: $!";
 
 my $file = 'min_file';
 my $contents = do { open FH, $file; local $/; <FH> }; close FH;
-my $pattern1    = 'x' x 11; $pattern1    = qr/^ $pattern1    $/mx;
-my $pattern2    = 'x' x 40; $pattern2    = qr/^ $pattern2    $/mx;
-my $bad_pattern = 'x' x 20; $bad_pattern = qr/^ $bad_pattern $/mx;
+my $pattern1    = 'x' x 11; $pattern1    = qr/(?mx:^ $pattern1    $)/;
+my $pattern2    = 'x' x 40; $pattern2    = qr/(?mx:^ $pattern2    $)/;
+my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?mx:^ $bad_pattern $)/;
 
 
 # like : single pattern
