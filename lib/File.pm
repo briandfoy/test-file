@@ -82,7 +82,7 @@ sub _win32
 sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
 
 # owner_is and owner_isn't should skip on OS where the question makes no
-# sence.  I really don't know a good way to test for that, so I'm going
+# sense.  I really don't know a good way to test for that, so I'm going
 # to skip on the two OS's that I KNOW aren't multi-user.  I'd love to add
 # more if anyone knows of any
 #   Note:  I don't have a dos or mac os < 10 machine to test this on
@@ -1334,7 +1334,7 @@ sub owner_isnt
 	{
 	my $filename      = shift;
 	my $owner         = shift;
-	my $name          = shift || "$filename belongs to $owner";
+	my $name          = shift || "$filename doesn't belong to $owner";
 
 	my $err = _dm_skeleton( $filename, $owner, $name );
 	return if( defined( $err ) && $err eq 'skip' );

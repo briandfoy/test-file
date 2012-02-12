@@ -109,42 +109,46 @@ owner_isnt( $filename, $other_uid,  'owner_isnt with numeric UID'   );
 
 
 my $name = 'Intentional owner_is failure with wrong user';
-test_out( "not ok 1 - $name");
+my $testname = "$filename belongs to $other_name";
+test_out( "not ok 1 - $testname");
 test_diag( 
 	"File [$filename] belongs to $owner_name ($owner_uid), not $other_name " .
 	"($other_uid)!\n" .
-	"#   Failed test '$name'\n". 
+	"#   Failed test '$testname'\n". 
 	"#   at t/owner.t line " . line_num(+6) . "." 
 	);
-owner_is( $filename, $other_name, $name );
+owner_is( $filename, $other_name );
 test_test( $name );
 
 
 $name = "Intentional owner_is failure with invalid user [$invalid_user_name]";
-test_out( "not ok 1 - $name");
+$testname = "$filename belongs to $invalid_user_name";
+test_out( "not ok 1 - $testname");
 test_diag( 
 	"User [$invalid_user_name] does not exist on this system!\n" .
-	"#   Failed test '$name'\n". 
+	"#   Failed test '$testname'\n". 
 	"#   at t/owner.t line " . line_num(+5) . "." 
 	);
-owner_is( $filename, $invalid_user_name, $name );
+owner_is( $filename, $invalid_user_name );
 test_test( $name );
 
 
 $name = 'owner_isnt for non-existent name';
-test_out( "ok 1 - $name");
-owner_isnt( $filename, $invalid_user_name, $name );
+$testname = "$filename doesn't belong to $invalid_user_name";
+test_out( "ok 1 - $testname");
+owner_isnt( $filename, $invalid_user_name );
 test_test( $name );
 
 
 $name = 'Intentional owner_isnt failure';
-test_out( "not ok 1 - $name");
+$testname = "$filename doesn't belong to $owner_name";
+test_out( "not ok 1 - $testname");
 test_diag( 
 	"File [$filename] belongs to $owner_name ($owner_uid)!\n" .
-	"#   Failed test '$name'\n" . 
+	"#   Failed test '$testname'\n" . 
 	"#   at t/owner.t line " . line_num(+5) . "."
 	);
-owner_isnt( $filename, $owner_name, $name );
+owner_isnt( $filename, $owner_name );
 test_test( $name );
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
