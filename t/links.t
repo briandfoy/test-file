@@ -5,10 +5,11 @@ use Test::More tests => 37;
 use Test::File;
 
 my $can_symlink = eval { symlink("",""); 1 };
+plan skip_all => "This system does't do symlinks" unless $can_symlink;
 
 my $test_directory = 'test_files';
 SKIP: {
-    skip "This system does't do symlinks", 5 unless $can_symlink;
+    skip "setup already done", 5 if -d $test_directory;
     require "t/setup_common";
 };
 
