@@ -24,7 +24,7 @@ use Test::Builder;
 	file_contains_like file_contains_unlike
 	);
 
-$VERSION = '1.31_02';
+$VERSION = '1.32';
 
 {
 use warnings;

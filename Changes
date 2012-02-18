@@ -1,13 +1,11 @@
 # $Id$
 
-1.31_02 - Sat Feb 11 21:38:18 PST 2012
-	* Skip testing of symlinks on Windows. (RT #57682)
-	* Fixed automatically generated test name for owner_isnt. (RT #37676)
-
-1.31_01 - Mon Jan 30 18:26:44 PST 2012
+1.32 - Fri Feb 17 16:19:26 PST 2012
 	* Fixed qr//mx patterns to work with older Perls. (RT #74365)
 		Thanks to Paul Howarth <paul@city-fan.org> for the patch.
 	* Fixed incorrect spelling of "privileges" in SKIP blocks. (RT #74483)
+	* Skip testing of symlinks on Windows. (RT #57682)
+	* Fixed automatically generated test name for owner_isnt. (RT #37676)
 
 1.31 - Tue Jan 24 12:37:14 PST 2012
 	* Added some SKIP blocks to avoid test failures
