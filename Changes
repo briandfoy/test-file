@@ -1,5 +1,8 @@
 # $Id$
 
+1.33 - Sun Feb 19 23:16:49 PST 2012
+	* Fixed problem in MANIFEST file. (RT #37676)
+
 1.32 - Fri Feb 17 16:19:26 PST 2012
 	* Fixed qr//mx patterns to work with older Perls. (RT #74365)
 		Thanks to Paul Howarth <paul@city-fan.org> for the patch.

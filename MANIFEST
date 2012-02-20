@@ -1,4 +1,3 @@
-.Changes.swp
 Changes
 examples/README
 lib/File.pm
@@ -8,7 +7,6 @@ MANIFEST			This list of files
 MYMETA.json
 MYMETA.yml
 README
-t/.win32.t.swp
 t/dm_skeleton.t
 t/file_contains.t
 t/file_sizes.t
