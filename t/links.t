@@ -1,11 +1,18 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 37;
+use Test::More;
 use Test::File;
 
 my $can_symlink = eval { symlink("",""); 1 };
-plan skip_all => "This system does't do symlinks" unless $can_symlink;
+if ($can_symlink)
+{
+	plan tests => 37;
+}
+else
+{
+	plan skip_all => "This system does't do symlinks";
+}
 
 my $test_directory = 'test_files';
 SKIP: {
