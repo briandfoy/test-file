@@ -1,8 +1,9 @@
 # $Id$
 
-1.33_01 -	Thu May 31 15:47:27 PDT 2012
+1.34 - Sat Jun  2 16:22:36 PDT 2012
 	* Fixed problem in links.t. (RT #76853)
-		Thanks to Savio Dimatteo (DARKSMO) for the patch.
+		Thanks to Matthew Musgrove (Mr. Muskrat) and
+		Savio Dimatteo (DARKSMO) for the patch(es).
 
 1.33 - Sun Feb 19 23:16:49 PST 2012
 	* Fixed problem in MANIFEST file. (RT #37676)
