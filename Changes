@@ -1,4 +1,27 @@
-# $Id$
+
+1.34 - Sat Jun  2 16:22:36 PDT 2012
+	* Fixed problem in links.t. (RT #76853)
+		Thanks to Matthew Musgrove (Mr. Muskrat) and
+		Savio Dimatteo (DARKSMO) for the patch(es).
+
+1.33 - Sun Feb 19 23:16:49 PST 2012
+	* Fixed problem in MANIFEST file. (RT #37676)
+
+1.32 - Fri Feb 17 16:19:26 PST 2012
+	* Fixed qr//mx patterns to work with older Perls. (RT #74365)
+		Thanks to Paul Howarth <paul@city-fan.org> for the patch.
+	* Fixed incorrect spelling of "privileges" in SKIP blocks. (RT #74483)
+	* Skip testing of symlinks on Windows. (RT #57682)
+	* Fixed automatically generated test name for owner_isnt. (RT #37676)
+
+1.31 - Tue Jan 24 12:37:14 PST 2012
+	* Added some SKIP blocks to avoid test failures
+	when running as root.  (D'oh!)
+
+1.30 - Mon Jan 23 09:37:38 PST 2012
+	* Added dir_exists_ok and dir_contains_ok
+	* Added file_contains_like and file_contains_unlike
+	* Fixed a few grammatical errors in POD
 
 1.28_01 - Thu Aug 11 10:04:20 2011
 	* Fixes some Windows tests, I think. RT #57682
