@@ -3,7 +3,7 @@ use warnings;
 
 use Test::Builder::Tester;
 use Test::More 0.95;
-use Test::File 1.35;
+use Test::File;
 
 
 my $test_directory = 'test_files';
