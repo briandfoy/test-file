@@ -18,4 +18,6 @@ cover_db
 pm_to_blib
 \.git
 \.gitignore
-.*\.swp
+\.swp$
+MYMETA.*
+\.travis\.yml
