@@ -1,4 +1,9 @@
 
+1.34_01 - Wed Oct  2 16:18:46 2013
+	Fix RT #89175 - don't distribute MYMETA*
+	* add dir_exists_ok and dir_contains_ok
+	* add file_contains_* functions
+
 1.34 - Sat Jun  2 16:22:36 PDT 2012
 	* Fixed problem in links.t. (RT #76853)
 		Thanks to Matthew Musgrove (Mr. Muskrat) and
