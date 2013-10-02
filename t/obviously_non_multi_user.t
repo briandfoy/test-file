@@ -1,17 +1,17 @@
 use Test::More tests => 8;
 
-BEGIN { 
+BEGIN {
 	our $getpwuid_should_die = 0;
 	our $getgrgid_should_die = 0;
 	};
 
-BEGIN{ 
+BEGIN{
 	no warnings;
-	
+
 	*CORE::GLOBAL::getpwuid = sub ($) { die "Fred"   if $getpwuid_should_die };
 	*CORE::GLOBAL::getgrgid = sub ($) { die "Barney" if $getgrgid_should_die };
 	}
-	
+
 use_ok( 'Test::File' );
 
 ok( defined &{ "Test::File::_obviously_non_multi_user" }, "_win32 defined" );

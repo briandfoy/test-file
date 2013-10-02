@@ -22,17 +22,17 @@ ok( Test::File::_win32(), "Returns true for Win32" );
 local $^O = 'Win32';
 
 my @subs = qw(
-	file_mode_is file_mode_isnt 
-	file_executable_ok file_not_executable_ok 
+	file_mode_is file_mode_isnt
+	file_executable_ok file_not_executable_ok
 	);
 
 foreach my $sub ( @subs )
 	{
 	no strict 'refs';
-	
+
 	test_out("ok 1 # skip $sub doesn't work on Windows!");
-	&{$sub}();	
+	&{$sub}();
 	test_test();
 	}
-	
+
 }

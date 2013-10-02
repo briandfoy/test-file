@@ -12,7 +12,7 @@ SKIP: {
 
 chdir $test_directory or print "bail out! Could not change directories: $!";
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Subroutines are defined
 ok( defined &Test::File::_dm_skeleton, "_dm_skeleton is defined" );
 
@@ -20,7 +20,7 @@ my $readable  = 'readable';
 my $not_there = 'not_there';
 my $test_name = 'This is my test name';
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Fake a non-multi-user OS
 {
 local $^O = 'dos';
@@ -31,7 +31,7 @@ is( Test::File::_dm_skeleton($readable),  'skip', "Skip on single user systems" 
 is( Test::File::_dm_skeleton($not_there), 'skip', "Skip on single user systems" );
 }
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Fake a multi-user OS with existing file
 {
 local $^O = 'MSWin32';
@@ -42,14 +42,14 @@ ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 
 }
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Fake a multi-user OS with non-existing file
 {
 local $^O = 'MSWin32';
 ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 
 test_out( "not ok 1" );
-test_diag( 
+test_diag(
 	"File [$not_there] does not exist!\n" .
 	"#   Failed test at $0 line " . line_num(+4) . "."
 	);
@@ -57,14 +57,14 @@ Test::File::_dm_skeleton( $not_there );
 test_test();
 }
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # Fake a multi-user OS with no argument
 {
 local $^O = 'MSWin32';
 ok( ! Test::File::_obviously_non_multi_user(), "Is multi user" );
 
 test_out( "not ok 1" );
-test_diag( 
+test_diag(
 	"File name not specified!\n" .
 	"#   Failed test at $0 line " . line_num(+4) . "."
 	);
@@ -74,9 +74,8 @@ test_test();
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-chdir '..' or print "bail out! Could not change directories: $!";
-
 END {
-unlink glob( "test_files/*" );
-rmdir "test_files";
+	chdir '..' or print "bail out! Could not change directories: $!";
+	unlink glob( "test_files/*" );
+	rmdir "test_files";
 }

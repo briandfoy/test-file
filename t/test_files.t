@@ -29,13 +29,13 @@ test_test();
 
 
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 test_out( 'ok 1 - readable is readable' );
 file_readable_ok( 'readable' );
 test_test();
 
 SKIP: {
-skip "Superuser has special priveleges", 1, if( $> == 0 or $< == 0 );
+skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
 test_out( 'ok 1 - writeable is not readable' );
 file_not_readable_ok( 'writeable' );
 test_test();
@@ -46,7 +46,7 @@ file_writeable_ok( 'writeable' );
 test_test();
 
 SKIP: {
-skip "Superuser has special priveleges", 1, if( $> == 0 or $< == 0 );
+skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
 test_out( 'ok 1 - readable is not writeable' );
 file_not_writeable_ok( 'readable' );
 test_test();
@@ -128,9 +128,8 @@ test_test();
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-chdir '..' or print "bail out! Could not change directories: $!";
-
 END {
-unlink glob( "test_files/*" );
-rmdir "test_files";
+	chdir '..' or print "bail out! Could not change directories: $!";
+	unlink glob( "test_files/*" );
+	rmdir "test_files";
 }

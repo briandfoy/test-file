@@ -9,5 +9,5 @@ else
 	{
 	plan tests => 1;
 
-	pod_coverage_ok( "Test::File" );      
+	pod_coverage_ok( "Test::File" );
 	}
