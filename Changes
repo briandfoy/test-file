@@ -1,3 +1,5 @@
+1.35 - Thu Oct 10 01:36:55 PDT 2013
+    * Promote to full release
 
 1.34_01 - Wed Oct  2 16:18:46 2013
 	* Fix RT #89175 - don't distribute MYMETA*
