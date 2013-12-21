@@ -176,14 +176,15 @@ test_diag(
 file_line_count_isnt( $file, $lines );
 test_test();
 
-$name = "$file line count is between [$linesp] and [@{[$linesp+1]}] lines";
+my $linespp = $linesp + 1;
+$name = "$file line count is between [$linesp] and [$linespp] lines";
 test_out( "not ok 1 - $name" );
 test_diag(
-	"Expected a line count between [$linesp] and [@{[$linesp+1]}] in [$file], but got [$lines] lines!\n" .
+	"Expected a line count between [$linesp] and [$linespp] in [$file], but got [$lines] lines!\n" .
 	"#   Failed test '$name'\n" .
-	"#   at $0 line " . line_num(+4) . "."
+	"#   at $0 line " . line_num(+5) . "."
 	);
-file_line_count_between( $file, $linesp, $linesp + 1 );
+file_line_count_between( $file, $linesp, $linespp );
 test_test();
 }
 
