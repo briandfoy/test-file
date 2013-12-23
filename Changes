@@ -1,3 +1,6 @@
+1.35_01 - Sun Dec 22 19:01:33 PST 2013
+	* Fix RT #89849 - bad line counts on latest dev version of Perl
+
 1.35 - Thu Oct 10 01:36:55 PDT 2013
     * Promote to full release
 
