@@ -22,6 +22,8 @@ use Test::Builder;
 	group_is group_isnt
 	file_line_count_is file_line_count_isnt file_line_count_between
 	file_contains_like file_contains_unlike
+	file_contains_utf8_like file_contains_utf8_unlike
+	file_contains_encoded_like file_contains_encoded_unlike
 	);
 
 $VERSION = '1.35_01';
@@ -563,24 +565,67 @@ function as well.
 
 Contributed by Buddy Burden C<< <barefoot@cpan.org> >>.
 
+=item file_contains_utf8_like ( FILENAME, PATTERN [, NAME ] )
+
+The same as C<file_contains_like>, except the file is opened as UTF-8.
+
+=item file_contains_utf8_unlike ( FILENAME, PATTERN [, NAME ] )
+
+The same as C<file_contains_unlike>, except the file is opened as UTF-8.
+
+=item file_contains_encoded_like ( FILENAME, ENCODING, PATTERN [, NAME ] )
+
+The same as C<file_contains_like>, except the file is opened with ENCODING
+
+=item file_contains_encoded_unlike ( FILENAME, ENCODING, PATTERN [, NAME ] )
+
+The same as C<file_contains_unlike>, except the file is opened with ENCODING.
+
 =cut
 
 sub file_contains_like
 	{
 		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(like => "contains", @_);
+		_file_contains(like => "contains", undef, @_);
 	}
 
 sub file_contains_unlike
 	{
 		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(unlike => "doesn't contain", @_);
+		_file_contains(unlike => "doesn't contain", undef, @_);
+	}
+
+sub file_contains_utf8_like
+	{
+		local $Test::Builder::Level = $Test::Builder::Level + 1;
+		_file_contains(like => "contains", 'UTF-8', @_);
+	}
+sub file_contains_utf8_unlike
+	{
+		local $Test::Builder::Level = $Test::Builder::Level + 1;
+		_file_contains(unlike => "doesn't contain", 'UTF-8', @_);
+	}
+
+sub file_contains_encoded_like
+	{
+		local $Test::Builder::Level = $Test::Builder::Level + 1;
+		my $filename = shift;
+		my $encoding = shift;
+		_file_contains(like => "contains", $encoding, $filename, @_);
+	}
+sub file_contains_encoded_unlike
+	{
+		local $Test::Builder::Level = $Test::Builder::Level + 1;
+		my $filename = shift;
+		my $encoding = shift;
+		_file_contains(unlike => "doesn't contain", $encoding, $filename, @_);
 	}
 
 sub _file_contains
 	{
 	my $method   = shift;
 	my $verb     = shift;
+	my $encoding = shift;
 	my $filename = _normalize( shift );
 	my $patterns = shift;
 	my $name     = shift;
@@ -621,6 +666,11 @@ sub _file_contains
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		return $Test->ok( 0, $name );
 		}
+
+	if (defined $encoding) {
+		binmode FH, ":encoding($encoding)";
+	}
+
 	local $/ = undef;
 	$file_contents = <FH>;
 	close FH;
