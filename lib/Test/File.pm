@@ -1494,17 +1494,17 @@ sub file_mtime_age_ok
 	{
 	my $filename    = shift;
 	my $within_secs = int shift || 0;
-	my $name        = shift || "$filename mtime within $seconds seconds of current time";
+	my $name        = shift || "$filename mtime within $within_secs seconds of current time";
 
 	my $time        = time();
 
 	my $ret = _file_stat_cmp_unixtime($filename, 9, 'gt', $time, $within_secs);
 
-	return if ( $req == -1 ); #skip
+	return if ( $ret == -1 ); #skip
 
 	return $Test->ok(1, $name) if ( $ret );
 
-	$Test->diag( "File [$filename] mtime of [$mtime] is not $within_secs of current system time [$time]");
+	$Test->diag( "Filename [$filename] mtime is not $within_secs seconds of current system time [$time]");
 	return $Test->ok(0, $name);
 	}
 
@@ -1519,15 +1519,15 @@ sub file_mtime_gt_ok
 	my $filename    = shift;
 	my $time        = int shift;
 	my $within_secs = int shift;
-	my $name        = shift || "$filename mtime within $seconds seconds of unix timestamp $time";
+	my $name        = shift || "$filename mtime within $within_secs seconds of unix timestamp $time";
 
 	my $ret = _file_stat_cmp_unixtime($filename, 9, 'gt', $time, $within_secs);
 
-	return if ( $req == -1 ); #skip
+	return if ( $ret == -1 ); #skip
 
 	return $Test->ok(1, $name) if ( $ret );
 
-	$Test->diag( "File [$filename] mtime [$mtime] not greater than $time by $within_secs seconds" );
+	$Test->diag( "Filename [$filename] mtime not greater than $time by $within_secs seconds" );
 	$Test->ok(0, $name);
 }
 
@@ -1540,9 +1540,9 @@ Ok if FILE's modified time is < UNIXTIME by WITHIN_SECS seconds
 sub file_mtime_lt_ok
 	{
 	my $filename = shift;
-	my $cmptime = int shift;
-	my $seconds = int shift;
-	my $name = shift || "$filename mtime within $seconds seconds of unix timestamp $cmptime";
+	my $time = int shift;
+	my $within_secs = int shift;
+	my $name = shift || "$filename mtime within $within_secs seconds of unix timestamp $time";
 
 	my $ret = _file_stat_cmp_unixtime($filename, 9, 'lt', $time, $within_secs);
 
@@ -1550,7 +1550,7 @@ sub file_mtime_lt_ok
 
 	return $Test->ok(1, $name) if ( $ret );
 
-	$Test->diag( "File [$filename] mtime [$mtime] not less than $time by $within_secs seconds" );
+	$Test->diag( "File [$filename] not less than $time by $within_secs seconds" );
 	$Test->ok(0, $name);
 	}
 
@@ -1573,11 +1573,10 @@ sub file_mtime_lt_ok
 sub _file_stat_cmp_unixtime
 	{
 	my $filename    = _normalize( shift );
-  my $attr_pos    = int shift;
+	my $attr_pos    = int shift;
 	my $op          = shift;
 	my $time        = int shift || 0;
 	my $within_secs = int shift || 0;
-	my $name        = $shift
 
 	unless( defined $filename )
 		{
@@ -1595,21 +1594,23 @@ sub _file_stat_cmp_unixtime
 
 	unless( $filetime )
 		{
-			$Test->diag( "stat of $filename failed" );
-			return -1; #skip on stat failure
+		$Test->diag( "stat of $filename failed" );
+		return -1; #skip on stat failure
 		}
 
-	if ( $op eq 'lt' && $filetime + $within_secs < $time)
+	if ( $op eq 'lt' && ($filetime + $within_secs) < $time)
 		{
-			return 1;
+		return 1;
 		}
-	elsif ( $op eq 'gt' && $filetime + $within_secs > $time)
+	elsif ( $op eq 'gt' && ($filetime + $within_secs) > $time)
 		{
-			return 1;
+		return 1;
 		}
 	else
 		{
-			return 0;
+		my $actual =  abs( $time - ($filetime + $within_secs) );
+		$Test->diag( "Filename [$filename] with time attr of [$filetime] not within [$within_secs] seconds of [$time]. Actual Diff: [" . $actual . "]" );
+		return 0;
 		}
 	}
 
