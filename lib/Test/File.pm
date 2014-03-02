@@ -341,11 +341,11 @@ sub _ECANTOPEN () { -2 }
 sub _file_line_counter
 	{
 	my $filename = shift;
-	
+
 	return _ENOFILE   unless -e $filename;  # does not exist
-	
-	return _ECANTOPEN unless open my( $fh ), "<", $filename; 
-	
+
+	return _ECANTOPEN unless open my( $fh ), "<", $filename;
+
 	my $count = 0;
 	while( <$fh> ) { $count++ }
 
@@ -362,7 +362,7 @@ sub file_line_count_is
 		no warnings 'uninitialized';
 		shift || "$filename line count is $expected lines";
 		};
-	
+
 	unless( defined $expected && int( $expected ) == $expected )
 		{
 		no warnings 'uninitialized';
@@ -372,17 +372,17 @@ sub file_line_count_is
 		}
 
 	my $got = _file_line_counter( $filename );
-	
+
 	if( $got eq _ENOFILE )
 		{
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
-	elsif( $got == _ECANTOPEN ) 
+	elsif( $got == _ECANTOPEN )
 		{
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
-		}		
+		}
 	elsif( $got == $expected )
 		{
 		$Test->ok( 1, $name );
@@ -415,7 +415,7 @@ sub file_line_count_isnt
 		no warnings 'uninitialized';
 		shift || "$filename line count is not $expected lines";
 		};
-	
+
 	unless( defined $expected && int( $expected ) == $expected )
 		{
 		no warnings 'uninitialized';
@@ -425,17 +425,17 @@ sub file_line_count_isnt
 		}
 
 	my $got = _file_line_counter( $filename );
-	
+
 	if( $got eq _ENOFILE )
 		{
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
-	elsif( $got == _ECANTOPEN ) 
+	elsif( $got == _ECANTOPEN )
 		{
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
-		}		
+		}
 	elsif( $got != $expected )
 		{
 		$Test->ok( 1, $name );
@@ -468,7 +468,7 @@ sub file_line_count_between
 		no warnings 'uninitialized';
 		shift || "$filename line count is between [$min] and [$max] lines";
 		};
-	
+
 	foreach my $ref ( \$min, \$max )
 		{
 		unless( defined $$ref && int( $$ref ) == $$ref )
@@ -479,20 +479,20 @@ sub file_line_count_between
 			return $Test->ok( 0, $name );
 			}
 		}
-		
+
 
 	my $got = _file_line_counter( $filename );
-	
+
 	if( $got eq _ENOFILE )
 		{
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
-	elsif( $got == _ECANTOPEN ) 
+	elsif( $got == _ECANTOPEN )
 		{
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
-		}		
+		}
 	elsif( $min <= $got and $got <= $max )
 		{
 		$Test->ok( 1, $name );
@@ -500,7 +500,7 @@ sub file_line_count_between
 	else
 		{
 		$Test->diag( "Expected a line count between [$min] and [$max] " .
-			"in [$filename], but got [$got] lines!" 
+			"in [$filename], but got [$got] lines!"
 			);
 		$Test->ok( 0, $name );
 		}
@@ -947,8 +947,8 @@ sub symlink_target_exists_ok
 	unless( $dest eq $actual )
 		{
 		$Test->diag(
-			"Symlink [$file] points to\n" . 
-			"         got: $actual\n" . 
+			"Symlink [$file] points to\n" .
+			"         got: $actual\n" .
 			"    expected: $dest\n"
 			);
 		return $Test->ok( 0, $name );
@@ -1002,7 +1002,7 @@ If the file does not exist, the test fails.
 
 =cut
 
-sub symlink_target_is 
+sub symlink_target_is
 	{
 	if( _no_symlinks_here() )
 		{
@@ -1030,12 +1030,12 @@ sub symlink_target_is
 		$Test->diag( "readlink error: $link_error" ) if defined $link_error;
 		return $Test->ok( 0, $name );
 		}
-	
-	if( $dest eq $actual_dest ) 
+
+	if( $dest eq $actual_dest )
 		{
 		$Test->ok( 1, $name );
-		} 
-	else 
+		}
+	else
 		{
 		$Test->ok( 0, $name );
 		$Test->diag("       got: $actual_dest" );
@@ -1053,7 +1053,7 @@ symlinks. If the file does not exist, the test fails.
 
 =pod
 
-sub symlink_target_is_absolute_ok 
+sub symlink_target_is_absolute_ok
 	{
 	if( _no_symlinks_here() )
 		{
@@ -1245,7 +1245,7 @@ sub link_count_lt_ok
 sub _dm_skeleton
 	{
 	no warnings 'uninitialized';
-	
+
 	if( _obviously_non_multi_user() )
 		{
 		my $calling_sub = (caller(1))[3];
@@ -1298,7 +1298,7 @@ sub owner_is
 		$Test->diag("User [$owner] does not exist on this system!");
 		return $Test->ok( 0, $name );
 		}
-		
+
 	my $file_uid = ( stat $filename )[4];
 
 	unless( defined $file_uid )
@@ -1482,11 +1482,9 @@ sub _get_gid
 
 =item file_mtime_age_ok( FILE [, WITHIN_SECONDS ] [, NAME ] )
 
-Ok if FILE's modified time is WITHIN_SECONDS of the system's current time.
+Ok if FILE's modified time is WITHIN_SECONDS inclusive of the system's current time.
 This test uses stat() to obtain the mtime. If the file does not exist the test
-returns failure. If stat() fails, the test is skipped. This does does the same
-thing as file_mtime_gt_ok but providing the current system time
-as the UNIXTIME argument.
+returns failure. If stat() fails, the test is skipped.
 
 =cut
 
@@ -1498,19 +1496,20 @@ sub file_mtime_age_ok
 
 	my $time        = time();
 
-	my $ret = _file_stat_cmp_unixtime($filename, 9, 'gt', $time, $within_secs);
+	my $filetime = _stat_file($filename, 9);
 
-	return if ( $ret == -1 ); #skip
+	return if ( $filetime == -1 ); #skip
 
-	return $Test->ok(1, $name) if ( $ret );
+	return $Test->ok(1, $name) if ( $filetime + $within_secs > $time-1  );
 
-	$Test->diag( "Filename [$filename] mtime is not $within_secs seconds of current system time [$time]");
+	$Test->diag( "Filename [$filename] mtime [$filetime] is not $within_secs seconds within current system time [$time].");
 	return $Test->ok(0, $name);
 	}
 
-=item file_mtime_gt_ok( FILE, UNIXTIME [, WITHIN_SECS ], [ NAME ] )
+=item file_mtime_gt_ok( FILE, UNIXTIME [, NAME ] )
 
-Ok if FILE's modified time is > UNIXTIME by WITHIN_SECS seconds
+Ok if FILE's mtime is > UNIXTIME. This test uses stat() to get the mtime. If stat() fails
+this test is skipped. If FILE does not exist, this test fails.
 
 =cut
 
@@ -1518,22 +1517,22 @@ sub file_mtime_gt_ok
 	{
 	my $filename    = shift;
 	my $time        = int shift;
-	my $within_secs = int shift;
-	my $name        = shift || "$filename mtime within $within_secs seconds of unix timestamp $time";
+	my $name        = shift || "$filename mtime is less than unix timestamp $time";
 
-	my $ret = _file_stat_cmp_unixtime($filename, 9, 'gt', $time, $within_secs);
+	my $filetime = _stat_file($filename, 9);
 
-	return if ( $ret == -1 ); #skip
+	return if ( $filetime == -1 ); #skip
 
-	return $Test->ok(1, $name) if ( $ret );
+	return $Test->ok(1, $name) if ( $filetime > $time );
 
-	$Test->diag( "Filename [$filename] mtime not greater than $time by $within_secs seconds" );
+	$Test->diag( "Filename [$filename] mtime [$filetime] not greater than $time" );
 	$Test->ok(0, $name);
-}
+  }
 
-=item file_mtime_lt_ok( FILE, UNIXTIME [, WITHIN_SECS ], [ NAME ] )
+=item file_mtime_lt_ok( FILE, UNIXTIME, [, NAME ] )
 
-Ok if FILE's modified time is < UNIXTIME by WITHIN_SECS seconds
+Ok if FILE's modified time is < UNIXTIME.  This test uses stat() to get the mtime. If stat() fails
+this test is skipped. If FILE does not exist, this test fails.
 
 =cut
 
@@ -1541,52 +1540,44 @@ sub file_mtime_lt_ok
 	{
 	my $filename = shift;
 	my $time = int shift;
-	my $within_secs = int shift;
-	my $name = shift || "$filename mtime within $within_secs seconds of unix timestamp $time";
+	my $name = shift || "$filename mtime less than unix timestamp $time";
 
-	my $ret = _file_stat_cmp_unixtime($filename, 9, 'lt', $time, $within_secs);
+  # gets mtime
+	my $filetime = _stat_file($filename, 9);
 
-	return if ( $ret == -1 ); #skip
+	return if ( $filetime == -1 ); #skip
 
-	return $Test->ok(1, $name) if ( $ret );
+	return $Test->ok(1, $name) if ( $filetime < $time );
 
-	$Test->diag( "File [$filename] not less than $time by $within_secs seconds" );
+	$Test->diag( "Filename [$filename] mtime [$filetime] not less than $time" );
 	$Test->ok(0, $name);
 	}
 
-# Generalized function for comparing stat attributes that are in
-# unixtime to a provided unixtime within some limit
+# private function to safely stat a file
 #
 # Arugments:
 # filename     file to perform on
-# attr_pos     pos of the array returned from stat we want to compare
-# op           'lt' or 'gt' for which comparison op to use
-# time         unixtime we want to compare our file time to
-# within_secs  difference between filetime and provided time must be
-#                within these limits
+# attr_pos     pos of the array returned from stat we want to compare. perldoc -f stat
 #
 # Returns:
-# -1 - skip test
-#  0 - on failure
-#  1 - on success
+# -1        - stat failed
+#  0        - failure (file doesn't exist etc)
+#  filetime - on success, time requested provided by stat
 #
-sub _file_stat_cmp_unixtime
+sub _stat_file
 	{
 	my $filename    = _normalize( shift );
 	my $attr_pos    = int shift;
-	my $op          = shift;
-	my $time        = int shift || 0;
-	my $within_secs = int shift || 0;
 
 	unless( defined $filename )
 		{
-		$Test->diag( "File name not specified!" );
+		$Test->diag( "Filename not specified!" );
 		return 0;
 		}
 
 	unless( -e $filename )
 		{
-		$Test->diag( "File [$filename] does not exist!" );
+		$Test->diag( "Filename [$filename] does not exist!" );
 		return 0;
 		}
 
@@ -1598,20 +1589,7 @@ sub _file_stat_cmp_unixtime
 		return -1; #skip on stat failure
 		}
 
-	if ( $op eq 'lt' && ($filetime + $within_secs) < $time)
-		{
-		return 1;
-		}
-	elsif ( $op eq 'gt' && ($filetime + $within_secs) > $time)
-		{
-		return 1;
-		}
-	else
-		{
-		my $actual =  abs( $time - ($filetime + $within_secs) );
-		$Test->diag( "Filename [$filename] with time attr of [$filetime] not within [$within_secs] seconds of [$time]. Actual Diff: [" . $actual . "]" );
-		return 0;
-		}
+	return $filetime;
 	}
 
 =back

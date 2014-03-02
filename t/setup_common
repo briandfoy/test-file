@@ -12,6 +12,7 @@ chdir 'test_files' or print "bail out! Could not change directory! $!";
 my @files = qw(
 max_file       non_zero_file  not_readable   readable       zero_file
 executable     min_file       not_executable not_writeable  writeable
+mtime_file
 );
 
 foreach my $file ( @files )
