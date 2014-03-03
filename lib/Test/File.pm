@@ -22,7 +22,6 @@ use Test::Builder;
 	group_is group_isnt
 	file_line_count_is file_line_count_isnt file_line_count_between
 	file_contains_like file_contains_unlike
-	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
 $VERSION = '1.36';
@@ -1479,140 +1478,6 @@ sub _get_gid
 	$group_uid;
 	}
 
-
-=item file_mtime_age_ok( FILE [, WITHIN_SECONDS ] [, NAME ] )
-
-Ok if FILE's modified time is WITHIN_SECONDS of the system's current time.
-This test uses stat() to obtain the mtime. If the file does not exist the test
-returns failure. If stat() fails, the test is skipped. This does does the same
-thing as file_mtime_gt_ok but providing the current system time
-as the UNIXTIME argument.
-
-=cut
-
-sub file_mtime_age_ok
-	{
-	my $filename    = shift;
-	my $within_secs = int shift || 0;
-	my $name        = shift || "$filename mtime within $seconds seconds of current time";
-
-	my $time        = time();
-
-	my $ret = _file_stat_cmp_unixtime($filename, 9, 'gt', $time, $within_secs);
-
-	return if ( $req == -1 ); #skip
-
-	return $Test->ok(1, $name) if ( $ret );
-
-	$Test->diag( "File [$filename] mtime of [$mtime] is not $within_secs of current system time [$time]");
-	return $Test->ok(0, $name);
-	}
-
-=item file_mtime_gt_ok( FILE, UNIXTIME [, WITHIN_SECS ], [ NAME ] )
-
-Ok if FILE's modified time is > UNIXTIME by WITHIN_SECS seconds
-
-=cut
-
-sub file_mtime_gt_ok
-	{
-	my $filename    = shift;
-	my $time        = int shift;
-	my $within_secs = int shift;
-	my $name        = shift || "$filename mtime within $seconds seconds of unix timestamp $time";
-
-	my $ret = _file_stat_cmp_unixtime($filename, 9, 'gt', $time, $within_secs);
-
-	return if ( $req == -1 ); #skip
-
-	return $Test->ok(1, $name) if ( $ret );
-
-	$Test->diag( "File [$filename] mtime [$mtime] not greater than $time by $within_secs seconds" );
-	$Test->ok(0, $name);
-}
-
-=item file_mtime_lt_ok( FILE, UNIXTIME [, WITHIN_SECS ], [ NAME ] )
-
-Ok if FILE's modified time is < UNIXTIME by WITHIN_SECS seconds
-
-=cut
-
-sub file_mtime_lt_ok
-	{
-	my $filename = shift;
-	my $cmptime = int shift;
-	my $seconds = int shift;
-	my $name = shift || "$filename mtime within $seconds seconds of unix timestamp $cmptime";
-
-	my $ret = _file_stat_cmp_unixtime($filename, 9, 'lt', $time, $within_secs);
-
-	return if ( $ret == -1 ); #skip
-
-	return $Test->ok(1, $name) if ( $ret );
-
-	$Test->diag( "File [$filename] mtime [$mtime] not less than $time by $within_secs seconds" );
-	$Test->ok(0, $name);
-	}
-
-# Generalized function for comparing stat attributes that are in
-# unixtime to a provided unixtime within some limit
-#
-# Arugments:
-# filename     file to perform on
-# attr_pos     pos of the array returned from stat we want to compare
-# op           'lt' or 'gt' for which comparison op to use
-# time         unixtime we want to compare our file time to
-# within_secs  difference between filetime and provided time must be
-#                within these limits
-#
-# Returns:
-# -1 - skip test
-#  0 - on failure
-#  1 - on success
-#
-sub _file_stat_cmp_unixtime
-	{
-	my $filename    = _normalize( shift );
-  my $attr_pos    = int shift;
-	my $op          = shift;
-	my $time        = int shift || 0;
-	my $within_secs = int shift || 0;
-	my $name        = $shift
-
-	unless( defined $filename )
-		{
-		$Test->diag( "File name not specified!" );
-		return 0;
-		}
-
-	unless( -e $filename )
-		{
-		$Test->diag( "File [$filename] does not exist!" );
-		return 0;
-		}
-
-	my $filetime = ( stat($filename) )[$attr_pos];
-
-	unless( $filetime )
-		{
-			$Test->diag( "stat of $filename failed" );
-			return -1; #skip on stat failure
-		}
-
-	if ( $op eq 'lt' && $filetime + $within_secs < $time)
-		{
-			return 1;
-		}
-	elsif ( $op eq 'gt' && $filetime + $within_secs > $time)
-		{
-			return 1;
-		}
-	else
-		{
-			return 0;
-		}
-	}
-
 =back
 
 =head1 TO DO
@@ -1657,7 +1522,7 @@ C<file_contains_unlike>.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2002-2014 brian d foy.  All rights reserved.
+Copyright (c) 2002-2013 brian d foy.  All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
