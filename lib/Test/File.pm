@@ -1567,7 +1567,7 @@ sub file_mtime_lt_ok
 sub _stat_file
 	{
 	my $filename    = _normalize( shift );
-	my $attr_pos    = int shift;
+	my $attr_pos    = shift;
 
 	unless( defined $filename )
 		{

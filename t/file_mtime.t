@@ -27,7 +27,7 @@ my $count = utime($set_mtime,$set_mtime,$mtime_file);
 ok( $count, 'utime reports it set mtime' ) or diag explain $count;
 
 my $mtime = ( stat($mtime_file) )[9];
-ok ( $mtime == $set_mtime+1, 'utime successfully set mtime for testing' ) or diag "Got: $mtime, Expected: $set_mtime";
+ok ( $mtime == $set_mtime, 'utime successfully set mtime for testing' ) or diag "Got: $mtime, Expected: $set_mtime";
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
