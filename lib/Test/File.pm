@@ -1059,14 +1059,11 @@ sub symlink_target_is_absolute_ok
 		return;
 		}
 
-	my $file = shift;
-	my $name = shift || "symlink $file points to an absolute path";
-
-	my ($from, $from_base, $to, $to_base, $name) = @_;
-	my $link   = readlink( $from );
+	my( $from, $from_base, $to, $to_base, $name ) = @_;
+	my $link     = readlink( $from );
 	my $link_err = defined( $link ) ? '' : $!; # $! doesn't always get reset
 	my $link_abs = abs_path( rel2abs($link, $from_base) );
-	my $to_abs  = abs_path( rel2abs($to, $to_base) );
+	my $to_abs   = abs_path( rel2abs($to, $to_base) );
 
 	if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
 		$Test->ok( 1, $name );
