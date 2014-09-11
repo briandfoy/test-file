@@ -7,6 +7,9 @@ MANIFEST			This list of files
 README
 t/dm_skeleton.t
 t/file_contains.t
+t/file_contains_encoded.t
+t/file_contains_utf8.t
+t/file_mtime.t
 t/file_sizes.t
 t/line_counters.t
 t/link_counts.t
@@ -24,4 +27,3 @@ t/test_dirs.t
 t/test_files.t
 t/test_manifest
 t/win32.t
-t/file_mtime.t
