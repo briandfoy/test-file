@@ -1070,9 +1070,10 @@ sub symlink_target_is_absolute_ok
 		}
 	else {
 		$Test->ok( 0, $name );
-		$link   ||= 'undefined';
+		$link     ||= 'undefined';
 		$link_abs ||= 'undefined';
-		$to_abs  ||= 'undefined';
+		$to_abs   ||= 'undefined';
+
 		$Test->diag("    link: $from");
 		$Test->diag("     got: $link");
 		$Test->diag("    (abs): $link_abs");
