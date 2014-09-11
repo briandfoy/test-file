@@ -15,8 +15,8 @@ WriteMakefile(
 	'PREREQ_PM' => {
 		'Test::More'            => '0.95',
 		'Test::Builder::Tester' => '1.04',
-		'Test::Builder'         => '0.33',
 		'Test::Manifest'        => '1.14',
+		'Test::Builder'         => '1.001006',
 		},
 
 	META_ADD => {
