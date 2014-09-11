@@ -10,7 +10,6 @@ my( $filename, $file_gid, $owner_uid, $owner_name, $file_group_name );
 eval
 	{
 	$filename = glob( "*" );
-	#print STDERR "Filename is $filename\n";
 
 	die "Could not find a file" unless defined $filename;
 
@@ -94,11 +93,6 @@ eval
 
 	diag "Failed to find another gid" unless defined $other_gid;
 	};
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
- # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-plan tests => 15;
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # test owner stuff
@@ -195,7 +189,4 @@ test_test( $name );
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-END {
-	unlink glob( "test_files/*" );
-	rmdir "test_files";
-}
+done_testing();

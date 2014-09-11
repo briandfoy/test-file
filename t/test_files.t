@@ -1,7 +1,7 @@
 use strict;
 
 use Test::Builder::Tester;
-use Test::More tests => 20; # includes those in t/setup_common
+use Test::More 0.95;
 use Test::File;
 
 =pod
@@ -11,13 +11,7 @@ executable     min_file       not_executable not_writeable  writeable
 
 =cut
 
-my $test_directory = 'test_files';
-SKIP: {
-    skip "setup already done", 5 if -d $test_directory;
-    require "t/setup_common";
-};
-
-chdir $test_directory or print "bail out! Could not change directories: $!";
+require "t/setup_common";
 
 test_out( 'ok 1 - readable exists' );
 file_exists_ok( 'readable' );
@@ -26,8 +20,6 @@ test_test();
 test_out( 'ok 1 - fooey does not exist' );
 file_not_exists_ok( 'fooey' );
 test_test();
-
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 test_out( 'ok 1 - readable is readable' );
@@ -125,11 +117,4 @@ file_mode_isnt( 'writeable', 0100 );
 test_test();
 }
 
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-END {
-	chdir '..' or print "bail out! Could not change directories: $!";
-	unlink glob( "test_files/*" );
-	rmdir "test_files";
-}
+done_testing();

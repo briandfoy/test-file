@@ -2,15 +2,10 @@ use strict;
 use warnings;
 
 use Test::Builder::Tester;
-use Test::More 0.88;
+use Test::More 0.95;
 use Test::File;
 
-
-my $test_directory = 'test_files';
-require "t/setup_common" unless -d $test_directory;
-
-chdir $test_directory or print "bail out! Could not change directories: $!";
-
+require "t/setup_common";
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -148,15 +143,6 @@ test_test();
 
 
 done_testing();
-
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-END {
-	chdir '..' or print "bail out! Could not change directories: $!";
-	unlink glob( "test_files/*" );
-	rmdir "test_files";
-}
 
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

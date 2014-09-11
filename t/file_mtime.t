@@ -2,20 +2,11 @@ use warnings;
 use strict;
 
 use Test::Builder::Tester;
-use Test::More;
+use Test::More 0.95;
 use Test::File;
 
-my $test_directory = 'test_files';
-SKIP: {
-    skip "setup already done", 5 if -d $test_directory;
-    require "t/setup_common";
-};
+require "t/setup_common";
 
-chdir $test_directory or print "bail out! Could not change directories: $!";
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Setup test env
 my $mtime_file = 'mtime_file';
@@ -29,7 +20,6 @@ ok( $count, 'utime reports it set mtime' ) or diag explain $count;
 my $mtime = ( stat($mtime_file) )[9];
 ok ( $mtime == $set_mtime, 'utime successfully set mtime for testing' ) or diag "Got: $mtime, Expected: $set_mtime";
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 

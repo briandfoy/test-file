@@ -3,7 +3,7 @@ use warnings;
 use utf8;
 
 use Test::Builder::Tester;
-use Test::More 0.88;
+use Test::More 0.95;
 use Test::File;
 use Test::utf8;
 
@@ -12,14 +12,7 @@ my $string1 = 'Привет мир!';
 my $string2 = 'Я строкой';
 my $encoding = 'KOI8-R';
 
-my $test_directory = 'test_files';
-unless( -d 'test_files' )
-    {
-    mkdir 'test_files', 0700
-        or print "bail out! Could not make directory! $!";
-    }
-
-chdir $test_directory or print "bail out! Could not change directories: $!";
+require 'setup_common';
 
 my $file = '$file';
 open my $fh, '>', $file or print "bail out! Could not write to $file: $!";
@@ -103,16 +96,6 @@ file_contains_encoded_unlike( '$file', $encoding, [ $bad_pattern, $pattern1 ] );
 test_test();
 
 done_testing();
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# END {
-# 	chdir '..' or print "bail out! Could not change directories: $!";
-# 	unlink glob( "test_files/*" );
-# 	rmdir "test_files";
-# }
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 sub like_diag
 {

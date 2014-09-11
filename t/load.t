@@ -1,10 +1,9 @@
-BEGIN {
-	@classes = qw(Test::File);
+use Test::More 0.95;
+
+my @classes = qw(Test::File);
+
+foreach my $class ( @classes ) {
+	use_ok( $class ) or BAILOUT( "$class did not load" );
 	}
 
-use Test::More tests => scalar @classes;
-
-foreach my $class ( @classes )
-	{
-	print "Bail out! $class did not compile!" unless use_ok( $class );
-	}
+done_testing();
