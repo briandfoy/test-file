@@ -1062,27 +1062,28 @@ sub symlink_target_is_absolute_ok
 	my $file = shift;
 	my $name = shift || "symlink $file points to an absolute path";
 
-my ($from, $from_base, $to, $to_base, $name) = @_;
-my $link   = readlink( $from );
-my $link_err = defined( $link ) ? '' : $!; # $! doesn't always get reset
-my $link_abs = abs_path( rel2abs($link, $from_base) );
-my $to_abs  = abs_path( rel2abs($to, $to_base) );
+	my ($from, $from_base, $to, $to_base, $name) = @_;
+	my $link   = readlink( $from );
+	my $link_err = defined( $link ) ? '' : $!; # $! doesn't always get reset
+	my $link_abs = abs_path( rel2abs($link, $from_base) );
+	my $to_abs  = abs_path( rel2abs($to, $to_base) );
 
-if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
- $Test->ok( 1, $name );
-} else {
- $Test->ok( 0, $name );
- $link   ||= 'undefined';
- $link_abs ||= 'undefined';
- $to_abs  ||= 'undefined';
- $Test->diag("    link: $from");
- $Test->diag("     got: $link");
- $Test->diag("    (abs): $link_abs");
- $Test->diag("  expected: $to");
- $Test->diag("    (abs): $to_abs");
- $Test->diag("  readlink() error: $link_err") if ($link_err);
-}
-}
+	if (defined( $link_abs ) && defined( $to_abs ) && $link_abs eq $to_abs) {
+		$Test->ok( 1, $name );
+		}
+	else {
+		$Test->ok( 0, $name );
+		$link   ||= 'undefined';
+		$link_abs ||= 'undefined';
+		$to_abs  ||= 'undefined';
+		$Test->diag("    link: $from");
+		$Test->diag("     got: $link");
+		$Test->diag("    (abs): $link_abs");
+		$Test->diag("  expected: $to");
+		$Test->diag("    (abs): $to_abs");
+		$Test->diag("  readlink() error: $link_err") if ($link_err);
+		}
+	}
 
 =item dir_exists_ok( DIRECTORYNAME [, NAME ] )
 
