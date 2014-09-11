@@ -1365,7 +1365,7 @@ Contributed by Dylan Martin
 =cut
 
 sub group_is
- 	{
+	{
 	my $filename      = shift;
 	my $group         = shift;
 	my $name          = ( shift || "$filename belongs to group $group" );
@@ -1384,7 +1384,7 @@ sub group_is
 	my $file_gid  = ( stat $filename )[5];
 
 	unless( defined $file_gid )
- 		{
+		{
 		$Test->skip("stat failed to return group gid for $filename!");
 		return;
 		}
@@ -1395,8 +1395,8 @@ sub group_is
 	unless( defined $real_group )
 		{
 		$Test->diag("File does not belong to $group!");
- 		return $Test->ok( 0, $name );
- 		}
+		return $Test->ok( 0, $name );
+		}
 
 	$Test->diag( "File [$filename] belongs to $real_group ($file_gid), ".
 			"not $group ($group_gid)!" );
@@ -1437,7 +1437,7 @@ sub group_isnt
 	return $Test->ok( 1, $name ) if $file_gid != $group_gid;
 
 	$Test->diag( "File [$filename] belongs to $group ($group_gid)!" );
- 		return $Test->ok( 0, $name );
+		return $Test->ok( 0, $name );
 	}
 
 sub _get_uid
