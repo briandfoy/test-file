@@ -1,6 +1,9 @@
 1.36 - Wed Jan  1 16:38:13 PST 2014
     * Fix RT #89849 - bad line counts on latest dev version of Perl
 
+1.37 - Thu Sep 11 03:46:00 2014
+	* Uncomment accidently commented symlink_target_is_absolute_ok
+
 1.35 - Thu Oct 10 01:36:55 PDT 2013
     * Fix RT #89175 - don't distribute MYMETA*
     * add dir_exists_ok and dir_contains_ok
