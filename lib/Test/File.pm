@@ -24,6 +24,7 @@ use Test::Builder;
 	file_contains_like file_contains_unlike
 	file_contains_utf8_like file_contains_utf8_unlike
 	file_contains_encoded_like file_contains_encoded_unlike
+	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
 $VERSION = '1.37';
@@ -1525,6 +1526,119 @@ sub _get_gid
 	$group_uid;
 	}
 
+
+=item file_mtime_age_ok( FILE [, WITHIN_SECONDS ] [, NAME ] )
+
+Ok if FILE's modified time is WITHIN_SECONDS inclusive of the system's current time.
+This test uses stat() to obtain the mtime. If the file does not exist the test
+returns failure. If stat() fails, the test is skipped.
+
+=cut
+
+sub file_mtime_age_ok
+	{
+	my $filename    = shift;
+	my $within_secs = int shift || 0;
+	my $name        = shift || "$filename mtime within $within_secs seconds of current time";
+
+	my $time        = time();
+
+	my $filetime = _stat_file($filename, 9);
+
+	return if ( $filetime == -1 ); #skip
+
+	return $Test->ok(1, $name) if ( $filetime + $within_secs > $time-1  );
+
+	$Test->diag( "Filename [$filename] mtime [$filetime] is not $within_secs seconds within current system time [$time].");
+	return $Test->ok(0, $name);
+	}
+
+=item file_mtime_gt_ok( FILE, UNIXTIME [, NAME ] )
+
+Ok if FILE's mtime is > UNIXTIME. This test uses stat() to get the mtime. If stat() fails
+this test is skipped. If FILE does not exist, this test fails.
+
+=cut
+
+sub file_mtime_gt_ok
+	{
+	my $filename    = shift;
+	my $time        = int shift;
+	my $name        = shift || "$filename mtime is less than unix timestamp $time";
+
+	my $filetime = _stat_file($filename, 9);
+
+	return if ( $filetime == -1 ); #skip
+
+	return $Test->ok(1, $name) if ( $filetime > $time );
+
+	$Test->diag( "Filename [$filename] mtime [$filetime] not greater than $time" );
+	$Test->ok(0, $name);
+  }
+
+=item file_mtime_lt_ok( FILE, UNIXTIME, [, NAME ] )
+
+Ok if FILE's modified time is < UNIXTIME.  This test uses stat() to get the mtime. If stat() fails
+this test is skipped. If FILE does not exist, this test fails.
+
+=cut
+
+sub file_mtime_lt_ok
+	{
+	my $filename = shift;
+	my $time = int shift;
+	my $name = shift || "$filename mtime less than unix timestamp $time";
+
+  # gets mtime
+	my $filetime = _stat_file($filename, 9);
+
+	return if ( $filetime == -1 ); #skip
+
+	return $Test->ok(1, $name) if ( $filetime < $time );
+
+	$Test->diag( "Filename [$filename] mtime [$filetime] not less than $time" );
+	$Test->ok(0, $name);
+	}
+
+# private function to safely stat a file
+#
+# Arugments:
+# filename     file to perform on
+# attr_pos     pos of the array returned from stat we want to compare. perldoc -f stat
+#
+# Returns:
+# -1        - stat failed
+#  0        - failure (file doesn't exist etc)
+#  filetime - on success, time requested provided by stat
+#
+sub _stat_file
+	{
+	my $filename    = _normalize( shift );
+	my $attr_pos    = shift;
+
+	unless( defined $filename )
+		{
+		$Test->diag( "Filename not specified!" );
+		return 0;
+		}
+
+	unless( -e $filename )
+		{
+		$Test->diag( "Filename [$filename] does not exist!" );
+		return 0;
+		}
+
+	my $filetime = ( stat($filename) )[$attr_pos];
+
+	unless( $filetime )
+		{
+		$Test->diag( "stat of $filename failed" );
+		return -1; #skip on stat failure
+		}
+
+	return $filetime;
+	}
+
 =back
 
 =head1 TO DO
@@ -1566,6 +1680,9 @@ David Wheeler added C<file_line_count_is>.
 Buddy Burden C<< <barefoot@cpan.org> >> provided C<dir_exists_ok>,
 C<dir_contains_ok>, C<file_contains_like>, and
 C<file_contains_unlike>.
+
+xmikew C<< <https://github.com/xmikew> >> provided the C<mtime_age>
+stuff.
 
 =head1 COPYRIGHT AND LICENSE
 

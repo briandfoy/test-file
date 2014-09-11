@@ -24,3 +24,4 @@ t/test_dirs.t
 t/test_files.t
 t/test_manifest
 t/win32.t
+t/file_mtime.t
