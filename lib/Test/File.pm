@@ -1050,8 +1050,6 @@ symlinks. If the file does not exist, the test fails.
 
 =cut
 
-=pod
-
 sub symlink_target_is_absolute_ok 
 	{
 	if( _no_symlinks_here() )
