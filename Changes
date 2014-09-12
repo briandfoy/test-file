@@ -1,6 +1,9 @@
 1.36 - Wed Jan  1 16:38:13 PST 2014
     * Fix RT #89849 - bad line counts on latest dev version of Perl
 
+1.40 - Fri Sep 12 05:37:07 2014
+	* Fix up tests for UTF-8 checks
+
 1.39 - Thu Sep 11 05:46:58 2014
 	* Allow tests to run in parallel (RT #89908 and RT #91862)
 
