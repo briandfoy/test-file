@@ -31,7 +31,7 @@ $fh->close;
 
 my $pattern1 = qr/$string1/;
 my $pattern2 = qr/$string2/;
-my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?mu:^$bad_pattern$)/;
+my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?m:^$bad_pattern$)/;
 
 # like : single pattern
 

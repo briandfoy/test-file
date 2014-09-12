@@ -28,9 +28,9 @@ my $contents = do {
 };
 $fh->close;
 
-my $pattern1 = qr/(?mu:^$string1$)/;
-my $pattern2 = qr/(?mu:^$string2$)/;
-my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?mu:^$bad_pattern$)/;
+my $pattern1 = qr/(?m:^$string1$)/;
+my $pattern2 = qr/(?m:^$string2$)/;
+my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?m:^$bad_pattern$)/;
 
 # like : single pattern
 
