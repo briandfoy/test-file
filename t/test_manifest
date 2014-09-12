@@ -15,3 +15,4 @@ file_contains.t
 file_mtime.t
 owner.t
 rt/30346.t
+file_contains_encoded.t
