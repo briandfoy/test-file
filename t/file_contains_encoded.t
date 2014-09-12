@@ -16,14 +16,14 @@ require 't/setup_common';
 
 my $file = '$file';
 open my $fh, '>', $file or print "bail out! Could not write to $file: $!";
-$fh->binmode(":encoding($encoding)");
+binmode($fh, ":encoding($encoding)");
 $fh->print("$string1$/$/$/");
 $fh->print("$string2$/");
 $fh->close;
 
 my $contents = do {
      open $fh, '<', $file;
-     $fh->binmode(":encoding($encoding)");
+     binmode($fh, ":encoding($encoding)");
      local $/;
      <$fh>;
 };
