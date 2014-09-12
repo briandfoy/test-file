@@ -16,6 +16,7 @@ WriteMakefile(
 		'Test::More'            => '0.95',
 		'Test::Builder::Tester' => '1.04',
 		'Test::Builder'         => '1.001006',
+		'Test::utf8'            => '0',
 		},
 
 	META_ADD => {
