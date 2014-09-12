@@ -12,7 +12,7 @@ my $string1 = 'Привет мир!';
 my $string2 = 'Я строкой';
 my $encoding = 'KOI8-R';
 
-require 'setup_common';
+require 't/setup_common';
 
 my $file = '$file';
 open my $fh, '>', $file or print "bail out! Could not write to $file: $!";
