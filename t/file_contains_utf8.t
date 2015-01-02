@@ -15,22 +15,22 @@ require 't/setup_common';
 
 my $file = 'utf8_file';
 open my $fh, '>', $file or print "bail out! Could not write to utf8_file: $!";
-$fh->binmode(':encoding(UTF-8)');
+binmode($fh, ':encoding(UTF-8)');
 $fh->print("$string1$/$/$/");
 $fh->print("$string2$/");
 $fh->close;
 
 my $contents = do {
     open $fh, '<', $file;
-    $fh->binmode(':encoding(UTF-8)');
+    binmode($fh, ':encoding(UTF-8)');
     local $/;
     <$fh>;
 };
 $fh->close;
 
-my $pattern1 = qr/(?mu:^$string1$)/;
-my $pattern2 = qr/(?mu:^$string2$)/;
-my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?mu:^$bad_pattern$)/;
+my $pattern1 = qr/(?m:^$string1$)/;
+my $pattern2 = qr/(?m:^$string2$)/;
+my $bad_pattern = 'x' x 20; $bad_pattern = qr/(?m:^$bad_pattern$)/;
 
 # like : single pattern
 

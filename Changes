@@ -1,5 +1,7 @@
-1.36 - Wed Jan  1 16:38:13 PST 2014
-    * Fix RT #89849 - bad line counts on latest dev version of Perl
+# Changes for Test::File
+
+1.41 - Fri Sep 12 15:47:30 2014
+	* Adjust the UTF-8 and encoding tests to work with older perls
 
 1.40 - Fri Sep 12 05:37:07 2014
 	* Fix up tests for UTF-8 checks
@@ -8,10 +10,13 @@
 	* Allow tests to run in parallel (RT #89908 and RT #91862)
 
 1.38 - Thu Sep 11 04:03:42 2014
-	* Add xmikew's mtime test fucntions. GitHub issue #8
+	* Add xmikew's mtime test functions. GitHub issue #8
 
 1.37 - Thu Sep 11 03:46:00 2014
 	* Uncomment accidently commented symlink_target_is_absolute_ok
+
+1.36 - Wed Jan  1 16:38:13 PST 2014
+    * Fix RT #89849 - bad line counts on latest dev version of Perl
 
 1.35 - Thu Oct 10 01:36:55 PDT 2013
     * Fix RT #89175 - don't distribute MYMETA*
