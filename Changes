@@ -1,4 +1,4 @@
-# Changes for Test::File
+Revision history for Perl module Test::File
 
 1.41 - Fri Sep 12 15:47:30 2014
 	* Adjust the UTF-8 and encoding tests to work with older perls
