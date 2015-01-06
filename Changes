@@ -186,5 +186,6 @@ Revision history for Perl module Test::File
     * fixed up some doc issues in File.pm
     * no change in functionality
 
-0.06 - initial version
+0.05 - Sun Sep 23 12:23 2002
+	* initial version
 
