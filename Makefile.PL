@@ -58,7 +58,7 @@ my %WriteMakefile = (
 			},
 		},
 
-	clean  => { FILES    => q|Test-File-* test_files| },
+	clean  => { FILES    => qq|$dist-*| },
 	);
 
 
