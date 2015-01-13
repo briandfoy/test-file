@@ -13,6 +13,7 @@ use Test::Builder;
 	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
 	file_not_writeable_ok file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
+	file_mode_has file_mode_hasnt
 	file_is_symlink_ok
 	symlink_target_exists_ok symlink_target_is
 	symlink_target_dangles_ok
@@ -923,6 +924,90 @@ sub file_mode_isnt
 	else
 		{
 		$Test->diag(sprintf("File [%s] mode is %04o!",$filename,$mode));
+		$Test->ok(0, $name);
+		}
+	}
+
+=item file_mode_has( FILENAME, MODE [, NAME ] )
+
+Ok if the file exists and has all the bits in mode turned on, not ok
+if the file does not exist or the mode does not match.  That is,
+C<< FILEMODE & MODE == MODE >> must be true.
+
+This test automatically skips if it thinks it is on a
+Windows platform.
+
+Contributed by Ricardo Signes C<< <rjbs@cpan.org> >>
+
+=cut
+
+sub file_mode_has
+	{
+	if( _win32() )
+		{
+		$Test->skip( "file_mode_has doesn't work on Windows!" );
+		return;
+		}
+
+	my $filename = _normalize( shift );
+	my $mode     = shift;
+
+	my $name     = shift || sprintf("%s mode has all bits of %04o", $filename, $mode);
+
+	my $present = -e $filename;
+	my $gotmode = $present ? (stat($filename))[2] : undef;
+	my $ok      = $present && ($gotmode & $mode) == $mode;
+
+	if( $ok )
+		{
+		$Test->ok(1, $name);
+		}
+	else
+		{
+		my $missing = ($gotmode ^ $mode) & $mode;
+		$Test->diag(sprintf("File [%s] mode is missing component %04o!", $filename, $missing) );
+		$Test->ok(0, $name);
+		}
+	}
+
+=item file_mode_hasnt( FILENAME, MODE [, NAME ] )
+
+Ok if the file exists and has all the bits in mode turned off, not ok
+if the file does not exist or the mode does not match.  That is,
+C<< FILEMODE & MODE == 0 >> must be true.
+
+This test automatically skips if it thinks it is on a
+Windows platform.
+
+Contributed by Ricardo Signes C<< <rjbs@cpan.org> >>
+
+=cut
+
+sub file_mode_hasnt
+	{
+	if( _win32() )
+		{
+		$Test->skip( "file_mode_hasnt doesn't work on Windows!" );
+		return;
+		}
+
+	my $filename = _normalize( shift );
+	my $mode     = shift;
+
+	my $name     = shift || sprintf("%s mode has no bits of %04o", $filename, $mode);
+
+	my $present = -e $filename;
+	my $gotmode = $present ? (stat($filename))[2] : undef;
+	my $ok      = $present && ($gotmode & $mode) == 0;
+
+	if( $ok )
+		{
+		$Test->ok(1, $name);
+		}
+	else
+		{
+		my $bad = $gotmode & $mode;
+		$Test->diag(sprintf("File [%s] mode has forbidden component %04o!", $filename, $bad) );
 		$Test->ok(0, $name);
 		}
 	}
