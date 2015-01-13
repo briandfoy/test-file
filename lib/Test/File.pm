@@ -41,7 +41,7 @@ Test::File -- test file attributes
 
 =head1 SYNOPSIS
 
-use Test::File;
+  use Test::File;
 
 =head1 DESCRIPTION
 
