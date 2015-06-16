@@ -28,7 +28,7 @@ use Test::Builder;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.41';
+$VERSION = '1.42';
 
 {
 use warnings;
