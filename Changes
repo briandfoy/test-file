@@ -1,5 +1,8 @@
 Revision history for Perl module Test::File
 
+1.42 2015-06-16T17:58:11Z
+	* Fix problem with META* specifying requirements (RT #105210)
+
 1.41 - 2014-09-12
 	* Adjust the UTF-8 and encoding tests to work with older perls
 
