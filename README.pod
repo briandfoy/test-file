@@ -4,10 +4,13 @@
 
 =head1 The Test::File module
 
-This is the I<README> for the L<Test::File> Perl module. You're probably 
-looking at this because you don't know where else to find what you're
-looking for. Read this once and you might never have to read one again 
-for any Perl module.
+This is the I<README> for the L<Test::File> Perl module, which provides
+convenience test functions to check file attributes and data in a
+L<Test::More|http://www.metacpan.org/module/Test::More> fashion.
+
+You're probably looking at this because you don't know where else to
+find what you're looking for. Read this once and you might never have
+to read one again for any Perl module.
 
 =head2 Documentation
 
