@@ -35,6 +35,8 @@ use warnings;
 
 my $Test = Test::Builder->new();
 
+=encoding utf8
+
 =head1 NAME
 
 Test::File -- test file attributes
