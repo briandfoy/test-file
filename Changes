@@ -1,5 +1,8 @@
 Revision history for Perl module Test::File
 
+1.43 2015-06-22T21:44:37Z
+	* Don't install README.pod
+
 1.42 2015-06-16T17:58:11Z
 	* Fix problem with META* specifying requirements (RT #105210)
 
