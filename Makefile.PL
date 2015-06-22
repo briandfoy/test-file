@@ -116,6 +116,19 @@ sub do_it {
 	WriteMakefile( %$arguments );
 	}
 
+BEGIN {
+use ExtUtils::MM_Unix;
+package ExtUtils::MM_Unix;
+
+my $original = \&ExtUtils::MM_Unix::init_dirscan;
+no warnings 'redefine';
+
+*init_dirscan = sub {
+	&$original;
+	delete $_[0]{PM}{'README.pod'};
+	$_[0];
+	};
+}
 
 no warnings;
 __PACKAGE__;
