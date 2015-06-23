@@ -21,7 +21,6 @@ t/obviously_non_multi_user.t
 t/owner.t
 t/pod.t
 t/pod_coverage.t
-t/prereq.t
 t/rt/30346.t
 t/setup_common
 t/test_dirs.t
