@@ -28,7 +28,7 @@ use Test::Builder;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.43_01';
+$VERSION = '1.43_02';
 
 {
 use warnings;
@@ -59,10 +59,13 @@ matter the permissions.
 Some attributes don't make sense outside of Unix, either, so some
 tests automatically skip if they think they won't work on the
 platform.  If you have a way to make these functions work on Windows,
-for instance, please send me a patch. :)
+for instance, please send me a patch. :) IF you want to pretend to be
+Windows on a non-Windows machine (for instance, to test C<skip()>),
+you can set the C<PRETEND_TO_BE_WINDOWS> environment variable.
 
-The optional NAME parameter for every function allows you to specify a name for the test.  If not
-supplied, a reasonable default will be generated.
+The optional NAME parameter for every function allows you to specify a
+name for the test.  If not supplied, a reasonable default will be
+generated.
 
 =head2 Functions
 
@@ -81,6 +84,7 @@ sub _normalize
 sub _win32
 	{
 	return 0 if $^O eq 'darwin';
+	return $ENV{PRETEND_TO_BE_WIN32} if defined $ENV{PRETEND_TO_BE_WIN32};
 	return $^O =~ m/Win/;
 	}
 
