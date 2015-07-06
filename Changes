@@ -1,5 +1,8 @@
 Revision history for Perl module Test::File
 
+1.44 2015-07-06T00:29:56Z
+	* Fix file_has_* tests to work on Windows (RJBS) GitHub #13
+
 1.43_02 2015-06-24T15:21:57Z
  * check file_mode_has tests for Windows
 
