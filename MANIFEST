@@ -1,5 +1,6 @@
 Changes
 examples/README
+INSTALL.SKIP
 lib/Test/File.pm
 LICENSE
 Makefile.PL
