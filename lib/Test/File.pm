@@ -28,7 +28,7 @@ use Test::Builder;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.44';
+$VERSION = '1.441_01';
 
 {
 use warnings;
@@ -350,11 +350,11 @@ sub _ECANTOPEN () { -2 }
 sub _file_line_counter
 	{
 	my $filename = shift;
-	
+
 	return _ENOFILE   unless -e $filename;  # does not exist
-	
-	return _ECANTOPEN unless open my( $fh ), "<", $filename; 
-	
+
+	return _ECANTOPEN unless open my( $fh ), "<", $filename;
+
 	my $count = 0;
 	while( <$fh> ) { $count++ }
 
@@ -371,7 +371,7 @@ sub file_line_count_is
 		no warnings 'uninitialized';
 		shift || "$filename line count is $expected lines";
 		};
-	
+
 	unless( defined $expected && int( $expected ) == $expected )
 		{
 		no warnings 'uninitialized';
@@ -381,17 +381,17 @@ sub file_line_count_is
 		}
 
 	my $got = _file_line_counter( $filename );
-	
+
 	if( $got eq _ENOFILE )
 		{
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
-	elsif( $got == _ECANTOPEN ) 
+	elsif( $got == _ECANTOPEN )
 		{
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
-		}		
+		}
 	elsif( $got == $expected )
 		{
 		$Test->ok( 1, $name );
@@ -424,7 +424,7 @@ sub file_line_count_isnt
 		no warnings 'uninitialized';
 		shift || "$filename line count is not $expected lines";
 		};
-	
+
 	unless( defined $expected && int( $expected ) == $expected )
 		{
 		no warnings 'uninitialized';
@@ -434,17 +434,17 @@ sub file_line_count_isnt
 		}
 
 	my $got = _file_line_counter( $filename );
-	
+
 	if( $got eq _ENOFILE )
 		{
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
-	elsif( $got == _ECANTOPEN ) 
+	elsif( $got == _ECANTOPEN )
 		{
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
-		}		
+		}
 	elsif( $got != $expected )
 		{
 		$Test->ok( 1, $name );
@@ -477,7 +477,7 @@ sub file_line_count_between
 		no warnings 'uninitialized';
 		shift || "$filename line count is between [$min] and [$max] lines";
 		};
-	
+
 	foreach my $ref ( \$min, \$max )
 		{
 		unless( defined $$ref && int( $$ref ) == $$ref )
@@ -488,20 +488,20 @@ sub file_line_count_between
 			return $Test->ok( 0, $name );
 			}
 		}
-		
+
 
 	my $got = _file_line_counter( $filename );
-	
+
 	if( $got eq _ENOFILE )
 		{
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
-	elsif( $got == _ECANTOPEN ) 
+	elsif( $got == _ECANTOPEN )
 		{
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
-		}		
+		}
 	elsif( $min <= $got and $got <= $max )
 		{
 		$Test->ok( 1, $name );
@@ -509,7 +509,7 @@ sub file_line_count_between
 	else
 		{
 		$Test->diag( "Expected a line count between [$min] and [$max] " .
-			"in [$filename], but got [$got] lines!" 
+			"in [$filename], but got [$got] lines!"
 			);
 		$Test->ok( 0, $name );
 		}
@@ -1088,8 +1088,8 @@ sub symlink_target_exists_ok
 	unless( $dest eq $actual )
 		{
 		$Test->diag(
-			"Symlink [$file] points to\n" . 
-			"         got: $actual\n" . 
+			"Symlink [$file] points to\n" .
+			"         got: $actual\n" .
 			"    expected: $dest\n"
 			);
 		return $Test->ok( 0, $name );
@@ -1143,7 +1143,7 @@ If the file does not exist, the test fails.
 
 =cut
 
-sub symlink_target_is 
+sub symlink_target_is
 	{
 	if( _no_symlinks_here() )
 		{
@@ -1171,12 +1171,12 @@ sub symlink_target_is
 		$Test->diag( "readlink error: $link_error" ) if defined $link_error;
 		return $Test->ok( 0, $name );
 		}
-	
-	if( $dest eq $actual_dest ) 
+
+	if( $dest eq $actual_dest )
 		{
 		$Test->ok( 1, $name );
-		} 
-	else 
+		}
+	else
 		{
 		$Test->ok( 0, $name );
 		$Test->diag("       got: $actual_dest" );
@@ -1192,7 +1192,7 @@ symlinks. If the file does not exist, the test fails.
 
 =cut
 
-sub symlink_target_is_absolute_ok 
+sub symlink_target_is_absolute_ok
 	{
 	if( _no_symlinks_here() )
 		{
@@ -1383,7 +1383,7 @@ sub link_count_lt_ok
 sub _dm_skeleton
 	{
 	no warnings 'uninitialized';
-	
+
 	if( _obviously_non_multi_user() )
 		{
 		my $calling_sub = (caller(1))[3];
@@ -1436,7 +1436,7 @@ sub owner_is
 		$Test->diag("User [$owner] does not exist on this system!");
 		return $Test->ok( 0, $name );
 		}
-		
+
 	my $file_uid = ( stat $filename )[4];
 
 	unless( defined $file_uid )
