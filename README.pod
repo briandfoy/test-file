@@ -4,8 +4,7 @@
 
 =for HTML <a href="https://travis-ci.org/briandfoy/test-file"><img src="https://travis-ci.org/briandfoy/test-file.svg?branch=master"></a>
 
-=for HTML
-<a href='https://coveralls.io/github/briandfoy/test-file?branch=master'><img src='https://coveralls.io/repos/briandfoy/test-file/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+=for HTML <a href='https://coveralls.io/github/briandfoy/test-file?branch=master'><img src='https://coveralls.io/repos/github/briandfoy/test-file/badge.svg?branch=master' alt='Coverage Status' /></a>
 
 =for HTML <a href="https://github.com/briandfoy/test-file/blob/master/LICENSE"><img src="https://img.shields.io/cpan/l/Test-File.svg" /></a>
 
