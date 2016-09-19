@@ -5,8 +5,7 @@ use Test::Builder::Tester;
 use Test::More 0.95;
 use Test::File;
 
-require "t/setup_common";
-
+require "./t/setup_common";
 
 # Setup test env
 my $mtime_file = 'mtime_file';

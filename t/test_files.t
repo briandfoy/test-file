@@ -11,7 +11,7 @@ executable     min_file       not_executable not_writeable  writeable
 
 =cut
 
-require "t/setup_common";
+require "./t/setup_common";
 
 test_out( 'ok 1 - readable exists' );
 file_exists_ok( 'readable' );

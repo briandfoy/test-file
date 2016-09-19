@@ -4,7 +4,7 @@ use Test::Builder::Tester;
 use Test::More 0.95;
 use Test::File;
 
-require "t/setup_common";
+require "./t/setup_common";
 
 subtest subs_defined => sub {
 	my @subs = qw( file_line_count_between file_line_count_is file_line_count_isnt );

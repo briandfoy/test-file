@@ -8,7 +8,7 @@ my $can_symlink = eval { symlink("",""); 1 };
 
 plan skip_all => "This system does't do symlinks" unless $can_symlink;
 
-require "t/setup_common";
+require "./t/setup_common";
 
 subtest dont_work_with_symlinks => sub {
 	no warnings 'redefine';

@@ -11,7 +11,7 @@ use Test::File;
 my $string1 = 'Καλημέρα κόσμε';
 my $string2 = 'コンニチハ';
 
-require 't/setup_common';
+require "./t/setup_common";
 
 my $file = 'utf8_file';
 open my $fh, '>', $file or print "bail out! Could not write to utf8_file: $!";

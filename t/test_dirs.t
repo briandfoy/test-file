@@ -7,7 +7,7 @@ use Test::File;
 
 use File::Spec::Functions qw(catfile);
 
-require "t/setup_common";
+require "./t/setup_common";
 open FH, '>', catfile( qw(sub_dir subdir_file) ); close FH;
 
 

@@ -4,7 +4,7 @@ use Test::Builder::Tester;
 use Test::More 0.95;
 use Test::File;
 
-require "t/setup_common";
+require "./t/setup_common";
 
 subtest setup => sub {
 	ok( defined &Test::File::_dm_skeleton, "_dm_skeleton is defined" );
