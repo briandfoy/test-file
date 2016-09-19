@@ -1,5 +1,9 @@
 Revision history for Perl module Test::File
 
+1.441_01 2016-09-19T21:44:45Z
+	* Fix for missing . in @INC (Github #14 https://github.com/briandfoy/test-file/issues/14)
+	This relates to CVE-2016-1238
+
 1.44 2015-07-06T00:29:56Z
 	* Fix file_has_* tests to work on Windows (RJBS) GitHub #13
 
