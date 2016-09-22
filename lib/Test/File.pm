@@ -28,7 +28,7 @@ use Test::Builder;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.441_01';
+$VERSION = '1.442';
 
 {
 use warnings;
@@ -1777,7 +1777,7 @@ stuff.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2002-2015, brian d foy <bdfoy@cpan.org>. All rights reserved.
+Copyright © 2002-2016, brian d foy <bdfoy@cpan.org>. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself.
