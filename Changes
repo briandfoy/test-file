@@ -1,5 +1,11 @@
 Revision history for Perl module Test::File
 
+1.442 2016-09-22T15:35:50Z
+	* Update to stable release. This fixes an upcoming Perl @INC
+	issue that removes the current directory from the default list.
+	This affects only the test files which use a private library.
+	If you already have this installed you don't need to update.
+
 1.441_01 2016-09-19T21:44:45Z
 	* Fix for missing . in @INC (Github #14 https://github.com/briandfoy/test-file/issues/14)
 	This relates to CVE-2016-1238
