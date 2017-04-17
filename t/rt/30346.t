@@ -7,7 +7,7 @@ use_ok( 'Test::File' );
 
 use Cwd;
 
-require 't/setup_common';
+require './t/setup_common';
 
 subtest file_does_not_exist => sub {
 	my $file = "no_such_file-" . "$$" . time() . "b$<$>m";
