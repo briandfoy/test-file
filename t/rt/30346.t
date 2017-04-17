@@ -16,10 +16,10 @@ subtest file_does_not_exist => sub {
 
 	my $name = "$file is not empty";
 	test_out( "not ok 1 - $name");
-	test_diag( 
+	test_diag(
 		"File [$file] does not exist!\n" .
-		"    #   Failed test '$name'\n". 
-		"    #   at $0 line " . line_num(+5) . "." 
+		"    #   Failed test '$name'\n".
+		"    #   at $0 line " . line_num(+5) . "."
 		);
 	file_not_empty_ok( $file );
 	test_test( $name );
@@ -28,7 +28,7 @@ subtest file_does_not_exist => sub {
 subtest file_exists_non_zero => sub {
 	my $file = 'min_file';
 	diag( "File is $file with size " . (-s $file) . " bytes" );
-	
+
 	my $name = "$file is not empty";
 	test_out( "ok 1 - $name");
 	file_not_empty_ok( $file );
@@ -44,10 +44,10 @@ subtest file_exists_zero_size => sub {
 
 	my $name = "$file is not empty";
 	test_out( "not ok 1 - $name");
-	test_diag( 
+	test_diag(
 		"File [$file] exists with zero size!\n" .
-		"    #   Failed test '$name'\n". 
-		"    #   at $0 line " . line_num(+5) . "." 
+		"    #   Failed test '$name'\n".
+		"    #   at $0 line " . line_num(+5) . "."
 		);
 	file_not_empty_ok( $file );
 	test_test( $name );
