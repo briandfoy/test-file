@@ -27,7 +27,7 @@ before_install:
 install:
     - cpanm --quiet --installdeps --notest .
     - if [ "$OLD_DEVEL_COVER" = "0" ]; then cpanm --quiet --notest Devel::Cover; fi
-    - if [ "$OLD_DEVEL_COVER" = "1 ]; then cpanm --quiet --notest Devel::Cover@1.23; fi
+    - if [ "$OLD_DEVEL_COVER" = "1" ]; then cpanm --quiet --notest Devel::Cover@1.23; fi
     - cpanm --quiet --notest Devel::Cover::Report::Coveralls
 
 script:
