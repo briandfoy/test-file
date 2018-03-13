@@ -9,8 +9,6 @@ branches:
     - master
 
 skip_tags: true
-cache:
-  - cmd: C:\strawberry
 
 install:
   - cmd: if not exist "C:\strawberry" cinst strawberryperl
