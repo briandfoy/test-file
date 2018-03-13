@@ -19,6 +19,7 @@ install:
   - cmd: cd C:\projects\%APPVEYOR_PROJECT_NAME%
   - sh: sudo apt-get install build-essential git libssl-dev
   - sh: sudo apt-get install -y perl
+  - sh: export PATH=/home/appveyor/perl5/bin:$PATH
   - perl -v
   - cpan App::cpanminus
   - cpanm --installdeps .
