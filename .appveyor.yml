@@ -17,7 +17,7 @@ install:
   - sh: sudo apt-get install build-essential git libssl-dev
   - sh: sudo apt-get install -y perl
   - perl -v
-  - cpanm --installdeps .
+  - cpan .
 
 build_script:
   - perl Makefile.PL
