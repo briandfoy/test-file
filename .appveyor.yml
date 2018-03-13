@@ -3,7 +3,7 @@ image:
   - Ubuntu
 
 environment:
-  - PERL5LIB=/home/appveyor/perl5/lib/perl5
+  PERL5LIB: /home/appveyor/perl5/lib/perl5
 
 platform: x64
 
