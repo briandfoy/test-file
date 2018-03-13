@@ -2,6 +2,9 @@ image:
   - Visual Studio 2015
   - Ubuntu
 
+env:
+  - sh: PERL5LIB=/home/appveyor/perl5/lib/perl5
+
 platform: x64
 
 branches:
