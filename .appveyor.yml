@@ -1,11 +1,27 @@
+image:
+  - Visual Studio 2015
+  - Ubuntu
+
+platform: x64
+
+branches:
+  only:
+    - master
+
 skip_tags: true
 cache:
-  - C:\strawberry
+  - cmd: C:\strawberry
+
 install:
-  - if not exist "C:\strawberry" cinst strawberryperl
-  - set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
-  - cd C:\projects\%APPVEYOR_PROJECT_NAME%
+  - cmd: if not exist "C:\strawberry" cinst strawberryperl
+  - cmd: set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
+  - cmd: cd C:\projects\%APPVEYOR_PROJECT_NAME%
+  - sh: sudo apt-get install build-essential git libssl-dev
+  - sh: sudo apt-get install -y perl
+  - perl -v
   - cpanm --installdeps .
+
 build_script:
   - perl Makefile.PL
-  - gmake test
+  - cmd: gmake test
+  - sh: make test
