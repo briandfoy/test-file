@@ -35,17 +35,8 @@ name instead of the file location:
 
 	% perldoc Test::File
 
-You can read the documentation and inspect the meta data on one of the
-CPAN web interfaces, such as L<CPAN Search|http://search.cpan.org/dist/Test-File> or
-L<MetaCPAN|http://www.metacpan.org/module/Test::File>:
-
-=over 4
-
-=item *	L<http://search.cpan.org/dist/Test-File>
-
-=item *	L<http://www.metacpan.org/module/Test::File>
-
-=back
+You can read the documentation and inspect the meta data at
+L<MetaCPAN|http://www.metacpan.org/module/Test::File>.
 
 The standard module documentation has example uses in the SYNOPSIS
 section, but you can also look in the I<examples/> directory (if it's
