@@ -10,6 +10,7 @@
 *.tgz
 *.yml
 *.zip
+*.swp
 .last_cover_stats
 .prove
 /.build/

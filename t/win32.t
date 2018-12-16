@@ -19,6 +19,13 @@ subtest win32 => sub {
 	ok( Test::File::_win32(), "Returns true for Win32" );
 	};
 
+subtest linux_pretend_win32 => sub {
+	local %ENV;
+	$ENV{PRETEND_TO_BE_WIN32} = 1;
+	local $^O = 'linux';
+	ok( Test::File::_win32(), "Returns true for linux when ENV{PRETEND_TO_BE_WIN32} is defined" );
+	};
+
 subtest file_modes => sub {
 	local $^O = 'Win32';
 
