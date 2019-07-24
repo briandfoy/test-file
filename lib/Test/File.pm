@@ -1655,7 +1655,7 @@ sub file_mtime_gt_ok
 	{
 	my $filename    = shift;
 	my $time        = int shift;
-	my $name        = shift || "$filename mtime is less than unix timestamp $time";
+	my $name        = shift || "$filename mtime is greater than unix timestamp $time";
 
 	my $filetime = _stat_file($filename, 9);
 
