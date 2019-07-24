@@ -1665,7 +1665,7 @@ sub file_mtime_gt_ok
 
 	$Test->diag( "Filename [$filename] mtime [$filetime] not greater than $time" );
 	$Test->ok(0, $name);
-  }
+	}
 
 =item file_mtime_lt_ok( FILE, UNIXTIME, [, NAME ] )
 
