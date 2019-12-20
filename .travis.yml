@@ -1,4 +1,14 @@
+# brian's standard Travis CI config for Perl 5 modules
+# https://github.com/briandfoy/brians_perl_modules_travis_config
+# This file is licensed under the Artistic License 2.0
+
 sudo: false
+
+dist: trusty
+
+cache:
+    directories:
+    - $HOME/.perlbrew-cache
 
 language: perl
 perl:
@@ -25,6 +35,10 @@ matrix:
 before_install:
     - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
     - source ~/travis-perl-helpers/init --auto
+    - build-perl
+    - perl -V
+    - build-dist
+    - cd $BUILD_DIR
 
 install:
     - cpanm --quiet --installdeps --notest .
