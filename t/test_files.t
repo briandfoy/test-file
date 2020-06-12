@@ -13,6 +13,8 @@ executable     min_file       not_executable not_writable   writable
 
 require "./t/setup_common";
 
+diag "Warnings about file_writeable_ok are fine. It's a deprecated name that still works.";
+
 test_out( 'ok 1 - readable exists' );
 file_exists_ok( 'readable' );
 test_test();
@@ -37,10 +39,18 @@ test_out( 'ok 1 - writable is writable' );
 file_writable_ok( 'writable' );
 test_test();
 
+test_out( 'ok 1 - writable is writable' );
+file_writeable_ok( 'writable' );
+test_test();
+
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
 test_out( 'ok 1 - readable is not writable' );
 file_not_writable_ok( 'readable' );
+test_test();
+
+test_out( 'ok 1 - readable is not writable' );
+file_not_writeable_ok( 'readable' );
 test_test();
 };
 
