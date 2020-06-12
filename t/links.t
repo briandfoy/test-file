@@ -173,11 +173,11 @@ subtest bad_target_does_exists => sub {
 	test_diag(
 		"Symlink [readable_sym] points to\n" .
 		"    #          got: readable\n" .
-		"    #     expected: writeable\n" .
+		"    #     expected: writable\n" .
 		"    #   Failed test 'readable_sym is a symlink'\n" .
 		"    #   at $0 line " . line_num(+7) . "."
 		);
-	symlink_target_exists_ok( $readable_sym, "writeable" );
+	symlink_target_exists_ok( $readable_sym, "writable" );
 	test_test();
 	done_testing();
 	};

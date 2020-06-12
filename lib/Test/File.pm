@@ -10,8 +10,9 @@ use Test::Builder;
 @EXPORT = qw(
 	file_exists_ok file_not_exists_ok
 	file_empty_ok file_not_empty_ok file_size_ok file_max_size_ok
-	file_min_size_ok file_readable_ok file_not_readable_ok file_writeable_ok
-	file_not_writeable_ok file_executable_ok file_not_executable_ok
+	file_min_size_ok file_readable_ok file_not_readable_ok
+	file_writeable_ok file_writable_ok file_not_writeable_ok file_not_writable_ok
+	file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
 	file_mode_has file_mode_hasnt
 	file_is_symlink_ok
@@ -740,17 +741,29 @@ sub file_not_readable_ok
 		}
 	}
 
+=item file_writable_ok( FILENAME [, NAME ] )
+
 =item file_writeable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is writeable, not ok
-if the file does not exist or is not writeable.
+Ok if the file exists and is writable, not ok if the file does not
+exist or is not writable.
+
+The original name is C<file_writeable_ok> with that extra I<e>. That
+still works but there's a function with the correct spelling too.
 
 =cut
 
 sub file_writeable_ok
 	{
+	carp "file_writeable_ok is now file_writable_ok";
+
+	&file_writable_ok;
+	}
+
+sub file_writable_ok
+	{
 	my $filename = _normalize( shift );
-	my $name     = shift || "$filename is writeable";
+	my $name     = shift || "$filename is writable";
 
 	my $ok = -w $filename;
 
@@ -760,22 +773,34 @@ sub file_writeable_ok
 		}
 	else
 		{
-		$Test->diag( "File [$filename] is not writeable!" );
+		$Test->diag( "File [$filename] is not writable!" );
 		$Test->ok(0, $name);
 		}
 	}
 
 =item file_not_writeable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is not writeable, not ok
-if the file does not exist or is writeable.
+=item file_not_writable_ok( FILENAME [, NAME ] )
+
+Ok if the file exists and is not writable, not ok if the file does not
+exist or is writable.
+
+The original name is C<file_not_writeable_ok> with that extra I<e>.
+That still works but there's a function with the correct spelling too.
 
 =cut
 
 sub file_not_writeable_ok
 	{
+	carp "file_not_writeable_ok is now file_not_writable_ok";
+
+	&file_not_writable_ok;
+	}
+
+sub file_not_writable_ok
+	{
 	my $filename = _normalize( shift );
-	my $name     = shift || "$filename is not writeable";
+	my $name     = shift || "$filename is not writable";
 
 	my $ok = not -w $filename;
 
@@ -785,7 +810,7 @@ sub file_not_writeable_ok
 		}
 	else
 		{
-		$Test->diag("File [$filename] is writeable!");
+		$Test->diag("File [$filename] is writable!");
 		$Test->ok(0, $name);
 		}
 	}

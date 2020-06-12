@@ -7,7 +7,7 @@ use Test::File;
 =pod
 
 max_file       non_zero_file  not_readable   readable       zero_file
-executable     min_file       not_executable not_writeable  writeable
+executable     min_file       not_executable not_writable   writable
 
 =cut
 
@@ -28,19 +28,19 @@ test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-test_out( 'ok 1 - writeable is not readable' );
-file_not_readable_ok( 'writeable' );
+test_out( 'ok 1 - writable is not readable' );
+file_not_readable_ok( 'writable' );
 test_test();
 };
 
-test_out( 'ok 1 - writeable is writeable' );
-file_writeable_ok( 'writeable' );
+test_out( 'ok 1 - writable is writable' );
+file_writable_ok( 'writable' );
 test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-test_out( 'ok 1 - readable is not writeable' );
-file_not_writeable_ok( 'readable' );
+test_out( 'ok 1 - readable is not writable' );
+file_not_writable_ok( 'readable' );
 test_test();
 };
 
@@ -154,18 +154,18 @@ test_test();
 {
 my $s = Test::File::_win32()
 	? "# skip file_mode_is doesn't work on Windows!"
-	: "- writeable mode is 0200";
+	: "- writable mode is 0200";
 test_out( "ok 1 $s" );
-file_mode_is( 'writeable', 0200 );
+file_mode_is( 'writable', 0200 );
 test_test();
 }
 
 {
 my $s = Test::File::_win32()
 	? "# skip file_mode_isnt doesn't work on Windows!"
-	: "- writeable mode is not 0100";
+	: "- writable mode is not 0100";
 test_out( "ok 1 $s" );
-file_mode_isnt( 'writeable', 0100 );
+file_mode_isnt( 'writable', 0100 );
 test_test();
 }
 
