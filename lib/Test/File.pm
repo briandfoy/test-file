@@ -1773,6 +1773,8 @@ sub _stat_file
 L<Test::Builder>,
 L<Test::More>
 
+If you are using the new C<Test2> stuff, see L<Test2::Tool::File>.
+
 =head1 SOURCE AVAILABILITY
 
 This module is in Github:
@@ -1801,6 +1803,8 @@ C<file_contains_unlike>.
 xmikew C<< <https://github.com/xmikew> >> provided the C<mtime_age>
 stuff.
 
+Torbjørn Lindahl is working on L<Test2::Tools::File> and we're
+working together to align our interfaces.
 
 =head1 COPYRIGHT AND LICENSE
 
