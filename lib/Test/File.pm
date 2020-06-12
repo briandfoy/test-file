@@ -1,9 +1,10 @@
 package Test::File;
 use strict;
 
-use base qw(Exporter);
 use vars qw(@EXPORT $VERSION);
 
+use Carp            qw(carp);
+use Exporter        qw(import);
 use File::Spec;
 use Test::Builder;
 
