@@ -1,5 +1,12 @@
 Revision history for Perl module Test::File
 
+1.443_01 2020-06-12T11:54:41Z
+	* change the file_writeable_ok tests to file_writable_ok, which
+	is the correct spelling. The old names work but now warn to use
+	the new name.
+	* Some updates to refresh the tests.
+	* Start mirroring Test2::Tools::File so we support the same names.
+
 1.443 2017-04-17T08:41:35Z
 	* Found another relative path require issue thanks to Ryan Voots 
 	http://blogs.perl.org/users/ryan_voots/2017/04/trials-and-troubles-with-changing-inc.html
