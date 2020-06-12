@@ -35,6 +35,7 @@ subtest dont_work_with_symlinks => sub {
 		&{$sub}();
 		test_test();
 		}
+	done_testing();
 	};
 
 
@@ -91,6 +92,7 @@ subtest should_work => sub {
 	symlink_target_exists_ok( $readable_sym, $readable );
 	symlink_target_is( $readable_sym, $readable, $test_name );
 	test_test();
+	done_testing();
 	};
 
 subtest should_work => sub {
@@ -141,6 +143,7 @@ subtest should_work => sub {
 		);
 	symlink_target_exists_ok( $readable );
 	test_test();
+	done_testing();
 	};
 
 subtest bad_target_does_not_exist => sub {
@@ -162,6 +165,7 @@ subtest bad_target_does_not_exist => sub {
 		);
 	symlink_target_is( $readable_sym, $not_there );
 	test_test();
+	done_testing();
 	};
 
 subtest bad_target_does_exists => sub {
@@ -175,6 +179,7 @@ subtest bad_target_does_exists => sub {
 		);
 	symlink_target_exists_ok( $readable_sym, "writeable" );
 	test_test();
+	done_testing();
 	};
 
 subtest dangling_exists => sub {
@@ -186,6 +191,7 @@ subtest dangling_exists => sub {
 		);
 	symlink_target_dangles_ok( $readable_sym, $test_name );
 	test_test();
+	done_testing();
 	};
 
 

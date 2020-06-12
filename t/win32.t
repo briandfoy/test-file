@@ -34,6 +34,7 @@ subtest file_modes => sub {
 		&{$sub}();
 		test_test();
 		}
+	done_testing();
 	};
 
 done_testing();

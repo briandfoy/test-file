@@ -35,6 +35,7 @@ subtest should_work => sub {
 	test_out( "ok 1 - $readable has a link count of [1]" );
 	link_count_is_ok( $readable, 1 );
 	test_test();
+	done_testing();
 	};
 
 
@@ -75,6 +76,7 @@ subtest bad_count => sub {
 		);
 	link_count_gt_ok( $readable, 100, $test_name );
 	test_test();
+	done_testing();
 	};
 
 done_testing();

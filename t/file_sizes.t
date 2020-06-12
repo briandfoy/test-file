@@ -40,6 +40,7 @@ subtest works => sub {
 	test_out( "ok 1 - $file is over $under_size bytes" );
 	file_min_size_ok( $file, $under_size );
 	test_test();
+	done_testing();
 	};
 
 subtest wrong_size => sub {
@@ -97,6 +98,7 @@ subtest wrong_size => sub {
 		);
 	file_not_empty_ok( 'zero_file' );
 	test_test();
+	done_testing();
 	};
 
 subtest doesnt_work_with_missing_file => sub {
@@ -147,6 +149,7 @@ subtest doesnt_work_with_missing_file => sub {
 		);
 	file_not_empty_ok( $not_there );
 	test_test();
+	done_testing();
 	};
 
 done_testing();
