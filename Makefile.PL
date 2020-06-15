@@ -49,8 +49,8 @@ my %WriteMakefile = (
 	'NAME'          => $module,
 	'VERSION_FROM'  => $main_file,
 	'ABSTRACT_FROM' => $main_file,
-	'LICENSE'		=> 'artistic_2',
-	'AUTHOR'		=> 'brian d foy <bdfoy@cpan.org>',
+	'LICENSE'       => 'artistic_2',
+	'AUTHOR'        => 'brian d foy <bdfoy@cpan.org>',
 
 	'CONFIGURE_REQUIRES' => {
 		'ExtUtils::MakeMaker'   => '6.64',
