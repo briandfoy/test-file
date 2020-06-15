@@ -1,5 +1,9 @@
 Revision history for Perl module Test::File
 
+1.443_02 2020-06-15T12:10:34Z
+	* Deprecated directories in tests appropriate for only plain files.
+	It's a diag() message now but will be a test failure later.
+
 1.443_01 2020-06-12T11:54:41Z
 	* change the file_writeable_ok tests to file_writable_ok, which
 	is the correct spelling. The old names work but now warn to use
