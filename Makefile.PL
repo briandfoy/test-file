@@ -93,6 +93,7 @@ my %WriteMakefile = (
 		},
 
 	clean  => { FILES    => qq|$dist-*| },
+	test   => { TESTS    => 't/*.t t/*/*.t' },
 	);
 
 
