@@ -148,9 +148,11 @@ test_test( $name );
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # test group stuff
 group_is(   $filename, $file_group_name, 'group_is with text groupname'    );
+group_is(   $filename, $file_group_name );
 group_is(   $filename, $file_gid,  'group_is with numeric GID'             );
 group_isnt( $filename, $other_group_name, 'group_isnt with text groupname' );
 group_isnt( $filename, $other_gid,  'group_isnt with numeric GID'          );
+group_isnt( $filename, $other_gid );
 
 
 $name = 'Intentional group_is failure';

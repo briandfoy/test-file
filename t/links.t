@@ -184,12 +184,19 @@ subtest bad_target_does_exists => sub {
 
 subtest dangling_exists => sub {
 	test_out( "not ok 1 - $test_name" );
+	test_out( "not ok 2 - readable_sym is a symlink" );
 	test_diag(
 		"Symlink [$readable_sym] points to existing file [$readable] but shouldn't!\n" .
 		"    #   Failed test '$test_name'\n" .
-		"    #   at $0 line " . line_num(+5) . "."
+		"    #   at $0 line " . line_num(+10) . "."
+		);
+	test_diag(
+		"Symlink [$readable_sym] points to existing file [$readable] but shouldn't!\n" .
+		"    #   Failed test 'readable_sym is a symlink'\n" .
+		"    #   at $0 line " . line_num(+6) . "."
 		);
 	symlink_target_dangles_ok( $readable_sym, $test_name );
+	symlink_target_dangles_ok( $readable_sym );
 	test_test();
 	done_testing();
 	};
