@@ -155,6 +155,9 @@ sub file_not_exists_ok {
 Ok if the file exists and has empty size, not ok if the
 file does not exist or exists with non-zero size.
 
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
+
 =cut
 
 sub file_empty_ok {
@@ -164,6 +167,10 @@ sub file_empty_ok {
 	unless( -e $filename ) {
 		$Test->diag( "File [$filename] does not exist!" );
 		return $Test->ok(0, $name);
+		}
+
+	unless( -f $filename ) {
+		$Test->diag( "File [$filename] is not a plain file, which is deprecated for file_empty_ok" );
 		}
 
 	my $ok = -z $filename;
@@ -179,8 +186,11 @@ sub file_empty_ok {
 
 =item file_not_empty_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and has non-zero size, not ok if the
-file does not exist or exists with zero size.
+Ok if the file exists and has non-zero size, not ok if the file does
+not exist or exists with zero size.
+
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
 
 =cut
 
@@ -191,6 +201,10 @@ sub file_not_empty_ok {
 	unless( -e $filename ) {
 		$Test->diag( "File [$filename] does not exist!" );
 		return $Test->ok(0, $name);
+		}
+
+	unless( -f $filename ) {
+		$Test->diag( "File [$filename] is a directory, which is deprecated for file_not_empty_ok" );
 		}
 
 	my $ok = not -z _;
@@ -209,10 +223,12 @@ sub file_not_empty_ok {
 Ok if the file exists and has SIZE size in bytes (exactly), not ok if
 the file does not exist or exists with size other than SIZE.
 
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
+
 =cut
 
-sub file_size_ok
-	{
+sub file_size_ok {
 	my $filename = _normalize( shift );
 	my $expected = int shift;
 	my $name     = shift || "$filename has right size";
@@ -220,6 +236,10 @@ sub file_size_ok
 	unless( -e $filename ) {
 		$Test->diag( "File [$filename] does not exist!" );
 		return $Test->ok(0, $name);
+		}
+
+	unless( -f $filename ) {
+		$Test->diag( "File [$filename] is a directory, which is deprecated for file_size_ok" );
 		}
 
 	my $ok = ( -s $filename ) == $expected;
@@ -242,10 +262,12 @@ Ok if the file exists and has size less than or equal to MAX bytes, not
 ok if the file does not exist or exists with size greater than MAX
 bytes.
 
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
+
 =cut
 
-sub file_max_size_ok
-	{
+sub file_max_size_ok {
 	my $filename = _normalize( shift );
 	my $max      = int shift;
 	my $name     = shift || "$filename is under $max bytes";
@@ -253,6 +275,10 @@ sub file_max_size_ok
 	unless( -e $filename ) {
 		$Test->diag( "File [$filename] does not exist!" );
 		return $Test->ok(0, $name);
+		}
+
+	unless( -f $filename ) {
+		$Test->diag( "File [$filename] is a directory, which is deprecated for file_max_size_ok" );
 		}
 
 	my $ok = ( -s $filename ) <= $max;
@@ -277,10 +303,12 @@ Ok if the file exists and has size greater than or equal to MIN bytes,
 not ok if the file does not exist or exists with size less than MIN
 bytes.
 
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
+
 =cut
 
-sub file_min_size_ok
-	{
+sub file_min_size_ok {
 	my $filename = _normalize( shift );
 	my $min      = int shift;
 	my $name     = shift || "$filename is over $min bytes";
@@ -288,6 +316,10 @@ sub file_min_size_ok
 	unless( -e $filename ) {
 		$Test->diag( "File [$filename] does not exist!" );
 		return $Test->ok(0, $name);
+		}
+
+	unless( -f $filename ) {
+		$Test->diag( "File [$filename] is a directory, which is deprecated for file_min_size_ok" );
 		}
 
 	my $ok = ( -s $filename ) >= $min;
@@ -314,16 +346,20 @@ file does not exist or exists with a line count other than COUNT.
 This function uses the current value of C<$/> as the line ending and
 counts the lines by reading them and counting how many it read.
 
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
+
 =cut
 
 sub _ENOFILE   () { -1 }
 sub _ECANTOPEN () { -2 }
+sub _ENOTPLAIN () { -3 }
 
 sub _file_line_counter {
 	my $filename = shift;
 
-	return _ENOFILE   unless -e $filename;  # does not exist
-
+	return _ENOFILE   unless -e $filename;
+	return _ENOTPLAIN unless -f $filename;
 	return _ECANTOPEN unless open my( $fh ), "<", $filename;
 
 	my $count = 0;
@@ -334,8 +370,7 @@ sub _file_line_counter {
 
 # XXX: lots of cut and pasting here, needs refactoring
 # looks like the refactoring might be worse than this though
-sub file_line_count_is
-	{
+sub file_line_count_is {
 	my $filename = _normalize( shift );
 	my $expected = shift;
 	my $name     = do {
@@ -356,6 +391,10 @@ sub file_line_count_is
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
+	elsif( $got eq _ENOTPLAIN ) {
+		$Test->diag( "File [$filename] is not a plain file!" );
+		$Test->ok( 0, $name );
+		}
 	elsif( $got == _ECANTOPEN ) {
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
@@ -373,12 +412,15 @@ sub file_line_count_is
 
 =item file_line_count_isnt( FILENAME, COUNT [, NAME ]  )
 
-Ok if the file exists and doesn't have exactly COUNT lines, not ok if the
-file does not exist or exists with a line count of COUNT. Read that
-carefully: the file must exist for this test to pass!
+Ok if the file exists and doesn't have exactly COUNT lines, not ok if
+the file does not exist or exists with a line count of COUNT. Read
+that carefully: the file must exist for this test to pass!
 
 This function uses the current value of C<$/> as the line ending and
 counts the lines by reading them and counting how many it read.
+
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
 
 =cut
 
@@ -403,6 +445,10 @@ sub file_line_count_isnt {
 		$Test->diag( "File [$filename] does not exist!" );
 		$Test->ok( 0, $name );
 		}
+	elsif( $got eq _ENOTPLAIN ) {
+		$Test->diag( "File [$filename] is not a plain file!" );
+		$Test->ok( 0, $name );
+		}
 	elsif( $got == _ECANTOPEN ) {
 		$Test->diag( "Could not open [$filename]: \$! is [$!]!" );
 		$Test->ok( 0, $name );
@@ -420,10 +466,14 @@ sub file_line_count_isnt {
 
 =item file_line_count_between( FILENAME, MIN, MAX, [, NAME ]  )
 
-Ok if the file exists and has a line count between MIN and MAX, inclusively.
+Ok if the file exists and has a line count between MIN and MAX,
+inclusively.
 
 This function uses the current value of C<$/> as the line ending and
 counts the lines by reading them and counting how many it read.
+
+Previously this tried to test any sort of file. Sometime in the future
+this will fail if the argument is not a plain file.
 
 =cut
 
@@ -437,10 +487,8 @@ sub file_line_count_between {
 		shift || "$filename line count is between [$min] and [$max] lines";
 		};
 
-	foreach my $ref ( \$min, \$max )
-		{
-		unless( defined $$ref && int( $$ref ) == $$ref )
-			{
+	foreach my $ref ( \$min, \$max ) {
+		unless( defined $$ref && int( $$ref ) == $$ref ) {
 			no warnings 'uninitialized';
 			$Test->diag( "file_line_count_between expects positive whole numbers for " .
 				"the second and third arguments. Got [$min] and [$max]!" );
@@ -448,11 +496,14 @@ sub file_line_count_between {
 			}
 		}
 
-
 	my $got = _file_line_counter( $filename );
 
 	if( $got eq _ENOFILE ) {
 		$Test->diag( "File [$filename] does not exist!" );
+		$Test->ok( 0, $name );
+		}
+	elsif( $got eq _ENOTPLAIN ) {
+		$Test->diag( "File [$filename] is not a plain file!" );
 		$Test->ok( 0, $name );
 		}
 	elsif( $got == _ECANTOPEN ) {
@@ -468,7 +519,6 @@ sub file_line_count_between {
 			);
 		$Test->ok( 0, $name );
 		}
-
 	}
 
 =item file_contains_like ( FILENAME, PATTERN [, NAME ] )
@@ -547,37 +597,37 @@ The same as C<file_contains_unlike>, except the file is opened with ENCODING.
 =cut
 
 sub file_contains_like {
-		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(like => "contains", undef, @_);
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
+	_file_contains(like => "contains", undef, @_);
 	}
 
 sub file_contains_unlike {
-		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(unlike => "doesn't contain", undef, @_);
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
+	_file_contains(unlike => "doesn't contain", undef, @_);
 	}
 
 sub file_contains_utf8_like {
-		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(like => "contains", 'UTF-8', @_);
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
+	_file_contains(like => "contains", 'UTF-8', @_);
 	}
 
 sub file_contains_utf8_unlike {
-		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		_file_contains(unlike => "doesn't contain", 'UTF-8', @_);
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
+	_file_contains(unlike => "doesn't contain", 'UTF-8', @_);
 	}
 
 sub file_contains_encoded_like {
-		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		my $filename = shift;
-		my $encoding = shift;
-		_file_contains(like => "contains", $encoding, $filename, @_);
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
+	my $filename = shift;
+	my $encoding = shift;
+	_file_contains(like => "contains", $encoding, $filename, @_);
 	}
 
 sub file_contains_encoded_unlike {
-		local $Test::Builder::Level = $Test::Builder::Level + 1;
-		my $filename = shift;
-		my $encoding = shift;
-		_file_contains(unlike => "doesn't contain", $encoding, $filename, @_);
+	local $Test::Builder::Level = $Test::Builder::Level + 1;
+	my $filename = shift;
+	my $encoding = shift;
+	_file_contains(unlike => "doesn't contain", $encoding, $filename, @_);
 	}
 
 sub _file_contains {
@@ -607,6 +657,11 @@ sub _file_contains {
 		return $Test->ok(0, $name);
 		}
 
+	unless( -f $filename ) {
+		my $caller = ( caller(0) )[3];
+		$Test->diag( "File [$filename] is a directory, which is deprecated for $caller" );
+		}
+
 	unless( -r $filename ) {
 		$Test->diag( "File [$filename] is not readable!" );
 		return $Test->ok(0, $name);
@@ -622,7 +677,7 @@ sub _file_contains {
 
 	if (defined $encoding) {
 		binmode FH, ":encoding($encoding)";
-	}
+		}
 
 	local $/ = undef;
 	$file_contents = <FH>;
@@ -636,8 +691,8 @@ sub _file_contains {
 
 =item file_readable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is readable, not ok
-if the file does not exist or is not readable.
+Ok if the file exists and is readable, not ok if the file does not
+exist or is not readable.
 
 =cut
 
@@ -658,8 +713,8 @@ sub file_readable_ok {
 
 =item file_not_readable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is not readable, not ok
-if the file does not exist or is readable.
+Ok if the file exists and is not readable, not ok if the file does not
+exist or is readable.
 
 =cut
 
@@ -746,11 +801,11 @@ sub file_not_writable_ok {
 
 =item file_executable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is executable, not ok
-if the file does not exist or is not executable.
+Ok if the file exists and is executable, not ok if the file does not
+exist or is not executable.
 
-This test automatically skips if it thinks it is on a
-Windows platform.
+This test automatically skips if it thinks it is on a Windows
+platform.
 
 =cut
 
@@ -776,11 +831,11 @@ sub file_executable_ok {
 
 =item file_not_executable_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and is not executable, not ok
-if the file does not exist or is executable.
+Ok if the file exists and is not executable, not ok if the file does
+not exist or is executable.
 
-This test automatically skips if it thinks it is on a
-Windows platform.
+This test automatically skips if it thinks it is on a Windows
+platform.
 
 =cut
 
@@ -806,11 +861,11 @@ sub file_not_executable_ok {
 
 =item file_mode_is( FILENAME, MODE [, NAME ] )
 
-Ok if the file exists and the mode matches, not ok
-if the file does not exist or the mode does not match.
+Ok if the file exists and the mode matches, not ok if the file does
+not exist or the mode does not match.
 
-This test automatically skips if it thinks it is on a
-Windows platform.
+This test automatically skips if it thinks it is on a Windows
+platform.
 
 Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
@@ -840,11 +895,11 @@ sub file_mode_is {
 
 =item file_mode_isnt( FILENAME, MODE [, NAME ] )
 
-Ok if the file exists and mode does not match, not ok
-if the file does not exist or mode does match.
+Ok if the file exists and mode does not match, not ok if the file does
+not exist or mode does match.
 
-This test automatically skips if it thinks it is on a
-Windows platform.
+This test automatically skips if it thinks it is on a Windows
+platform.
 
 Contributed by Shawn Sorichetti C<< <ssoriche@coloredblocks.net> >>
 
@@ -875,11 +930,11 @@ sub file_mode_isnt {
 =item file_mode_has( FILENAME, MODE [, NAME ] )
 
 Ok if the file exists and has all the bits in mode turned on, not ok
-if the file does not exist or the mode does not match.  That is,
-C<< FILEMODE & MODE == MODE >> must be true.
+if the file does not exist or the mode does not match.  That is, C<<
+FILEMODE & MODE == MODE >> must be true.
 
-This test automatically skips if it thinks it is on a
-Windows platform.
+This test automatically skips if it thinks it is on a Windows
+platform.
 
 Contributed by Ricardo Signes C<< <rjbs@cpan.org> >>
 
@@ -1150,7 +1205,7 @@ sub dir_exists_ok {
 	my $name     = shift || "$filename is a directory";
 
 	unless( -e $filename ) {
-		$Test->diag( "File [$filename] does not exist!" );
+		$Test->diag( "Directory [$filename] does not exist!" );
 		return $Test->ok(0, $name);
 		}
 
@@ -1277,8 +1332,7 @@ sub link_count_lt_ok {
 # owner_is, owner_isnt, group_is and group_isnt are almost
 # identical in the beginning, so I'm writing a skeleton they can all use.
 # I can't think of a better name...
-sub _dm_skeleton
-	{
+sub _dm_skeleton {
 	no warnings 'uninitialized';
 
 	if( _obviously_non_multi_user() ) {

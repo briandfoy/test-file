@@ -16,7 +16,7 @@ dir_exists_ok( 'sub_dir' );
 test_test();
 
 test_out( 'not ok 1 - bmoogle is a directory' );
-test_diag( 'File [bmoogle] does not exist!' );
+test_diag( 'Directory [bmoogle] does not exist!' );
 test_fail(+1);
 dir_exists_ok( 'bmoogle' );
 test_test();
