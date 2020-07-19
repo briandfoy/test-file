@@ -80,6 +80,7 @@ subtest readable_fails => sub { SKIP: {
 
 subtest not_readable_fails => sub { SKIP: {
 	skip "Superuser has special privileges", 3, if( $> == 0 or $< == 0 );
+	skip "Not possible to make file unreadable on MSYS2" if $^O eq 'msys';
 	test_out( 'ok 1 - writeable is not readable' );
 	file_not_readable_ok( 'writeable' );
 	test_out( 'ok 2 - writeable really is not readable' );
@@ -115,6 +116,7 @@ subtest writable_fails => sub {
 
 subtest not_writable => sub { SKIP: {
 	skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
+	skip "Not possible to make file unreadable on MSYS2" if $^O eq 'msys';
 	test_out( 'ok 1 - readable is not writable' );
 	test_out( 'not ok 2 - writable is not writable' );
 	test_diag('File [writable] is writable!');
@@ -128,9 +130,9 @@ subtest not_writable => sub { SKIP: {
 
 subtest executable => sub {
 	if (Test::File::_win32()) {
-		test_out("ok 1 # skip file_not_executable_ok doesn't work on Windows!");
-		test_out("ok 2 # skip file_not_executable_ok doesn't work on Windows!");
-		test_out("ok 3 # skip file_not_executable_ok doesn't work on Windows!");
+		test_out("ok 1 # skip file_executable_ok doesn't work on Windows!");
+		test_out("ok 2 # skip file_executable_ok doesn't work on Windows!");
+		test_out("ok 3 # skip file_executable_ok doesn't work on Windows!");
 		}
 	else {
 		test_out("ok 1 - executable is executable");

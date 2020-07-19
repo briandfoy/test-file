@@ -81,7 +81,7 @@ sub _normalize {
 sub _win32 {
 	return 0 if $^O eq 'darwin';
 	return $ENV{PRETEND_TO_BE_WIN32} if defined $ENV{PRETEND_TO_BE_WIN32};
-	return $^O =~ m/Win/;
+	return $^O =~ m/Win/ || $^O eq 'msys';
 	}
 
 # returns true if symlinks can't exist
