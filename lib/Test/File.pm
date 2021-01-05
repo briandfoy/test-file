@@ -16,7 +16,7 @@ use Test::Builder;
 	file_executable_ok file_not_executable_ok
 	file_mode_is file_mode_isnt
 	file_mode_has file_mode_hasnt
-	file_is_symlink_ok
+	file_is_symlink_ok 	file_is_not_symlink_ok
 	symlink_target_exists_ok symlink_target_is
 	symlink_target_dangles_ok
 	dir_exists_ok dir_contains_ok
@@ -1026,6 +1026,38 @@ sub file_is_symlink_ok {
 		}
 	else {
 		$Test->diag( "File [$file] is not a symlink!" );
+		$Test->ok(0, $name);
+		}
+	}
+
+=item file_is_not_symlink_ok( FILENAME [, NAME ] )
+
+Ok if FILENAME is a not symlink. This test automatically skips if the
+operating system does not support symlinks. If the file does not
+exist, the test fails.
+
+=cut
+
+sub file_is_not_symlink_ok {
+	if( _no_symlinks_here() ) {
+		$Test->skip(
+			"file_is_symlink_ok doesn't work on systems without symlinks!" );
+		return;
+		}
+
+	my $file = shift;
+	my $name = shift || "$file is not a symlink";
+
+	unless( -e $file ) {
+		$Test->diag( "File [$file] does not exist!" );
+		return $Test->ok(0, $name);
+		}
+
+	if( ! -l $file ) {
+		$Test->ok(1, $name)
+		}
+	else {
+		$Test->diag( "File [$file] is a symlink!" );
 		$Test->ok(0, $name);
 		}
 	}
