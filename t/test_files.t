@@ -101,7 +101,7 @@ subtest writable_fails => sub {
 	test_out( "ok 2 - $label" );
 	file_writable_ok( 'writable', $label );
 	if( ($^O ne 'MSWin32') && ($> == 0 or $< == 0 )) {
-		test_out( 'ok 3 - readable is writeable' );
+		test_out( 'ok 3 - readable is writable' );
 		}
 	else {
 		test_out( 'not ok 3 - readable is writable' );
