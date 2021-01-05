@@ -1007,7 +1007,7 @@ sub file_mode_hasnt {
 
 Ok if FILENAME is a symlink, even if it points to a non-existent
 file. This test automatically skips if the operating system does
-not support symlinks. If the file does not exist, the test fails.
+not support symlinks.
 
 =cut
 
@@ -1020,11 +1020,6 @@ sub file_is_symlink_ok {
 
 	my $file = shift;
 	my $name = shift || "$file is a symlink";
-
-	unless( -e $file ) {
-		$Test->diag( "File [$file] does not exist!" );
-		return $Test->ok(0, $name);
-		}
 
 	if( -l $file ) {
 		$Test->ok(1, $name)
