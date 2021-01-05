@@ -64,8 +64,8 @@ subtest should_work => sub {
 		file_exists_ok( $readable_sym );
 		file_exists_ok( $dangle_sym );
 
-		unlink $not_there;
 		ok( ! -e $not_there );
+		unlink $not_there or fail( $! );
 		file_is_symlink_ok( $dangle_sym );
 		}
 	else {
