@@ -1590,7 +1590,7 @@ returns failure. If stat() fails, the test is skipped.
 
 sub file_mtime_age_ok {
 	my $filename    = shift;
-	my $within_secs = int shift || 0;
+	my $within_secs = shift || 0;
 	my $name        = shift || "$filename mtime within $within_secs seconds of current time";
 
 	my $time        = time();
