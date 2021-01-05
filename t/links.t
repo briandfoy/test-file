@@ -63,6 +63,7 @@ subtest should_work => sub {
 		symlink( $not_there, $dangle_sym );
 		file_exists_ok( $readable_sym );
 		file_exists_ok( $dangle_sym );
+		file_is_symlink_ok( $dangle_sym );
 
 		unlink $not_there or fail( $! );
 		ok( ! -e $not_there, "$not_there has been removed" );
