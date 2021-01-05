@@ -14,16 +14,16 @@ eval
 	die "Could not find a file" unless defined $filename;
 
 	$owner_uid = ( stat $filename )[4];
-	die "failed to find $filename's owner\n" unless defined $owner_uid;
+	die "failed to find ${filename}'s owner\n" unless defined $owner_uid;
 
 	$file_gid = ( stat $filename )[5];
-	die "failed to find $filename's owner\n" unless defined $file_gid;
+	die "failed to find ${filename}'s owner\n" unless defined $file_gid;
 
 	$owner_name = ( getpwuid $owner_uid )[0];
-	die "failed to find $filename's owner as name\n" unless defined $owner_name;
+	die "failed to find ${filename}'s owner as name\n" unless defined $owner_name;
 
 	$file_group_name = ( getgrgid $file_gid )[0];
-	die "failed to find $filename's group as name\n" unless defined $file_group_name;
+	die "failed to find ${filename}'s group as name\n" unless defined $file_group_name;
 	};
 plan skip_all => "I can't find a file to test with: $@" if $@;
 
