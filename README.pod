@@ -2,7 +2,6 @@
 
 =encoding utf8
 
-=for HTML <a href="https://travis-ci.org/briandfoy/test-file"><img src="https://travis-ci.org/briandfoy/test-file.svg?branch=master" /></a>
 
 =for HTML <a href='https://ci.appveyor.com/project/briandfoy/test-file'><img src='https://ci.appveyor.com/api/projects/status/dbgen56rlgilgma5'></a>
 
