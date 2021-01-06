@@ -1,5 +1,9 @@
 Revision history for Perl module Test::File
 
+1.444 2021-01-06T03:40:19Z
+	* Remove Travis, add GitHub actions
+	* Add file_is_symlink_not_ok
+
 1.443_03 2020-06-15T13:13:42Z
 	* Merge some test additions from Desmond Daignault (GitHub #20)
 
