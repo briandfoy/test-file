@@ -61,7 +61,7 @@
 
 \.travis\.yml
 \.?appveyor.yml
-\.releaserc
+\.?releaserc
 \.lwpcookies
 \.github\b
 
