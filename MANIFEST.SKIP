@@ -66,3 +66,6 @@
 \.github\b
 
 Test-.*
+\bMANIFEST\s\d
+\bChanges\s\d
+
