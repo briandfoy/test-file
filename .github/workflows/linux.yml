@@ -44,12 +44,12 @@ jobs:
             - name: Install cpanm and multiple modules
               run: |
                 curl -L https://cpanmin.us | perl - App::cpanminus
-                cpanm IO::Socket::SSL
-                cpanm App::Cpan
-                cpan -M https://www.cpan.org ExtUtils::MakeMaker
+                cpanm --notest IO::Socket::SSL
+                cpanm --notest App::Cpan
+                cpan -M https://www.cpan.org -T ExtUtils::MakeMaker
             - name: Install dependencies
               run: |
-                cpan -M https://www.cpan.org .
+                cpan -M https://www.cpan.org -T .
             - name: Run tests
               run: |
                 perl Makefile.PL
