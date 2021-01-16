@@ -701,7 +701,7 @@ sub _file_contains {
 		return $Test->ok(0, $name);
 		}
 
-	unless( -f $filename ) {
+	if( -d $filename ) {
 		my $caller = ( caller(0) )[3];
 		$Test->diag( "File [$filename] is a directory, which is deprecated for $caller" );
 		}
