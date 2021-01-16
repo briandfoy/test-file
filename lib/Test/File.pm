@@ -152,8 +152,8 @@ sub file_not_exists_ok {
 
 =item file_empty_ok( FILENAME [, NAME ] )
 
-Ok if the file exists and has empty size, not ok if the
-file does not exist or exists with non-zero size.
+Ok if the file exists and has empty size, not ok if the file does not
+exist or exists with non-zero size.
 
 Previously this tried to test any sort of file. Sometime in the future
 this will fail if the argument is not a plain file.
