@@ -1752,7 +1752,7 @@ If you are using the new C<Test2> stuff, see L<Test2::Tool::File>.
 
 This module is in Github:
 
-	git://github.com/briandfoy/test-file.git
+	https://github.com/briandfoy/test-file.git
 
 =head1 AUTHOR
 
