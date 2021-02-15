@@ -39,15 +39,16 @@ install:
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T ."
   - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T .
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T ."
-  - sh:  if [ ${perl} = perl ]; then sudo apt-get update; fi
-  - sh:  if [ ${perl} = perl ]; then sudo env DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential git libssl-dev; fi
-  - sh:  if [ ${perl} = perl ]; then sudo apt-get install -y perl; fi
-  - sh:  if [ ${perl} = perl ]; then export PATH=/home/appveyor/perl5/bin:$PATH; fi
-  - sh:  if [ ${perl} = perl ]; then perl -v; fi
-  - cd %APPVEYOR_BUILD_FOLDER%
+  - sh:  if [ ${perl} = "perl" ]; then sudo apt-get update; fi
+  - sh:  if [ ${perl} = "perl" ]; then sudo env DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential git libssl-dev; fi
+  - sh:  if [ ${perl} = "perl" ]; then sudo apt-get install -y perl; fi
+  - sh:  if [ ${perl} = "perl" ]; then export PATH=/home/appveyor/perl5/bin:$PATH; fi
+  - sh:  if [ ${perl} = "perl" ]; then perl -v; fi
+  - cmd: cd %APPVEYOR_BUILD_FOLDER%
+  - sh:  cd $APPVEYOR_BUILD_FOLDER
 
 
 build_script:
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -t ."
   - cmd: if %perl%==strawberryperl ( perl Makefile.PL && %make% test )
-  - sh:  if [ ${perl} = perl ]; then ( perl Makefile.PL && %make% test ); fi
+  - sh:  if [ ${perl} = "perl" ]; then ( perl Makefile.PL && %make% test ); fi
