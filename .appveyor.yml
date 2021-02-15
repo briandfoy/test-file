@@ -51,4 +51,4 @@ install:
 build_script:
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -t ."
   - cmd: if %perl%==strawberryperl ( perl Makefile.PL && %make% test )
-  - sh:  if [ ${perl} = "perl" ]; then ( perl Makefile.PL && %make% test ); fi
+  - sh:  if [ ${perl} = "perl" ]; then perl Makefile.PL && $make test; fi
