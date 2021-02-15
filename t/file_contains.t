@@ -5,6 +5,8 @@ use Test::Builder::Tester;
 use Test::More 0.95;
 use Test::File;
 
+use Config;
+
 require "./t/setup_common";
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -30,7 +32,7 @@ test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS2" if $^O eq 'msys';
+skip "Not possible to make file unreadable on MSYS2" if grep { $_ eq 'msys' } ( $^O, $Config{osname} );
 test_out( "not ok 1 - not_readable contains $pattern1" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
@@ -59,7 +61,7 @@ test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS2" if $^O eq 'msys';
+skip "Not possible to make file unreadable on MSYS2"  if grep { $_ eq 'msys' } ( $^O, $Config{osname} );
 test_out( "not ok 1 - not_readable doesn't contain $bad_pattern" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
@@ -94,7 +96,7 @@ test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS2" if $^O eq 'msys';
+skip "Not possible to make file unreadable on MSYS2" if grep { $_ eq 'msys' } ( $^O, $Config{osname} );
 test_out( "not ok 1 - not_readable contains $pattern1" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
@@ -130,7 +132,7 @@ test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS2" if $^O eq 'msys';
+skip "Not possible to make file unreadable on MSYS2" if grep { $_ eq 'msys' } ( $^O, $Config{osname} );
 test_out( "not ok 1 - not_readable doesn't contain $bad_pattern" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
