@@ -26,11 +26,12 @@ skip_tags: true
 
 install:
   - cmd: if %perl%==strawberryperl ( if not exist "C:\strawberry" cinst strawberryperl )
+  - cmd: if %perl%==strawberryperl perl -V
   - cmd: if %perl%==strawberryperl set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
   - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T LWP::Protocol::https
   - cmd: if %perl%==strawberryperl cpan -M https://www.cpan.org -T ExtUtils::MakeMaker
   - cmd: if %perl%==strawberryperl cpan -M https://www.cpan.org -T .
-  - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -v"
+  - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -V"
   - cmd: if %perl%==cygwinperl     c:\cygwin\setup-x86.exe -q --packages=libcrypt-devel
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; (cd /tmp && git clone https://github.com/eserte/travis-helper-cpan-pm.git && ./travis-helper-cpan-pm/travis-helper-cpan-pm --no-sudo)"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T LWP::Protocol::https"
@@ -42,8 +43,6 @@ install:
   - sh:  if %perl%==perl           sudo env DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential git libssl-dev
   - sh:  if %perl%==perl           sudo apt-get install -y perl
   - sh:  if %perl%==perl           export PATH=/home/appveyor/perl5/bin:$PATH
-  - cmd: if %perl%==strawberryperl perl -v
-  - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -v"
   - sh:  if %perl%==perl           perl -v
   - cd %APPVEYOR_BUILD_FOLDER%
 
