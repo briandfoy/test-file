@@ -13,6 +13,8 @@ environment:
       make: gmake
     - perl: cygwinperl
       make: make
+    - perl: perl
+      make: make
 platform: x64
 
 branches:
@@ -34,19 +36,19 @@ install:
   - cmd: if     %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M https://www.cpan.org -T LWP::Protocol::https"
   - cmd: if     %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M https://www.cpan.org -T ExtUtils::MakeMaker"
   - cmd: if     %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M https://www.cpan.org -T ."
-  - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - cmd: if     %perl%==strawberryperl cpan -M https://www.cpan.org -T .
   - cmd: if     %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M https://www.cpan.org -T ."
-  - sh: sudo apt-get update
-  - sh: sudo env DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential git libssl-dev
-  - sh: sudo apt-get install -y perl
-  - sh: export PATH=/home/appveyor/perl5/bin:$PATH
+  - sh:  if     %perl%==perl           sudo apt-get update
+  - sh:  if     %perl%==perl           sudo env DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential git libssl-dev
+  - sh:  if     %perl%==perl           sudo apt-get install -y perl
+  - sh:  if     %perl%==perl           export PATH=/home/appveyor/perl5/bin:$PATH
   - cmd: if not %perl%==cygwinperl     perl -v
   - cmd: if     %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -v"
-  - sh: perl -v
+  - sh:  if     %perl%==perl           perl -v
+  - cd %APPVEYOR_BUILD_FOLDER%
 
 
 build_script:
-  - cmd: if     %perl%==cygwinperl   c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -t ."
-  - cmd: if not %perl%==cygwinperl ( perl Makefile.PL && %make% test )
-  - sh:  perl Makefile.PL && make test
+  - cmd: if     %perl%==cygwinperl    c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -t ."
+  - cmd: if not %perl%==cygwinperl    ( perl Makefile.PL && %make% test )
+  - sh:  if     %perl%==perl          ( perl Makefile.PL && %make% test )
