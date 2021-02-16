@@ -1,7 +1,12 @@
 use strict;
 
+use Test::More 1;
+
+use Config;
 use File::Temp qw(tempdir);
-use Test::More 0.95;
+
+sub is_unix_superuser () { $^O ne 'MSWin32' and ( $> == 0 or $< == 0 ) }
+sub is_cygwin         () { lc($^O) eq 'cygwin' or $Config{osname} eq 'cygwin' or $Config{osname} =~ /\Amsys2?/ }
 
 my $dir = tempdir( CLEANUP => 1 ) or BAIL_OUT( "Could not setup temp directory" );
 

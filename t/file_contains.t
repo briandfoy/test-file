@@ -31,8 +31,8 @@ file_contains_like( 'bmoogle', $pattern1 );
 test_test();
 
 SKIP: {
-skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS or Cygwin" if grep { /\A(?:msys|cygwin)\z/ } ( $^O, $Config{osname} );
+skip "Superuser has special privileges", 1, if is_unix_superuser();
+skip "Not possible to make file unreadable on MSYS or Cygwin" if is_cygwin();
 test_out( "not ok 1 - not_readable contains $pattern1" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
@@ -60,8 +60,8 @@ file_contains_unlike( 'bmoogle', $bad_pattern );
 test_test();
 
 SKIP: {
-skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS or Cygwin"  if grep { /\A(?:msys|cygwin)\z/ } ( $^O, $Config{osname} );
+skip "Superuser has special privileges", 1, if is_unix_superuser();
+skip "Not possible to make file unreadable on MSYS or Cygwin"  if is_cygwin();
 test_out( "not ok 1 - not_readable doesn't contain $bad_pattern" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
@@ -95,8 +95,8 @@ file_contains_like( 'bmoogle', [ $pattern1, $pattern2 ] );
 test_test();
 
 SKIP: {
-skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS or Cygwin" if grep { /\A(?:msys|cygwin)\z/ } ( $^O, $Config{osname} );
+skip "Superuser has special privileges", 1, if is_unix_superuser();
+skip "Not possible to make file unreadable on MSYS or Cygwin" if is_cygwin();
 test_out( "not ok 1 - not_readable contains $pattern1" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
@@ -132,7 +132,7 @@ test_test();
 
 SKIP: {
 skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
-skip "Not possible to make file unreadable on MSYS or Cygwin" if grep { /\A(?:msys|cygwin)\z/ } ( $^O, $Config{osname} );
+skip "Not possible to make file unreadable on MSYS or Cygwin" if is_cygwin();
 test_out( "not ok 1 - not_readable doesn't contain $bad_pattern" );
 test_diag( 'File [not_readable] is not readable!' );
 test_fail(+1);
