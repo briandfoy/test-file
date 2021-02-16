@@ -105,7 +105,7 @@ subtest writable_fails => sub {
 	if( $Config{osname} =~ /\A(?:msys|cygwin)\z/ or $> == 0 or $< == 0 ) {
 		test_out( 'ok 3 - readable is writable' );
 		}
-	elsif( $^O eq 'MSWin32' ) {
+	else {
 		test_out( 'not ok 3 - readable is writable' );
 		test_diag('File [readable] is not writable!');
 		test_diag("  Failed test 'readable is writable'");
