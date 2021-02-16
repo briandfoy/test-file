@@ -398,7 +398,7 @@ sub file_line_count_is {
 		shift || "$filename line count is $expected lines";
 		};
 
-	unless( -f $filename ) {
+	unless( ! -e $filename or -f $filename ) {
 		$Test->diag( "File [$filename] is not a plain file, which is deprecated for file_line_count_is" );
 		}
 
@@ -460,7 +460,7 @@ sub file_line_count_isnt {
 		shift || "$filename line count is not $expected lines";
 		};
 
-	unless( -f $filename ) {
+	unless( ! -e $filename or -f $filename ) {
 		$Test->diag( "File [$filename] is not a plain file, which is deprecated for file_line_count_isnt" );
 		}
 
@@ -518,7 +518,7 @@ sub file_line_count_between {
 	my $min      = shift;
 	my $max      = shift;
 
-	unless( -f $filename ) {
+	unless( ! -e $filename or -f $filename ) {
 		$Test->diag( "File [$filename] is not a plain file, which is deprecated for file_line_count_between" );
 		}
 
