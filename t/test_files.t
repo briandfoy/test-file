@@ -102,10 +102,10 @@ subtest writable_fails => sub {
 	file_writable_ok( 'writable' );
 	test_out( "ok 2 - $label" );
 	file_writable_ok( 'writable', $label );
-	if( $^O ne 'MSWin32' &&  $Config{osname} !~ /\A(?:msys|cygwin)\z/ && ($> == 0 or $< == 0 ) ) {
+	if( $Config{osname} =~ /\A(?:msys|cygwin)\z/ or $> == 0 or $< == 0 ) {
 		test_out( 'ok 3 - readable is writable' );
 		}
-	else {
+	elsif( $^O eq 'MSWin32' ) {
 		test_out( 'not ok 3 - readable is writable' );
 		test_diag('File [readable] is not writable!');
 		test_diag("  Failed test 'readable is writable'");
