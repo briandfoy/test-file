@@ -102,7 +102,7 @@ subtest writable_fails => sub {
 	file_writable_ok( 'writable' );
 	test_out( "ok 2 - $label" );
 	file_writable_ok( 'writable', $label );
-	if( is_cygwin() or is_unix_superuser() ) {
+	if( is_unix_superuser() ) {
 		test_out( 'ok 3 - readable is writable' );
 		}
 	else {
