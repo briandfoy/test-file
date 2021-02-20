@@ -8,7 +8,7 @@ use File::Temp qw(tempdir);
 sub is_unix_superuser () {
     ($^O ne 'MSWin32' and ( $> == 0 or $< == 0 ))
     or
-    ($^O eq 'cygwin' and grep { $_ == 544 }, split /\s+/, `/usr/bin/id -G`)
+    ($^O eq 'cygwin' and grep { $_ == 544 } split /\s+/, `/usr/bin/id -G`)
 	}
 sub is_cygwin         () { scalar grep { lc($^O) eq $_ or lc($Config{osname}) eq $_ } qw( cygwin msys msys2 ) }
 
