@@ -34,6 +34,7 @@ install:
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "which perl"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -MConfig -le 'print qq(OSNAME $Config{osname})'"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -V"
+  - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/id -G"
   - cmd: if %perl%==cygwinperl     c:\cygwin\setup-x86.exe -q --packages=libcrypt-devel
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; (cd /tmp && git clone https://github.com/eserte/travis-helper-cpan-pm.git && ./travis-helper-cpan-pm/travis-helper-cpan-pm --no-sudo)"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T LWP::Protocol::https"
