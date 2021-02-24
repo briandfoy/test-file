@@ -12,9 +12,9 @@ sub is_msys   () { scalar grep { lc($^O) eq $_ or lc($Config{osname}) eq $_ } qw
 sub is_win32 () { $^O eq 'MSWin32' }
 
 sub is_unix_superuser () {
-    ( is_win32() and ( $> == 0 or $< == 0 ))
+    ( not is_win32() and ( $> == 0 or $< == 0 ) )
     or
-    ( is_cygwin() and grep { $_ == 544 } split /\s+/, `/usr/bin/id -G`)
+    ( is_cygwin() and grep { $_ == 544 } split /\s+/, `/usr/bin/id -G` )
 	}
 
 my $dir = tempdir( CLEANUP => 1 ) or BAIL_OUT( "Could not setup temp directory" );
