@@ -4,8 +4,6 @@ use Test::Builder::Tester;
 use Test::More 1;
 use Test::File;
 
-use Config;
-
 =pod
 
 max_file       non_zero_file  not_readable   readable       zero_file

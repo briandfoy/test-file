@@ -5,8 +5,6 @@ use Test::Builder::Tester;
 use Test::More 1;
 use Test::File;
 
-use Config;
-
 require "./t/setup_common";
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
