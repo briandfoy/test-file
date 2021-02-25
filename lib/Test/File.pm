@@ -1746,7 +1746,8 @@ sub _stat_file {
 L<Test::Builder>,
 L<Test::More>
 
-If you are using the new C<Test2> stuff, see Test2::Tools::File (https://github.com/torbjorn/Test2-Tools-File).
+If you are using the new C<Test2> stuff, see Test2::Tools::File
+(https://github.com/torbjorn/Test2-Tools-File).
 
 =head1 SOURCE AVAILABILITY
 
