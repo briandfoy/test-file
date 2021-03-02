@@ -49,7 +49,9 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - name: Platform check
-              run: uname -a
+              run: |
+                uname -a
+                apt-get update
             - name: Perl version check
               run: perl -V
             - name: Install cpanm and multiple modules
