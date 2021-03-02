@@ -29,7 +29,9 @@ jobs:
             - name: Platform check
               run: uname -a
             - name: Set up Perl
-              run: brew install perl
+              run: |
+                brew install perl
+                echo /usr/local/Cellar/perl/5.32.1/bin >> $GITHUB_PATH
             - name: Perl version check
               run: perl -V
             - name: Prepare cpan
