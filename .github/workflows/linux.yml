@@ -77,7 +77,7 @@ jobs:
                 make disttest
             - name: Setup coverage tests
               run: |
-                cpan -M https://www.cpan.org -T Devel::Cover Devel::Cover::Report::Coveralls
+                apt-get install libdevel-cover-perl
             - name: Run coverage tests
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
