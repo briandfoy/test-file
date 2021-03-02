@@ -75,3 +75,11 @@ jobs:
               run: |
                 perl Makefile.PL
                 make disttest
+            - name: Setup coverage tests
+              run: |
+                cpan -M https://www.cpan.org -T Devel::Cover Devel::Cover::Report::Coveralls
+            - name: Run coverage tests
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                cover -test -report coveralls
