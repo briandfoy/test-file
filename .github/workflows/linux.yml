@@ -29,6 +29,7 @@ jobs:
                 - ubuntu-18.04
                 - ubuntu-20.04
             perl-version:
+                - '5.8'
                 - '5.10'
                 - '5.12'
                 - '5.14'
@@ -52,7 +53,9 @@ jobs:
                 uname -a
                 apt-get update
             - name: Perl version check
-              run: perl -V
+              run: |
+                perl -V
+                perl -v | perl -0777 -ne 'm/(v5\.\d+)/ && print "PERL_VERSION=$1"' >> $GITHUB_ENV
             - name: Install cpanm and multiple modules
               run: |
                 curl -L https://cpanmin.us | perl - App::cpanminus
@@ -77,10 +80,12 @@ jobs:
                 perl Makefile.PL
                 make disttest
             - name: Setup coverage tests
+              if: $PERL_VERSION != 'v5.8'
               run: |
                 cpan -M https://www.cpan.org -T Devel::Cover Devel::Cover::Report::Coveralls
             - name: Run coverage tests
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              if: $PERL_VERSION != 'v5.8'
               run: |
                 cover -test -report coveralls
