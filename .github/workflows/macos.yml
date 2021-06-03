@@ -32,6 +32,7 @@ jobs:
               run: |
                 brew install perl
                 ls -d /usr/local/Cellar/perl/*/bin | head -1 >> $GITHUB_PATH
+                perl -v | perl -0777 -ne 'm/(v5\.\d+)/ && print "PERL_VERSION=$1"' >> $GITHUB_ENV
             - name: Perl version check
               run: perl -V
             - name: Prepare cpan
@@ -57,9 +58,11 @@ jobs:
                 perl Makefile.PL
                 make disttest
             - name: Setup coverage tests
+              if: env.PERL_VERSION != 'v5.8'
               run: |
                 cpan -M https://www.cpan.org -T Devel::Cover Devel::Cover::Report::Coveralls
             - name: Run coverage tests
+              if: env.PERL_VERSION != 'v5.8'
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
