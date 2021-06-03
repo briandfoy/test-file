@@ -80,6 +80,7 @@ jobs:
             - name: Setup coverage tests
               run: |
                 apt-get install -y libdevel-cover-perl
+                cpan -M https://www.cpan.org -T Devel::Cover::Report::Coveralls
             - name: Run coverage tests
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
