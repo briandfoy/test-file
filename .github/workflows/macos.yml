@@ -31,7 +31,7 @@ jobs:
             - name: Set up Perl
               run: |
                 brew install perl
-                echo /usr/local/Cellar/perl/5.34.0/bin >> $GITHUB_PATH
+                ls -d /usr/local/Cellar/perl/*/bin | head -1 >> $GITHUB_PATH
             - name: Perl version check
               run: perl -V
             - name: Prepare cpan
