@@ -79,7 +79,7 @@ jobs:
                 make disttest
             - name: Setup coverage tests
               run: |
-                apt-get install libdevel-cover-perl
+                apt-get install -y libdevel-cover-perl
             - name: Run coverage tests
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
