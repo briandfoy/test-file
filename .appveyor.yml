@@ -29,7 +29,7 @@ install:
   - cmd: if %perl%==strawberryperl perl -V
   - cmd: if %perl%==strawberryperl set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
   - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T LWP::Protocol::https
-  - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T ExtUtils::MakeMaker Test::utf8
+  - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T ExtUtils::MakeMaker
   - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T .
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "which perl"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "/usr/bin/perl -MConfig -le 'print qq(OSNAME $Config{osname})'"
@@ -38,7 +38,7 @@ install:
   - cmd: if %perl%==cygwinperl     c:\cygwin\setup-x86.exe -q --packages=libcrypt-devel
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; (cd /tmp && git clone https://github.com/eserte/travis-helper-cpan-pm.git && ./travis-helper-cpan-pm/travis-helper-cpan-pm --no-sudo)"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T LWP::Protocol::https"
-  - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T ExtUtils::MakeMaker Test::utf8"
+  - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T ExtUtils::MakeMaker"
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T ."
   - cmd: if %perl%==strawberryperl cpan -M http://www.cpan.org -T .
   - cmd: if %perl%==cygwinperl     c:\cygwin\bin\sh -c "PATH=/usr/bin:/bin; cpan -M http://www.cpan.org -T ."
@@ -46,7 +46,7 @@ install:
   - sh:  if [ ${perl} = "perl" ]; then sudo env DEBIAN_FRONTEND=noninteractive apt-get -yq install build-essential git libssl-dev; fi
   - sh:  if [ ${perl} = "perl" ]; then sudo apt-get install -y perl; fi
   - sh:  if [ ${perl} = "perl" ]; then export PATH=/home/appveyor/perl5/bin:$PATH; fi
-  - sh:  if [ ${perl} = "perl" ]; then cpan -M http://www.cpan.org -T ExtUtils::MakeMaker Test::utf8; fi
+  - sh:  if [ ${perl} = "perl" ]; then cpan -M http://www.cpan.org -T ExtUtils::MakeMaker; fi
   - sh:  if [ ${perl} = "perl" ]; then perl -v; fi
   - cmd: cd %APPVEYOR_BUILD_FOLDER%
   - sh:  cd $APPVEYOR_BUILD_FOLDER
