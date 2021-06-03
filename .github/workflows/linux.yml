@@ -80,12 +80,12 @@ jobs:
                 perl Makefile.PL
                 make disttest
             - name: Setup coverage tests
-              if: $PERL_VERSION != 'v5.8'
+              if: env.PERL_VERSION != 'v5.8'
               run: |
                 cpan -M https://www.cpan.org -T Devel::Cover Devel::Cover::Report::Coveralls
             - name: Run coverage tests
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              if: $PERL_VERSION != 'v5.8'
+              if: env.PERL_VERSION != 'v5.8'
               run: |
                 cover -test -report coveralls
