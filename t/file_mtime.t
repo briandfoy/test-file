@@ -47,14 +47,16 @@ subtest file_mtime_lt_ok => sub {
 	file_mtime_lt_ok( $mtime_file, $time, 'file_mtime_lt_ok success' );
 	file_mtime_lt_ok( $mtime_file, $time );
 	test_test( 'file_mtime_lt_ok success works' );
+
+	test_out( 'not ok 1 - file_mtime_lt_ok failure' );
+	test_err( qr/\s*#\s*file \[$mtime_file\] [^\n]+\n/ );
+	test_fail(+1);
+	file_mtime_lt_ok( $mtime_file, $curtime-60*11, 'file_mtime_lt_ok failure' );
+	test_test( 'file_mtime_lt_ok failure works' );
+
 	done_testing();
 	};
 
-test_out( 'not ok 1 - file_mtime_lt_ok failure' );
-test_err( qr/\s*#\s*file \[$mtime_file\] [^\n]+\n/ );
-test_fail(+1);
-file_mtime_lt_ok( $mtime_file, $curtime-60*11, 'file_mtime_lt_ok failure' );
-test_test( 'file_mtime_lt_ok failure works' );
 
 # file_mtime_gt_ok
 test_out( 'ok 1 - file_mtime_gt_ok success' );
