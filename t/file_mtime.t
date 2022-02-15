@@ -40,12 +40,15 @@ test_fail(+1);
 file_mtime_age_ok( $mtime_file, 60*9, 'file_mtime_age_ok failure' );
 test_test( 'file_mime_age_ok failure works' );
 
-# file_mtime_lt_ok
-test_out( 'ok 1 - file_mtime_lt_ok success' );
-test_out( 'ok 2 - mtime_file mtime less than unix timestamp ' . time() );
-file_mtime_lt_ok( $mtime_file, time(), 'file_mtime_lt_ok success' );
-file_mtime_lt_ok( $mtime_file, time() );
-test_test( 'file_mtime_lt_ok success works' );
+subtest file_mtime_lt_ok => sub {
+	my $time = time() + 10;
+	test_out( 'ok 1 - file_mtime_lt_ok success' );
+	test_out( 'ok 2 - mtime_file mtime less than unix timestamp ' . $time );
+	file_mtime_lt_ok( $mtime_file, $time, 'file_mtime_lt_ok success' );
+	file_mtime_lt_ok( $mtime_file, $time );
+	test_test( 'file_mtime_lt_ok success works' );
+	done_testing();
+	};
 
 test_out( 'not ok 1 - file_mtime_lt_ok failure' );
 test_err( qr/\s*#\s*file \[$mtime_file\] [^\n]+\n/ );
