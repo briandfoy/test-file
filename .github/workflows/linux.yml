@@ -1,5 +1,5 @@
 # brian's standard GitHub Actions Ubuntu config for Perl 5 modules
-# version 20220120.001
+# version 20220125.002
 # https://github.com/briandfoy/github_actions
 # https://github.com/features/actions
 # This file is licensed under the Artistic License 2.0
@@ -11,6 +11,7 @@ on:
             - '**'
             - '!**windows**'
             - '!**macos**'
+            - '!**release**'
         tags-ignore:
             # I tag release pushes but those should have already been tested
             - 'release-*'
@@ -50,7 +51,6 @@ jobs:
                 - '5.30'
                 - '5.32'
                 - 'latest'
-
         container:
             image: perl:${{ matrix.perl-version }}
         steps:
