@@ -109,8 +109,8 @@ sub _no_symlinks_here {
 	return $cannot_symlink if defined $cannot_symlink;
 
 	$cannot_symlink = ! do {
-		if( $^O eq 'MSWin32' and eval { require Win32; 1 } ) {
-			 Win32::IsSymlinkCreationAllowed()
+		if( $^O eq 'MSWin32' and eval { require Win32; Win32->can('IsSymlinkCreationAllowed') } ) {
+			 Win32::IsSymlinkCreationAllowed();
 			 }
 		else{ eval { symlink("",""); 1 } }
 		};
