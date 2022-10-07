@@ -1785,6 +1785,9 @@ stuff.
 Torbjørn Lindahl is working on L<Test2::Tools::File> and we're
 working together to align our interfaces.
 
+Jean-Damien Durand added bits to use Win32::IsSymlinkCreationAllowed,
+new since Win32 0.55.
+
 =head1 COPYRIGHT AND LICENSE
 
 Copyright © 2002-2022, brian d foy <bdfoy@cpan.org>. All rights reserved.
