@@ -103,7 +103,19 @@ sub _win32 {
 	}
 
 # returns true if symlinks can't exist
-sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
+{
+my $cannot_symlink;
+sub _no_symlinks_here {
+	return $cannot_symlink if defined $cannot_symlink;
+
+	$cannot_symlink = ! do {
+		if( $^O eq 'MSWin32' and eval { require Win32; 1 } ) {
+			 Win32::IsSymlinkCreationAllowed()
+			 }
+		else{ eval { symlink("",""); 1 } }
+		};
+	}
+}
 
 # owner_is and owner_isn't should skip on OS where the question makes no
 # sense.  I really don't know a good way to test for that, so I'm going
