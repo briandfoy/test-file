@@ -95,10 +95,14 @@ my %WriteMakefile = (
 	test   => { TESTS    => 't/*.t t/*/*.t' },
 	);
 
-#
-# Explicitly set XS to avoid the default
-#
-$WriteMakefile{XS} = $^O eq 'MSWin32' ? {} : { 'File.xs' => 'File.c' };
+sub MY::dynamic {
+    #
+    # No dynamic library unless on MSWin32
+    #
+    package MY;
+    my ($self) = @_;
+    $^O eq 'MSWin32' ? $self->SUPER::dynamic : '';
+}
 
 sub arguments { \%WriteMakefile }
 
