@@ -7,6 +7,7 @@ use Carp            qw(carp);
 use Exporter        qw(import);
 use File::Spec;
 use Test::Builder;
+use XSLoader;
 
 @EXPORT = qw(
 	file_exists_ok file_not_exists_ok
@@ -31,6 +32,7 @@ use Test::Builder;
 	);
 
 $VERSION = '1.992';
+XSLoader::load(__PACKAGE__, $VERSION) if $^O eq 'MSWin32';
 
 my $Test = Test::Builder->new();
 
@@ -109,11 +111,34 @@ sub _no_symlinks_here {
 	return $cannot_symlink if defined $cannot_symlink;
 
 	$cannot_symlink = ! do {
-		if( $^O eq 'MSWin32' and eval { require Win32; 1 } ) {
-			 Win32::IsSymlinkCreationAllowed()
+		if( $^O eq 'MSWin32') {
+			 eval { _IsSymlinkCreationAllowed() }
 			 }
 		else{ eval { symlink("",""); 1 } }
 		};
+	}
+	#
+	# Bare copy of Perl's Win32::IsSymlinkCreationAllowed but with Test::File::Win32 namespace instead of Win32
+	#
+	sub _IsSymlinkCreationAllowed {
+		my(undef, $major, $minor, $build) = Test::File::Win32::GetOSVersion();
+
+		# Vista was the first Windows version with symlink support
+		return !!0 if $major < 6;
+
+		# Since Windows 10 1703, enabling the developer mode allows to create
+		# symlinks regardless of process privileges
+		if ($major > 10 || ($major == 10 && ($minor > 0 || $build > 15063))) {
+			return !!1 if Test::File::Win32::IsDeveloperModeEnabled();
+		}
+
+		my $privs = Test::File::Win32::GetProcessPrivileges();
+
+		return !!0 unless $privs;
+
+		# It doesn't matter if the permission is enabled or not, it just has to
+		# exist. CreateSymbolicLink() will automatically enable it when needed.
+		return exists $privs->{SeCreateSymbolicLinkPrivilege};
 	}
 }
 
