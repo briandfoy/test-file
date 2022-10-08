@@ -4,7 +4,7 @@ use Test::Builder::Tester;
 use Test::More 1;
 use Test::File;
 
-my $can_symlink = !Test::File::_no_symlinks_here();
+my $can_symlink = Test::File::has_symlinks();
 
 plan skip_all => "This system does't do symlinks" unless $can_symlink;
 
