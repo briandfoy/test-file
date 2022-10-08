@@ -110,7 +110,7 @@ sub _no_symlinks_here {
 
 	$cannot_symlink = ! do {
 		if( $^O eq 'MSWin32' and eval { require Win32; 1 } ) {
-			 eval { Win32::IsSymlinkCreationAllowed() }
+			 Win32::IsSymlinkCreationAllowed()
 			 }
 		else{ eval { symlink("",""); 1 } }
 		};
