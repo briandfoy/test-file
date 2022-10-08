@@ -112,8 +112,12 @@ sub _no_symlinks_here {
 
 	$cannot_symlink = ! do {
 		if( $^O eq 'MSWin32') {
-			 eval { _IsSymlinkCreationAllowed() }
-			 }
+			#
+			# Having windows saying it is ok does not necessarly mean symlinks is implemented in perl:
+			# We want to catch the exception, not the result.
+			#
+			eval { symlink("",""); _IsSymlinkCreationAllowed() }
+			}
 		else{ eval { symlink("",""); 1 } }
 		};
 	}
