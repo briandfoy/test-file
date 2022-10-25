@@ -30,7 +30,7 @@ use Test::Builder;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.992';
+$VERSION = '1.992_01';
 
 my $Test = Test::Builder->new();
 
@@ -66,6 +66,8 @@ name for the test.  If not supplied, a reasonable default will be
 generated.
 
 =head2 Functions
+
+=over 4
 
 =cut
 
@@ -103,7 +105,41 @@ sub _win32 {
 	}
 
 # returns true if symlinks can't exist
-sub _no_symlinks_here { ! eval { symlink("",""); 1 } }
+BEGIN {
+my $cannot_symlink;
+my $has_IsSymlinkCreationAllowed = (
+ 	$^O eq 'MSWin32'
+ 	  and
+ 	eval {
+ 		require Win32;
+ 		Win32->VERSION('0.55');
+ 		Win32->can('IsSymlinkCreationAllowed')
+ 		}
+	);
+
+sub _no_symlinks_here {
+	return $cannot_symlink if defined $cannot_symlink;
+
+	$cannot_symlink = ! do {
+		if( $has_IsSymlinkCreationAllowed ) {
+			 Win32::IsSymlinkCreationAllowed();
+			 }
+		else{ eval { symlink("",""); 1 } }
+		};
+	}
+
+=item has_symlinks
+
+Returns true is this module thinks that the current system supports
+symlinks.
+
+This is not a test function. It's something that tests can use to
+determine what it should expect or skip.
+
+=cut
+
+sub has_symlinks { ! $cannot_symlink }
+}
 
 # owner_is and owner_isn't should skip on OS where the question makes no
 # sense.  I really don't know a good way to test for that, so I'm going
@@ -123,8 +159,6 @@ sub _obviously_non_multi_user {
 
 	return 0;
 	}
-
-=over 4
 
 =item file_exists_ok( FILENAME [, NAME ] )
 
@@ -1772,6 +1806,9 @@ stuff.
 
 Torbjørn Lindahl is working on L<Test2::Tools::File> and we're
 working together to align our interfaces.
+
+Jean-Damien Durand added bits to use Win32::IsSymlinkCreationAllowed,
+new since Win32 0.55.
 
 =head1 COPYRIGHT AND LICENSE
 
