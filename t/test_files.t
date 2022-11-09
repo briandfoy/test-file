@@ -13,7 +13,7 @@ executable     min_file       not_executable not_writable   writable
 
 require "./t/setup_common";
 
-diag "Warnings about file_writeable_ok are fine. It's a deprecated name that still works.";
+diag "Warnings about file_writable_ok are fine. It's a deprecated name that still works.";
 
 subtest readable => sub {
 	my $label = 'file <readable> exists';
@@ -69,11 +69,11 @@ subtest readable => sub {
 subtest readable_fails => sub { SKIP: {
 	skip "Superuser has special privileges", 1, if is_unix_superuser();
 	skip "Not possible to make file unreadable on MSYS" if is_msys();
-	test_out( 'not ok 1 - writeable is readable' );
-	test_diag("file [writeable] is not readable");
-	test_diag("  Failed test 'writeable is readable'");
+	test_out( 'not ok 1 - writable is readable' );
+	test_diag("file [writable] is not readable");
+	test_diag("  Failed test 'writable is readable'");
 	test_diag( "  at " . __FILE__ . " line " . (__LINE__+1) . ".");
-	file_readable_ok( 'writeable' );
+	file_readable_ok( 'writable' );
 	test_test();
 	done_testing();
 	}};
@@ -81,10 +81,10 @@ subtest readable_fails => sub { SKIP: {
 
 subtest not_readable_fails => sub { SKIP: {
 	skip "Superuser has special privileges", 3, if( $> == 0 or $< == 0 );
-	test_out( 'ok 1 - writeable is not readable' );
-	file_not_readable_ok( 'writeable' );
-	test_out( 'ok 2 - writeable really is not readable' );
-	file_not_readable_ok( 'writeable', 'writeable really is not readable' );
+	test_out( 'ok 1 - writable is not readable' );
+	file_not_readable_ok( 'writable' );
+	test_out( 'ok 2 - writable really is not readable' );
+	file_not_readable_ok( 'writable', 'writable really is not readable' );
 	test_out( 'not ok 3 - readable is not readable' );
 	test_diag('file [readable] is readable');
 	test_diag("  Failed test 'readable is not readable'");
@@ -101,7 +101,7 @@ subtest writable_fails => sub {
 	test_out( "ok 2 - $label" );
 	file_writable_ok( 'writable', $label );
 	if( $> == 0 or $< == 0 ) {
-		test_out( 'ok 3 - readable is writeable' );
+		test_out( 'ok 3 - readable is writable' );
 		}
 	else {
 		test_out( 'not ok 3 - readable is writable' );
