@@ -95,6 +95,14 @@ my %WriteMakefile = (
 	test   => { TESTS    => 't/*.t t/*/*.t' },
 	);
 
+sub MY::dynamic {
+    #
+    # No dynamic library unless on MSWin32
+    #
+    package MY;
+    my ($self) = @_;
+    $^O eq 'MSWin32' ? $self->SUPER::dynamic : '';
+}
 
 sub arguments { \%WriteMakefile }
 
