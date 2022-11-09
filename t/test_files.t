@@ -130,9 +130,9 @@ subtest not_writable => sub { SKIP: {
 
 subtest executable => sub {
 	if (Test::File::_win32()) {
-		test_out("ok 1 # skip file_executable_ok doesn't work on Windows!");
-		test_out("ok 2 # skip file_executable_ok doesn't work on Windows!");
-		test_out("ok 3 # skip file_executable_ok doesn't work on Windows!");
+		test_out("ok 1 # skip file_executable_ok doesn't work on Windows");
+		test_out("ok 2 # skip file_executable_ok doesn't work on Windows");
+		test_out("ok 3 # skip file_executable_ok doesn't work on Windows");
 		}
 	else {
 		test_out("ok 1 - executable is executable");
