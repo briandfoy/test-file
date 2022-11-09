@@ -67,7 +67,7 @@ subtest readable => sub {
 	};
 
 subtest readable_fails => sub { SKIP: {
-	skip "Superuser has special privileges", 2, is_unix_superuser();
+	skip "Superuser has special privileges", 2, if( $> == 0 or $< == 0 );
 	test_out( 'not ok 1 - writeable is readable' );
 	test_diag("file [writeable] is not readable");
 	test_diag("  Failed test 'writeable is readable'");
@@ -79,8 +79,7 @@ subtest readable_fails => sub { SKIP: {
 
 
 subtest not_readable_fails => sub { SKIP: {
-	skip "Superuser has special privileges", 3, if is_unix_superuser();
-	skip "Not possible to make file unreadable on MSYS" if is_msys();
+	skip "Superuser has special privileges", 3, if( $> == 0 or $< == 0 );
 	test_out( 'ok 1 - writeable is not readable' );
 	file_not_readable_ok( 'writeable' );
 	test_out( 'ok 2 - writeable really is not readable' );
@@ -100,8 +99,8 @@ subtest writable_fails => sub {
 	file_writable_ok( 'writable' );
 	test_out( "ok 2 - $label" );
 	file_writable_ok( 'writable', $label );
-	if( is_msys() or is_unix_superuser() ) {
-		test_out( 'ok 3 - readable is writable' );
+	if( $> == 0 or $< == 0 ) {
+		test_out( 'ok 3 - readable is writeable' );
 		}
 	else {
 		test_out( 'not ok 3 - readable is writable' );
@@ -115,8 +114,7 @@ subtest writable_fails => sub {
 	};
 
 subtest not_writable => sub { SKIP: {
-	skip "Superuser has special privileges", 1, if is_unix_superuser();
-	skip "Not possible to make file unreadable on MSYS" if is_msys();
+	skip "Superuser has special privileges", 1, if( $> == 0 or $< == 0 );
 	test_out( 'ok 1 - readable is not writable' );
 	test_out( 'not ok 2 - writable is not writable' );
 	test_diag('file [writable] is writable');
@@ -130,9 +128,9 @@ subtest not_writable => sub { SKIP: {
 
 subtest executable => sub {
 	if (Test::File::_win32()) {
-		test_out("ok 1 # skip file_executable_ok doesn't work on Windows");
-		test_out("ok 2 # skip file_executable_ok doesn't work on Windows");
-		test_out("ok 3 # skip file_executable_ok doesn't work on Windows");
+		test_out("ok 1 # skip file_not_executable_ok doesn't work on Windows!");
+		test_out("ok 2 # skip file_not_executable_ok doesn't work on Windows!");
+		test_out("ok 3 # skip file_not_executable_ok doesn't work on Windows!");
 		}
 	else {
 		test_out("ok 1 - executable is executable");
