@@ -17,7 +17,8 @@ sub is_unix_superuser () {
     ( is_cygwin() and grep { $_ == 544 } split /\s+/, `/usr/bin/id -G` )
 	}
 
-my $dir = tempdir( CLEANUP => 1 ) or BAIL_OUT( "Could not setup temp directory" );
+my $dir = tempdir( CLEANUP => 0 ) or BAIL_OUT( "Could not setup temp directory" );
+print "Temp dir in <$dir>\n";
 
 unless( -d $dir ) {
 	mkdir 'test_files', 0700
