@@ -1833,7 +1833,7 @@ new since Win32 0.55.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2002-2022, brian d foy <bdfoy@cpan.org>. All rights reserved.
+Copyright © 2002-2023, brian d foy <bdfoy@cpan.org>. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License 2.0
