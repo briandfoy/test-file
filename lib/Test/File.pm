@@ -145,7 +145,7 @@ BEGIN {
 			# exist. CreateSymbolicLink() will automatically enable it when needed.
 			return exists $privs->{SeCreateSymbolicLinkPrivilege};
 		}
-		
+
 		1;
 	}
 
