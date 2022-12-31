@@ -31,7 +31,7 @@ use XSLoader;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.992_01';
+$VERSION = '1.993';
 XSLoader::load(__PACKAGE__, $VERSION) if $^O eq 'MSWin32';
 
 my $Test = Test::Builder->new();
