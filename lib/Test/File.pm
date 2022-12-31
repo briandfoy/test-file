@@ -1801,7 +1801,7 @@ If you are using the new C<Test2> stuff, see Test2::Tools::File
 
 This module is in Github:
 
-	https://github.com/briandfoy/test-file.git
+	https://github.com/briandfoy/test-file
 
 =head1 AUTHOR
 
