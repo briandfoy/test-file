@@ -1,15 +1,13 @@
 package Test::File;
 use strict;
 
-use vars qw(@EXPORT $VERSION);
-
 use Carp            qw(carp);
 use Exporter        qw(import);
 use File::Spec;
 use Test::Builder;
 use XSLoader;
 
-@EXPORT = qw(
+our @EXPORT = qw(
 	file_exists_ok file_not_exists_ok
 	file_empty_ok file_not_empty_ok file_size_ok file_max_size_ok
 	file_min_size_ok file_readable_ok file_not_readable_ok
@@ -31,7 +29,7 @@ use XSLoader;
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-$VERSION = '1.993';
+our $VERSION = '1.993';
 XSLoader::load(__PACKAGE__, $VERSION) if $^O eq 'MSWin32';
 
 my $Test = Test::Builder->new();
