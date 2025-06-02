@@ -35,7 +35,7 @@ our @EXPORT = qw(
 
 our $VERSION = '1.996';
 
-my $Test = Test::Builder->new();
+my $Test = Test::Builder->new;
 
 =encoding utf8
 
