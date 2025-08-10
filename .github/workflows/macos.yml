@@ -71,7 +71,7 @@ jobs:
         environment: automated_testing
         runs-on: macOS-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v5
             - name: git corrections
               run: |
                 git config --global --add safe.directory "$(pwd)"
