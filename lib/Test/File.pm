@@ -5,7 +5,11 @@ use Carp            qw(carp);
 use Exporter        qw(import);
 use File::Spec;
 use Test::Builder;
-use XSLoader;
+
+if( $^O eq 'MSWin32' ) {
+	require XSLoader;
+	XSLoader::load(__PACKAGE__, $VERSION);
+	}
 
 our @EXPORT = qw(
 	file_exists_ok file_not_exists_ok
@@ -29,10 +33,9 @@ our @EXPORT = qw(
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-our $VERSION = '1.995';
-XSLoader::load(__PACKAGE__, $VERSION) if $^O eq 'MSWin32';
+our $VERSION = '1.996';
 
-my $Test = Test::Builder->new();
+my $Test = Test::Builder->new;
 
 =encoding utf8
 
