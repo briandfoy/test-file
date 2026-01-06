@@ -6,6 +6,8 @@ use Exporter        qw(import);
 use File::Spec;
 use Test::Builder;
 
+our $VERSION = '1.996';
+
 if( $^O eq 'MSWin32' ) {
 	require XSLoader;
 	XSLoader::load(__PACKAGE__, $VERSION);
@@ -33,7 +35,6 @@ our @EXPORT = qw(
 	file_mtime_gt_ok file_mtime_lt_ok file_mtime_age_ok
 	);
 
-our $VERSION = '1.996';
 
 my $Test = Test::Builder->new;
 
