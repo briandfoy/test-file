@@ -1835,7 +1835,7 @@ new since Win32 0.55.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright © 2002-2025, brian d foy <briandfoy@pobox.com>. All rights reserved.
+Copyright © 2002-2026, brian d foy <briandfoy@pobox.com>. All rights reserved.
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the Artistic License 2.0
